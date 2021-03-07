@@ -23,3 +23,23 @@ export function cursorPos(state: RawState) {
 export function turn(state: RawState) {
   return state.turn;
 }
+
+export function deck(state: RawState) {
+  return state.deck;
+}
+
+export function hand(state: RawState) {
+  return state.hand;
+}
+
+export function discard(state: RawState) {
+  return state.discard;
+}
+
+export function playing(state: RawState) {
+  return state.playing;
+}
+
+export function isPlayingCard(state: RawState) {
+  return state.playing !== null;
+}

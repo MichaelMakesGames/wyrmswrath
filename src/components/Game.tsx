@@ -34,11 +34,13 @@ export default function Game() {
             }}
           >
             <GameMap />
-            <BottomMenu />
           </div>
           <div className="flex-none w-64 h-full flex flex-col border-l border-r border-gray z-10">
             <Inspector />
           </div>
+        </div>
+        <div className="w-full max-w-screen-xl mx-auto">
+          <BottomMenu />
         </div>
         <Introduction />
       </main>

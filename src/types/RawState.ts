@@ -16,4 +16,5 @@ export interface RawState {
   deck: CardCode[];
   hand: CardCode[];
   discard: CardCode[];
+  playing: null | number;
 }

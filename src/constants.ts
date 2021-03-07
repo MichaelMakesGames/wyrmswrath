@@ -18,7 +18,7 @@ export const MAP_CSS_WIDTH = `min(calc(100vw - ${SIDE_BAR_CSS_WIDTH} - ${SIDE_BA
 }px)`;
 export const HEADER_CSS_WIDTH = `calc(${MAP_CSS_WIDTH} + ${SIDE_BAR_CSS_WIDTH} + ${SIDE_BAR_CSS_WIDTH})`;
 
-export const HAND_SIZE = 5;
+export const HAND_SIZE = 3;
 
 export const PRIORITY_MARKER = 30;
 export const PRIORITY_LASER = 25;

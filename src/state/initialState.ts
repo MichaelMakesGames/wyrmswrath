@@ -14,9 +14,10 @@ export function createInitialState() {
     events: {},
     cursorPos: null,
     isAutoMoving: false,
-    deck: [],
-    hand: [],
+    deck: ["NORTH_ONLY"],
+    hand: ["BORING_CARD", "FAST_CARD", "DIRECTIONAL_CARD"],
     discard: [],
+    playing: null,
   };
 
   return initialState;

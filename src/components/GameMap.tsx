@@ -25,9 +25,11 @@ export default function GameMap() {
   const playerPos = useSelector(selectors.playerPos);
   const state = useSelector(selectors.state);
   const mousePosRef = useRef<Pos | null>(null);
+  const isPlayingCard = useSelector(selectors.isPlayingCard);
 
   useEffect(() => setContextMenuPos(null), [playerPos]);
 
+  const movementDisabled = isPlayingCard;
   useControl({
     code: ControlCode.N,
     group: HotkeyGroup.Main,
@@ -36,6 +38,7 @@ export default function GameMap() {
     alt: false,
     ctrl: false,
     meta: false,
+    disabled: movementDisabled,
   });
   useControl({
     code: ControlCode.NE,
@@ -45,6 +48,7 @@ export default function GameMap() {
     alt: false,
     ctrl: false,
     meta: false,
+    disabled: movementDisabled,
   });
   useControl({
     code: ControlCode.SE,
@@ -54,6 +58,7 @@ export default function GameMap() {
     alt: false,
     ctrl: false,
     meta: false,
+    disabled: movementDisabled,
   });
   useControl({
     code: ControlCode.S,
@@ -63,6 +68,7 @@ export default function GameMap() {
     alt: false,
     ctrl: false,
     meta: false,
+    disabled: movementDisabled,
   });
   useControl({
     code: ControlCode.SW,
@@ -72,6 +78,7 @@ export default function GameMap() {
     alt: false,
     ctrl: false,
     meta: false,
+    disabled: movementDisabled,
   });
   useControl({
     code: ControlCode.NW,
@@ -81,6 +88,7 @@ export default function GameMap() {
     alt: false,
     ctrl: false,
     meta: false,
+    disabled: movementDisabled,
   });
 
   useControl({
