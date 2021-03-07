@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "disablers",
+    "gifshot",
+    "keyval",
+    "notyf",
+    "pixi"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

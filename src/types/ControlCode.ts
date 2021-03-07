@@ -1,0 +1,26 @@
+export enum ControlCode {
+  N = "N",
+  NE = "NE",
+  SE = "SE",
+  S = "S",
+  SW = "SW",
+  NW = "NW",
+
+  Menu = "MENU",
+  Menu1 = "MENU_1",
+  Menu2 = "MENU_2",
+  Menu3 = "MENU_3",
+  Menu4 = "MENU_4",
+  Menu5 = "MENU_5",
+  Menu6 = "MENU_6",
+  Menu7 = "MENU_7",
+  Menu8 = "MENU_8",
+  Menu9 = "MENU_9",
+  Menu0 = "MENU_0",
+
+  Wait = "WAIT",
+  QuickAction = "QUICK_ACTION",
+  Back = "BACK",
+  Help = "HELP",
+  DismissNotifications = "DISMISS_NOTIFICATIONS",
+}
