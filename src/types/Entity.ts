@@ -46,6 +46,7 @@ export interface Description {
 
 export interface Wyrm {
   connectsTo?: string;
+  variant: string;
 }
 
 export interface Cursor {}

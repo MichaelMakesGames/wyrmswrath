@@ -4,7 +4,7 @@ import { Entity } from "~types";
 
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   WYRM: {
-    wyrm: {},
+    wyrm: { variant: "red" },
     blocking: { moving: true },
   },
   CURSOR: {

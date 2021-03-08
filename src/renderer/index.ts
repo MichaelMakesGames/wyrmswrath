@@ -24,22 +24,36 @@ const renderer = new Renderer({
 });
 
 renderer.load(tiles);
-renderer.getLoadPromise().then(() =>
-  renderer.configureSpriteSheet("spritesheet", [
-    { id: "wall", x: 9, y: 0 },
-    { id: "ground", x: 9, y: 1 },
-    { id: "wyrm-tail-vertical", x: 0, y: 0 },
-    { id: "wyrm-straight-vertical", x: 0, y: 1 },
-    { id: "wyrm-head-vertical", x: 0, y: 2 },
-    { id: "wyrm-tail-diagonal", x: 1, y: 0 },
-    { id: "wyrm-wide-vertical-to-diagonal", x: 1, y: 1 },
-    { id: "wyrm-tight-diagonal-to-diagonal", x: 1, y: 2 },
-    { id: "wyrm-straight-diagonal", x: 2, y: 0 },
-    { id: "wyrm-tight-vertical-to-diagonal", x: 2, y: 1 },
-    { id: "wyrm-head-diagonal", x: 3, y: 0 },
-    { id: "wyrm-wide-diagonal-to-diagonal", x: 3, y: 1 },
-  ]),
-);
+renderer
+  .getLoadPromise()
+  .then(() =>
+    renderer.configureSpriteSheet("spritesheet", [
+      { id: "wall", x: 9, y: 3 },
+      { id: "ground", x: 6, y: 5 },
+      ...getWyrmSpriteConfig("purple", 0),
+      ...getWyrmSpriteConfig("blue", 3),
+      ...getWyrmSpriteConfig("green", 6),
+      ...getWyrmSpriteConfig("red", 9),
+      ...getWyrmSpriteConfig("skeletal", 12),
+    ]),
+  );
 renderer.start();
+
+function getWyrmSpriteConfig(variant: string, yOffset: number) {
+  return [
+    { id: `${variant}-tail-vertical`, x: 0, y: 0 + yOffset },
+    { id: `${variant}-straight-vertical`, x: 0, y: 1 + yOffset },
+    { id: `${variant}-head-vertical`, x: 0, y: 2 + yOffset },
+    { id: `${variant}-tail-diagonal`, x: 1, y: 0 + yOffset },
+    { id: `${variant}-wide-vertical-to-diagonal`, x: 1, y: 1 + yOffset },
+    { id: `${variant}-wide-vertical-to-diagonal-alt`, x: 2, y: 2 + yOffset },
+    { id: `${variant}-tight-diagonal-to-diagonal`, x: 1, y: 2 + yOffset },
+    { id: `${variant}-straight-diagonal`, x: 2, y: 0 + yOffset },
+    { id: `${variant}-tight-vertical-to-diagonal`, x: 2, y: 1 + yOffset },
+    { id: `${variant}-tight-vertical-to-diagonal-alt`, x: 3, y: 2 + yOffset },
+    { id: `${variant}-head-diagonal`, x: 3, y: 0 + yOffset },
+    { id: `${variant}-wide-diagonal-to-diagonal`, x: 3, y: 1 + yOffset },
+  ];
+}
 
 export default renderer;
