@@ -49,6 +49,8 @@ export interface Wyrm {
   variant: string;
 }
 
+export interface Diggable {}
+
 export interface Cursor {}
 export interface Entity {
   id: string;
@@ -62,6 +64,7 @@ export interface Entity {
   cursor?: Cursor;
   description?: Description;
   destructible?: Destructible;
+  diggable?: Diggable;
   display?: Display;
   pos?: Pos;
   wyrm?: Wyrm;

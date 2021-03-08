@@ -55,6 +55,16 @@ export function getDirectionToPosition(from: Pos, to?: Pos): Direction | null {
   return null;
 }
 
+export function getNonTightDirections(direction: Direction | null) {
+  if (direction === "N") return ["NW", "N", "NE"];
+  if (direction === "NE") return ["N", "NE", "SE"];
+  if (direction === "SE") return ["NE", "SE", "S"];
+  if (direction === "S") return ["SE", "S", "SW"];
+  if (direction === "SW") return ["S", "SW", "NW"];
+  if (direction === "NW") return ["SW", "NW", "N"];
+  return [];
+}
+
 export function getConstDir(direction: Direction) {
   for (const constDir of DIRECTIONS) {
     if (areDirectionsEqual(direction, constDir)) return constDir;

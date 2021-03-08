@@ -16,6 +16,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     blocking: {
       moving: true,
     },
+    diggable: {},
   },
 };
 

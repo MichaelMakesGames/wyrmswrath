@@ -9,6 +9,7 @@ import cardResolve from "./cardResolve";
 import cardShuffleDeck from "./cardShuffleDeck";
 import cardShuffleDiscards from "./cardShuffleDiscards";
 import destroy from "./destroy";
+import dig from "./dig";
 import loadGame from "./loadGame";
 import logEvent from "./logEvent";
 import logMessage from "./logMessage";
@@ -35,6 +36,7 @@ export default {
   cardShuffleDeck,
   cardShuffleDiscards,
   destroy,
+  dig,
   loadGame,
   logEvent,
   logMessage,

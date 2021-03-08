@@ -33,7 +33,7 @@ export default function GameMap() {
   useControl({
     code: ControlCode.N,
     group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm("N")),
+    callback: () => dispatch(actions.moveWyrm({ direction: "N" })),
     shift: false,
     alt: false,
     ctrl: false,
@@ -43,7 +43,7 @@ export default function GameMap() {
   useControl({
     code: ControlCode.NE,
     group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm("NE")),
+    callback: () => dispatch(actions.moveWyrm({ direction: "NE" })),
     shift: false,
     alt: false,
     ctrl: false,
@@ -53,7 +53,7 @@ export default function GameMap() {
   useControl({
     code: ControlCode.SE,
     group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm("SE")),
+    callback: () => dispatch(actions.moveWyrm({ direction: "SE" })),
     shift: false,
     alt: false,
     ctrl: false,
@@ -63,7 +63,7 @@ export default function GameMap() {
   useControl({
     code: ControlCode.S,
     group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm("S")),
+    callback: () => dispatch(actions.moveWyrm({ direction: "S" })),
     shift: false,
     alt: false,
     ctrl: false,
@@ -73,7 +73,7 @@ export default function GameMap() {
   useControl({
     code: ControlCode.SW,
     group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm("SW")),
+    callback: () => dispatch(actions.moveWyrm({ direction: "SW" })),
     shift: false,
     alt: false,
     ctrl: false,
@@ -83,7 +83,7 @@ export default function GameMap() {
   useControl({
     code: ControlCode.NW,
     group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm("NW")),
+    callback: () => dispatch(actions.moveWyrm({ direction: "NW" })),
     shift: false,
     alt: false,
     ctrl: false,
