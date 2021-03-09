@@ -1,4 +1,4 @@
-import { VERSION } from "~constants";
+import { MAX_ENERGY_PER_SIZE, VERSION } from "~constants";
 import { RawState } from "~types";
 
 export function createInitialState() {
@@ -14,10 +14,14 @@ export function createInitialState() {
     events: {},
     cursorPos: null,
     isAutoMoving: false,
-    deck: ["NORTH_ONLY"],
-    hand: ["BORING_CARD", "FAST_CARD", "DIRECTIONAL_CARD"],
+    hand: ["CRYSTAL_JAVELIN", "MUSHROOM_GROWTH", "SLIME_MALLEABLE"],
+    deck: [],
     discard: [],
     playing: null,
+    energy: MAX_ENERGY_PER_SIZE * 2,
+    slimeProgress: 0,
+    mushroomProgress: 0,
+    crystalProgress: 0,
   };
 
   return initialState;

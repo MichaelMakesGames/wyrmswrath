@@ -30,6 +30,10 @@ renderer
     renderer.configureSpriteSheet("spritesheet", [
       { id: "wall", x: 9, y: 3 },
       { id: "ground", x: 6, y: 5 },
+      { id: "mushroom", x: 0, y: 18 },
+      { id: "crystal", x: 1, y: 18 },
+      { id: "slime", x: 2, y: 18 },
+      { id: "corpse", x: 1, y: 19 },
       ...getWyrmSpriteConfig("purple", 0),
       ...getWyrmSpriteConfig("blue", 3),
       ...getWyrmSpriteConfig("green", 6),

@@ -1,10 +1,11 @@
 import { Required } from "Object/_api";
-import { PLAYER_ID } from "~constants";
+import { MAX_ENERGY_PER_SIZE, PLAYER_ID } from "~constants";
 import {
   getAdjacentPositions,
   getDirectionToPosition,
   getPosKey,
 } from "~lib/geometry";
+import { sum } from "~lib/math";
 import { Direction, Entity, Pos, RawState } from "~types";
 
 export function entityList(state: RawState) {
@@ -92,13 +93,17 @@ export function isPositionBlocked(
 
 export function head(state: RawState) {
   const segments = entitiesWithComps(state, "pos", "wyrm");
-  return segments.find((segment) => !segment.wyrm.connectsTo);
+  return segments.find(
+    (segment) => segment.wyrm.isPlayer && !segment.wyrm.connectsTo,
+  );
 }
 
 export function tail(state: RawState) {
   const segments = entitiesWithComps(state, "pos", "wyrm");
-  return segments.find((segment) =>
-    segments.every((other) => other.wyrm.connectsTo !== segment.id),
+  return segments.find(
+    (segment) =>
+      segment.wyrm.isPlayer &&
+      segments.every((other) => other.wyrm.connectsTo !== segment.id),
   );
 }
 
@@ -110,4 +115,28 @@ export function playerDirection(state: RawState): null | Direction {
   );
   if (!b1) return null;
   return getDirectionToPosition(b1.pos, h.pos);
+}
+
+export function playerSize(state: RawState): number {
+  return entitiesWithComps(state, "wyrm").filter((e) => e.wyrm.isPlayer).length;
+}
+
+export function playerHealth(state: RawState): number {
+  return sum(
+    ...entitiesWithComps(state, "health", "wyrm").map((e) => e.health.current),
+  );
+}
+
+export function playerMaxHealth(state: RawState): number {
+  return sum(
+    ...entitiesWithComps(state, "health", "wyrm").map((e) => e.health.max),
+  );
+}
+
+export function playerEnergy(state: RawState): number {
+  return state.energy;
+}
+
+export function playerMaxEnergy(state: RawState): number {
+  return playerSize(state) * MAX_ENERGY_PER_SIZE;
 }

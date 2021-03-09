@@ -8,7 +8,7 @@ import cardRedrawHand from "./cardRedrawHand";
 import cardResolve from "./cardResolve";
 import cardShuffleDeck from "./cardShuffleDeck";
 import cardShuffleDiscards from "./cardShuffleDiscards";
-import destroy from "./destroy";
+import consume from "./consume";
 import dig from "./dig";
 import loadGame from "./loadGame";
 import logEvent from "./logEvent";
@@ -35,7 +35,7 @@ export default {
   cardResolve,
   cardShuffleDeck,
   cardShuffleDiscards,
-  destroy,
+  consume,
   dig,
   loadGame,
   logEvent,

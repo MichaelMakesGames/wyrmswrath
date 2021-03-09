@@ -18,6 +18,7 @@ export enum ControlCode {
   Menu9 = "MENU_9",
   Menu0 = "MENU_0",
 
+  NewGame = "NEW_GAME",
   Wait = "WAIT",
   QuickAction = "QUICK_ACTION",
   Back = "BACK",

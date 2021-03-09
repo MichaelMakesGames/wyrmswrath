@@ -1,10 +1,5 @@
 import { createStandardAction } from "typesafe-actions";
-import {
-  arePositionsEqual,
-  getAdjacentPositions,
-  getNonTightDirections,
-  getPositionToDirection,
-} from "~lib/geometry";
+import { getNonTightDirections, getPositionToDirection } from "~lib/geometry";
 import { registerHandler } from "~state/handleAction";
 import { Direction, Entity } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -30,7 +25,7 @@ function moveWyrmHandler(
   const wouldBeTightTurn = !nonTightDirections.includes(direction);
   if (!tightAllowed && wouldBeTightTurn) {
     state.act.logMessage({
-      message: "Cannot take a tight turn without using the Maleable card.",
+      message: "Cannot take a tight turn without using the Malleable card.",
     });
     return;
   }
@@ -41,8 +36,12 @@ function moveWyrmHandler(
   ]);
   if (blockingEntities.length && blockingEntities.some((e) => e.diggable)) {
     state.act.dig(destination);
+    if (!fast) state.act.playerTookTurn();
     return;
-  } else if (blockingEntities.length) {
+  } else if (
+    blockingEntities.length &&
+    !blockingEntities.every((e) => e.consumable)
+  ) {
     state.act.logMessage({
       message: "Cannot move there. Something is in the way.",
     });
@@ -62,6 +61,7 @@ function moveWyrmHandler(
       if (!fast) {
         state.act.playerTookTurn();
       }
+      state.act.consume();
       return;
     } else {
       const next = state.select.entityById(currentSegment.wyrm.connectsTo);

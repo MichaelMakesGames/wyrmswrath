@@ -29,6 +29,7 @@ const defaultSettings: Settings = {
 
     [ControlCode.QuickAction]: ["space"],
 
+    [ControlCode.NewGame]: ["n"],
     [ControlCode.Wait]: ["z"],
     [ControlCode.Back]: ["`", "esc"],
     [ControlCode.Help]: ["?"],

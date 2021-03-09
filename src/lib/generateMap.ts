@@ -6,6 +6,7 @@ import {
   getPositionToDirection,
   getPosKey,
 } from "./geometry";
+import { rangeTo } from "./math";
 import { choose } from "./rng";
 
 export default function generateMap(): Entity[] {
@@ -46,6 +47,14 @@ export default function generateMap(): Entity[] {
   for (const pos of Object.values(wallPositions)) {
     results.push(createEntityFromTemplate("TERRAIN_WALL", { pos }));
   }
+
+  rangeTo(10).forEach(() => {
+    results.push(
+      createEntityFromTemplate(choose(["MUSHROOM", "SLIME", "CRYSTAL"]), {
+        pos: choose(Object.values(groundPositions)),
+      }),
+    );
+  });
 
   return results;
 }

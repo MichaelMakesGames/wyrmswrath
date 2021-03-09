@@ -6,6 +6,10 @@ export interface RawState {
   entities: Record<string, Entity>;
   entitiesByPosition: Record<string, Set<string>>;
   entitiesByComp: Record<string, Set<string>>;
+  energy: number;
+  crystalProgress: number;
+  mushroomProgress: number;
+  slimeProgress: number;
   messageLog: Record<number, { type?: string; message: string }[]>;
   gameOver: boolean;
   victory: boolean;

@@ -19,6 +19,9 @@ export const MAP_CSS_WIDTH = `min(calc(100vw - ${SIDE_BAR_CSS_WIDTH} - ${SIDE_BA
 export const HEADER_CSS_WIDTH = `calc(${MAP_CSS_WIDTH} + ${SIDE_BAR_CSS_WIDTH} + ${SIDE_BAR_CSS_WIDTH})`;
 
 export const HAND_SIZE = 3;
+export const CARD_CHOICES_PER_UNLOCK = 3;
+export const MAX_ENERGY_PER_SIZE = 20;
+export const MAX_HEALTH_PER_SIZE = 10;
 
 export const PRIORITY_MARKER = 30;
 export const PRIORITY_LASER = 25;

@@ -10,16 +10,36 @@ export default function wyrmDisplaySystem(state: WrappedState): void {
     const previous = segments.find(
       (other) => other.wyrm.connectsTo === segment.id,
     );
+    const playerVariant = getPlayerWyrmVariant(state);
+    const nonPlayerVariant = "skeletal";
     state.act.updateEntity({
       ...segment,
       display: getWyrmDisplay(
         previous && previous.pos,
         segment.pos,
         next && next.pos,
-        segment.wyrm.variant,
+        segment.wyrm.isPlayer ? playerVariant : nonPlayerVariant,
       ),
     });
   }
+}
+
+function getPlayerWyrmVariant(state: WrappedState) {
+  if (state.select.playerHealth() <= 0 || state.select.playerEnergy() <= 0)
+    return "skeletal";
+  let crystalCount = 0;
+  let mushroomCount = 0;
+  let slimeCount = 0;
+  for (const code of state.select.allCards()) {
+    if (code.startsWith("CRYSTAL")) crystalCount++;
+    if (code.startsWith("MUSHROOM")) mushroomCount++;
+    if (code.startsWith("SLIME")) slimeCount++;
+  }
+  if (crystalCount > mushroomCount && crystalCount > slimeCount) return "blue";
+  if (mushroomCount > crystalCount && mushroomCount > slimeCount)
+    return "purple";
+  if (slimeCount > crystalCount && slimeCount > mushroomCount) return "green";
+  return "red";
 }
 
 function getWyrmDisplay(

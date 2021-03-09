@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import colors from "~colors";
 import { MAP_CSS_WIDTH } from "~constants";
 import BottomMenu from "./BottomMenu";
+import CardGain from "./CardGain";
 import GameMap from "./GameMap";
 import Header from "./Header";
 import HotkeysProvider from "./HotkeysProvider";
@@ -43,6 +44,7 @@ export default function Game() {
           <BottomMenu />
         </div>
         <Introduction />
+        <CardGain />
       </main>
     </HotkeysProvider>
   );

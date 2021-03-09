@@ -24,17 +24,17 @@ function newGameHandler(
   head.id = PLAYER_ID;
   state.act.addEntity(head);
   const body = createEntityFromTemplate("WYRM", {
-    wyrm: { connectsTo: head.id, variant: "purple" },
+    wyrm: { connectsTo: head.id, isPlayer: true },
     pos: getPositionToDirection(middle, "N"),
   });
   state.act.addEntity(body);
   const body2 = createEntityFromTemplate("WYRM", {
-    wyrm: { connectsTo: body.id, variant: "blue" },
+    wyrm: { connectsTo: body.id, isPlayer: true },
     pos: getPositionToDirection(getPositionToDirection(middle, "N"), "N"),
   });
   state.act.addEntity(body2);
   const tail = createEntityFromTemplate("WYRM", {
-    wyrm: { connectsTo: body2.id, variant: "green" },
+    wyrm: { connectsTo: body2.id, isPlayer: true },
     pos: getPositionToDirection(
       getPositionToDirection(getPositionToDirection(middle, "N"), "N"),
       "N",

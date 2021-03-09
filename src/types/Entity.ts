@@ -34,10 +34,6 @@ export interface AI {
 export interface Blocking {
   moving: boolean;
 }
-
-export interface Destructible {
-  onDestroy?: string;
-}
 export interface Description {
   name: string;
   description: string;
@@ -46,10 +42,26 @@ export interface Description {
 
 export interface Wyrm {
   connectsTo?: string;
-  variant: string;
+  isPlayer: boolean;
 }
 
 export interface Diggable {}
+
+export interface Health {
+  current: number;
+  max: number;
+}
+
+export interface Drops {
+  template: TemplateName;
+}
+
+export interface Consumable {
+  energy: number;
+  slime?: boolean;
+  crystal?: boolean;
+  mushroom?: boolean;
+}
 
 export interface Cursor {}
 export interface Entity {
@@ -61,11 +73,13 @@ export interface Entity {
   animationToggle?: AnimationToggle;
   blocking?: Blocking;
   colorToggle?: ColorToggle;
+  consumable?: Consumable;
   cursor?: Cursor;
   description?: Description;
-  destructible?: Destructible;
   diggable?: Diggable;
   display?: Display;
+  drops?: Drops;
+  health?: Health;
   pos?: Pos;
   wyrm?: Wyrm;
 }
