@@ -50,9 +50,16 @@ export default function generateMap(): Entity[] {
 
   rangeTo(10).forEach(() => {
     results.push(
-      createEntityFromTemplate(choose(["MUSHROOM", "SLIME", "CRYSTAL"]), {
-        pos: choose(Object.values(groundPositions)),
-      }),
+      createEntityFromTemplate(
+        choose([
+          "MONSTER_MAD_CRYSTALMAN",
+          "MONSTER_MUSHROOMMAN_BANDIT",
+          "MONSTER_FERAL_SLIME",
+        ]),
+        {
+          pos: choose(Object.values(groundPositions)),
+        },
+      ),
     );
   });
 

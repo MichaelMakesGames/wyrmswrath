@@ -1,10 +1,11 @@
+import nanoid from "nanoid";
 import { Required } from "Object/_api";
 import * as particles from "pixi-particles";
 import * as PIXI from "pixi.js";
 import colors from "~colors";
-import { PLAYER_ID } from "~constants";
-import { Display, Entity, Pos } from "~types";
+import { PLAYER_ID, PRIORITY_LASER } from "~constants";
 import { arePositionsEqual } from "~lib/geometry";
+import { Display, Entity, Pos } from "~types";
 
 const BASE_SPEED = 3;
 
@@ -624,6 +625,29 @@ export default class Renderer {
     );
   }
 
+  public projectile(from: Pos, to: Pos) {
+    const id = nanoid();
+    this.addEntity({
+      id,
+      template: "NONE",
+      display: {
+        tile: "projectile",
+        priority: PRIORITY_LASER,
+      },
+      pos: from,
+    });
+    this.updateEntity({
+      id,
+      template: "NONE",
+      display: {
+        tile: "projectile",
+        priority: PRIORITY_LASER,
+      },
+      pos: to,
+    });
+    setTimeout(() => this.removeEntity(id), 250);
+  }
+
   private handleMovement(delta: number) {
     for (const [entityId, path] of this.movementPaths.entries()) {
       const entity = this.renderEntities[entityId];
@@ -639,14 +663,16 @@ export default class Renderer {
         );
         const deltaX = destX - oldX;
         const deltaY = destY - oldY;
+        const xSpeedModifier =
+          deltaY === 0 ? 1 : Math.abs(deltaX) / Math.abs(deltaY);
         let newX = oldX;
         let newY = oldY;
         if (Math.abs(deltaX) <= speed * delta) {
           newX = destX;
         } else if (deltaX > 0) {
-          newX = oldX + speed * delta;
+          newX = oldX + speed * delta * xSpeedModifier;
         } else {
-          newX = oldX - speed * delta;
+          newX = oldX - speed * delta * xSpeedModifier;
         }
         if (Math.abs(deltaY) <= speed * delta) {
           newY = destY;

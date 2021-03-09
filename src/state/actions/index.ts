@@ -1,4 +1,5 @@
 import addEntity from "./addEntity";
+import calcPlayerDijkstra from "./calcPlayerDijkstra";
 import cardAddToDeck from "./cardAddToDeck";
 import cardCancel from "./cardCancel";
 import cardDiscardFromHand from "./cardDiscardFromHand";
@@ -9,6 +10,7 @@ import cardResolve from "./cardResolve";
 import cardShuffleDeck from "./cardShuffleDeck";
 import cardShuffleDiscards from "./cardShuffleDiscards";
 import consume from "./consume";
+import damage from "./damage";
 import dig from "./dig";
 import loadGame from "./loadGame";
 import logEvent from "./logEvent";
@@ -26,6 +28,7 @@ import wait from "./wait";
 
 export default {
   addEntity,
+  calcPlayerDijkstra,
   cardAddToDeck,
   cardCancel,
   cardDiscardFromHand,
@@ -36,6 +39,7 @@ export default {
   cardShuffleDeck,
   cardShuffleDiscards,
   consume,
+  damage,
   dig,
   loadGame,
   logEvent,

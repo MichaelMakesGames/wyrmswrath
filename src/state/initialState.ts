@@ -7,6 +7,7 @@ export function createInitialState() {
     entities: {},
     entitiesByPosition: {},
     entitiesByComp: {},
+    playerDijkstra: { dist: {}, prev: {} },
     messageLog: [],
     gameOver: false,
     victory: false,

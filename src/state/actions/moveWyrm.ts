@@ -58,10 +58,8 @@ function moveWyrmHandler(
         ...currentSegment,
         pos: getPositionToDirection(currentSegment.pos, direction),
       });
-      if (!fast) {
-        state.act.playerTookTurn();
-      }
       state.act.consume();
+      if (!fast) state.act.playerTookTurn();
       return;
     } else {
       const next = state.select.entityById(currentSegment.wyrm.connectsTo);

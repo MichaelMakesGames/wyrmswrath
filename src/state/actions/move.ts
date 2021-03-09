@@ -1,7 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
 import { PLAYER_ID } from "~/constants";
 import { getPositionToDirection } from "~lib/geometry";
-import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
 import { Direction } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -25,7 +24,10 @@ function moveHandler(
   const entitiesAtNewPosition = state.select.entitiesAtPosition(newPosition);
   if (
     entity.blocking &&
-    entitiesAtNewPosition.some((other) => Boolean(other.blocking))
+    entity.blocking.moving &&
+    entitiesAtNewPosition.some(
+      (other) => other.blocking && other.blocking.moving,
+    )
   ) {
     return;
   }
@@ -33,12 +35,6 @@ function moveHandler(
     id: entity.id,
     pos: newPosition,
   });
-  if (entity.id === PLAYER_ID) {
-    if (state.select.cursorPos() && renderer.isZoomedIn()) {
-      state.act.moveCursor(action.payload.direction);
-    }
-    state.act.playerTookTurn();
-  }
 }
 
 registerHandler(moveHandler, move);

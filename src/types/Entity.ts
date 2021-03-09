@@ -26,9 +26,17 @@ export interface ColorToggle {
   falseColor: string;
 }
 
-export type AIType = "DRONE";
-export interface AI {
-  type: AIType;
+export interface Monster {
+  meleeDamage: number;
+  rangedDamage: number;
+  range: number;
+  idealDistance: number;
+  prioritizeDistance: boolean;
+  abilities: {
+    abilityName: string;
+    coolDown: number;
+    readyIn: number;
+  }[];
 }
 
 export interface Blocking {
@@ -69,7 +77,7 @@ export interface Entity {
   parentTemplate?: TemplateName;
   template: TemplateName;
 
-  ai?: AI;
+  monster?: Monster;
   animationToggle?: AnimationToggle;
   blocking?: Blocking;
   colorToggle?: ColorToggle;

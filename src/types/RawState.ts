@@ -6,6 +6,7 @@ export interface RawState {
   entities: Record<string, Entity>;
   entitiesByPosition: Record<string, Set<string>>;
   entitiesByComp: Record<string, Set<string>>;
+  playerDijkstra: { dist: Record<string, number>; prev: Record<string, Pos> };
   energy: number;
   crystalProgress: number;
   mushroomProgress: number;
