@@ -1,4 +1,5 @@
 import { PRIORITY_BUILDING_LOW, PRIORITY_UNIT } from "~/constants";
+import colors from "~colors";
 import { Entity } from "~types";
 
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
@@ -11,6 +12,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       meleeDamage: 0,
       rangedDamage: 1,
       range: 3,
+      projectileColor: colors.enemyUnit,
       idealDistance: 2,
       prioritizeDistance: false,
       abilities: [],
@@ -26,6 +28,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 20,
       mushroom: true,
     },
+    blocking: { moving: true },
   },
   MONSTER_MAD_CRYSTALMAN: {
     display: {
@@ -51,6 +54,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 20,
       crystal: true,
     },
+    blocking: { moving: true },
   },
   MONSTER_FERAL_SLIME: {
     display: {
@@ -76,6 +80,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 20,
       slime: true,
     },
+    blocking: { moving: true },
   },
 };
 

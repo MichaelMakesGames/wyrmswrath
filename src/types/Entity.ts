@@ -32,6 +32,7 @@ export interface Monster {
   range: number;
   idealDistance: number;
   prioritizeDistance: boolean;
+  projectileColor?: string;
   abilities: {
     abilityName: string;
     coolDown: number;

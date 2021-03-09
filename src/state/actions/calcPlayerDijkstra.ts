@@ -20,7 +20,13 @@ function calcPlayerDijkstraHandler(
     playerDijkstra: dijkstra({
       sources: playerSegments.map((e) => e.pos),
       maxDistance: 10,
-      getCost: (pos) => (state.select.isPositionBlocked(pos) ? Infinity : 1),
+      getCost: (pos) =>
+        state.select.isPositionBlocked(
+          pos,
+          state.select.entitiesWithComps("monster"),
+        )
+          ? Infinity
+          : 1,
     }),
   });
 }

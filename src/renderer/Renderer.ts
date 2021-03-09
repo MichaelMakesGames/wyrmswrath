@@ -625,7 +625,7 @@ export default class Renderer {
     );
   }
 
-  public projectile(from: Pos, to: Pos) {
+  public projectile(from: Pos, to: Pos, color?: string) {
     const id = nanoid();
     this.addEntity({
       id,
@@ -633,6 +633,7 @@ export default class Renderer {
       display: {
         tile: "projectile",
         priority: PRIORITY_LASER,
+        color,
       },
       pos: from,
     });
@@ -642,6 +643,7 @@ export default class Renderer {
       display: {
         tile: "projectile",
         priority: PRIORITY_LASER,
+        color,
       },
       pos: to,
     });

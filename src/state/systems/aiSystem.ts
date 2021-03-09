@@ -26,7 +26,7 @@ function handleMonster(
   const dist = playerDijkstra.dist[posKey];
   if (!dist) return;
   const attackIsPossible = canAttack(monster, dist, pos, playerDijkstra);
-  const moveIsPossible = canMove(monster, dist, pos, playerDijkstra);
+  const moveIsPossible = canMove(state, monster, dist, pos, playerDijkstra);
   if (moveIsPossible && monster.prioritizeDistance) {
     move(state, entity, dist, playerDijkstra);
   } else if (attackIsPossible) {
@@ -54,7 +54,7 @@ function attack(
       amount: monster.meleeDamage,
     });
   } else {
-    renderer.projectile(pos, targetPos);
+    renderer.projectile(pos, targetPos, monster.projectileColor);
     state.act.damage({
       entityId: PLAYER_ID,
       amount: monster.rangedDamage,
@@ -69,7 +69,7 @@ function move(
   dijkstra: RawState["playerDijkstra"],
 ) {
   const { id: entityId, monster, pos } = entity;
-  const destination = getMoveDestination(monster, dist, pos, dijkstra);
+  const destination = getMoveDestination(state, monster, dist, pos, dijkstra);
   const direction = getDirectionToPosition(pos, destination || undefined);
   if (direction) {
     state.act.move({ entityId, direction });
@@ -86,15 +86,17 @@ function canAttack(
 }
 
 function canMove(
+  state: WrappedState,
   monster: Monster,
   dist: number,
   pos: Pos,
   dijkstra: RawState["playerDijkstra"],
 ): boolean {
-  return Boolean(getMoveDestination(monster, dist, pos, dijkstra));
+  return Boolean(getMoveDestination(state, monster, dist, pos, dijkstra));
 }
 
 function getMoveDestination(
+  state: WrappedState,
   monster: Monster,
   dist: number,
   pos: Pos,
@@ -105,7 +107,8 @@ function getMoveDestination(
     if (
       adjacentDist &&
       Math.abs(monster.idealDistance - adjacentDist) <
-        Math.abs(monster.idealDistance - dist)
+        Math.abs(monster.idealDistance - dist) &&
+      !state.select.isPositionBlocked(adjacent)
     ) {
       return adjacent;
     }
