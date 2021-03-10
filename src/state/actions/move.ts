@@ -16,10 +16,9 @@ function moveHandler(
   action: ReturnType<typeof move>,
 ): void {
   const entity = state.select.entityById(action.payload.entityId);
+  if (!entity) return;
   const { pos } = entity;
-  if (!pos) {
-    return;
-  }
+  if (!pos) return;
   const newPosition = getPositionToDirection(pos, action.payload.direction);
   const entitiesAtNewPosition = state.select.entitiesAtPosition(newPosition);
   if (

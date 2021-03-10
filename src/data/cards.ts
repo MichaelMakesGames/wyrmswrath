@@ -8,7 +8,9 @@ import {
   getPosKey,
 } from "~lib/geometry";
 import { rangeTo } from "~lib/math";
+import { choose } from "~lib/rng";
 import renderer from "~renderer";
+import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
 import { Direction } from "~types";
 import type WrappedState from "~types/WrappedState";
 
@@ -57,29 +59,99 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_CHARGE",
     name: "Charge",
     type: "crystal",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    directional: true,
+    validator: wideAngleOnly,
+    description:
+      "Rush forward into the first enemy, consuming them, or until you make you reach a wall.",
+    effect: (state, direction) => {
+      const head = state.select.head();
+      const origin = head && head.pos;
+      if (!origin || !direction) return;
+      let distance = 0;
+      let pos = origin;
+      while (true) {
+        pos = getPositionToDirection(pos, direction);
+        const entities = state.select.entitiesAtPosition(pos);
+        if (entities.some((e) => e.monster)) {
+          distance++;
+          break;
+        } else if (entities.some((e) => e.blocking)) {
+          break;
+        } else {
+          distance++;
+        }
+      }
+      const needsSlimeWalk = !(
+        head &&
+        head.statusEffects &&
+        head.statusEffects.SLIME_WALK
+      );
+      if (needsSlimeWalk)
+        state.act.statusEffectAdd({
+          entityId: PLAYER_ID,
+          type: "SLIME_WALK",
+          expiresIn: 1,
+        });
+      rangeTo(distance).forEach(() =>
+        state.act.moveWyrm({ direction, fast: true }),
+      );
+    },
   },
   CRYSTAL_CRYSTALIZE: {
     code: "CRYSTAL_CRYSTALIZE",
     name: "Crystalize",
     type: "crystal",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description:
+      "Turn a line of SIZE tiles into sharp Crystal terrain, which increases damage received.",
+    directional: true,
+    validator: wideAngleOnly,
+    effect: (state, direction) => {
+      const head = state.select.head();
+      const origin = head && head.pos;
+      if (!origin || !direction) return;
+      let pos = origin;
+      rangeTo(state.select.playerSize()).forEach(() => {
+        pos = getPositionToDirection(pos, direction);
+        const groundAtPosition = state.select
+          .entitiesAtPosition(pos)
+          .find((e) => e.ground);
+        if (groundAtPosition) {
+          state.act.removeEntity(groundAtPosition.id);
+          state.act.addEntity(
+            createEntityFromTemplate("TERRAIN_CRYSTAL", { pos }),
+          );
+        }
+      });
+    },
   },
   CRYSTAL_ELEGANCE: {
     code: "CRYSTAL_ELEGANCE",
     name: "Elegance",
     type: "crystal",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Permanently lose a random card from your hand.",
+    fast: true,
+    effect: (state) => {
+      const currentHandSize = state.raw.hand.length;
+      if (currentHandSize) {
+        // played card is discarded before resolving the effect
+        state.act.cardRemoveFromHand(choose(rangeTo(currentHandSize)));
+      }
+    },
   },
   CRYSTAL_FLASH: {
     code: "CRYSTAL_FLASH",
     name: "Flash",
     type: "crystal",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Make a move without taking a turn.",
+    fast: true,
+    directional: true,
+    validator: wideAngleNotBlocked,
+    effect: (state, direction) => {
+      if (direction) {
+        state.act.moveWyrm({ direction, fast: true });
+        wyrmDisplaySystem(state);
+      }
+    },
   },
   CRYSTAL_JAVELIN: {
     code: "CRYSTAL_JAVELIN",
@@ -121,8 +193,11 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_RAZOR_SKIN",
     name: "Razor Skin",
     type: "crystal",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Deal 1 damage to all adjacent enemies.",
+    effect: (state) =>
+      getAdjacentMonsters(state).forEach((e) =>
+        state.act.damage({ entityId: e.id, amount: 1, actorId: PLAYER_ID }),
+      ),
   },
   CRYSTAL_ROCK_HARD: {
     code: "CRYSTAL_ROCK_HARD",
@@ -141,29 +216,61 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_SPIKED_TAIL",
     name: "Spiked Tail",
     type: "crystal",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Deal SIZE damage to all enemies adjacent to your tail.",
+    effect: (state) => {
+      const tail = state.select.tail();
+      const pos = tail && tail.pos;
+      if (!pos) return;
+      for (const adjacent of getAdjacentPositions(pos)) {
+        for (const entity of state.select
+          .entitiesAtPosition(adjacent)
+          .filter((e) => e.pos && e.health)) {
+          state.act.damage({
+            entityId: entity.id,
+            amount: state.select.playerSize(),
+            actorId: PLAYER_ID,
+          });
+        }
+      }
+    },
   },
   MUSHROOM_ANTIDOTE: {
     code: "MUSHROOM_ANTIDOTE",
     name: "Antidote",
     type: "mushroom",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Cure all Poison.",
+    effect: (state) =>
+      state.act.statusEffectRemove({
+        entityId: PLAYER_ID,
+        type: "POISONED",
+      }),
   },
   MUSHROOM_GROWTH: {
     code: "MUSHROOM_GROWTH",
     name: "Growth",
     type: "mushroom",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Increase your size, gaining health and maximum energy.",
+    directional: true,
+    validator: (state, direction) =>
+      wideAngleNotBlocked(state, direction, true),
+    effect: (state, direction) => {
+      const oldTail = state.select.tail();
+      if (!oldTail || !direction) return;
+      state.act.moveWyrm({ direction, fast: true });
+      state.act.addEntity(
+        createEntityFromTemplate("WYRM", {
+          pos: oldTail.pos,
+          wyrm: { isPlayer: true, connectsTo: oldTail.id },
+        }),
+      );
+    },
   },
   MUSHROOM_HALLUCINOGENIC_SPORES: {
     code: "MUSHROOM_HALLUCINOGENIC_SPORES",
     name: "Hallucinogenic Spores",
     type: "mushroom",
     description:
-      "Confuse all enemies within 2 tiles for 3 turns, so they move randomly, potentially attacking each other.",
+      "Confuse all enemies within 2 tiles for 3 turns, so they randomly move and attack.",
     effect: (state) =>
       getMonstersWithinRange(state, 2).forEach((e) =>
         state.act.statusEffectAdd({
@@ -321,6 +428,38 @@ function wideAngleOnly(state: WrappedState, direction: Direction | undefined) {
       )}).`,
     };
   }
+}
+
+function notBlocked(
+  state: WrappedState,
+  direction: Direction | undefined,
+  tailBlocks?: boolean,
+) {
+  const head = state.select.head();
+  const tail = state.select.tail();
+  const origin = head && head.pos;
+  if (!origin || !direction || !tail) return { valid: false };
+  const destination = getPositionToDirection(origin, direction);
+  if (
+    state.select.isPositionBlocked(destination, [
+      ...(tailBlocks ? [] : [tail]),
+      ...state.select.entitiesWithComps("consumable"),
+    ])
+  ) {
+    return { valid: false, message: "Position is blocked." };
+  } else {
+    return { valid: true };
+  }
+}
+
+function wideAngleNotBlocked(
+  state: WrappedState,
+  direction: Direction | undefined,
+  tailBlocks?: boolean,
+) {
+  if (!wideAngleOnly(state, direction).valid)
+    return wideAngleOnly(state, direction);
+  return notBlocked(state, direction, tailBlocks);
 }
 
 function getAdjacentMonsters(state: WrappedState) {

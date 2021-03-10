@@ -1,11 +1,12 @@
 import addEntity from "./addEntity";
 import calcPlayerDijkstra from "./calcPlayerDijkstra";
-import cardAddToDeck from "./cardAddToDeck";
+import cardAddToHand from "./cardAddToHand";
 import cardCancel from "./cardCancel";
 import cardDiscardFromHand from "./cardDiscardFromHand";
 import cardDraw from "./cardDraw";
 import cardPlay from "./cardPlay";
 import cardRedrawHand from "./cardRedrawHand";
+import cardRemoveFromHand from "./cardRemoveFromHand";
 import cardResolve from "./cardResolve";
 import cardShuffleDeck from "./cardShuffleDeck";
 import cardShuffleDiscards from "./cardShuffleDiscards";
@@ -32,12 +33,13 @@ import wait from "./wait";
 export default {
   addEntity,
   calcPlayerDijkstra,
-  cardAddToDeck,
+  cardAddToHand,
   cardCancel,
   cardDiscardFromHand,
   cardDraw,
   cardPlay,
   cardRedrawHand,
+  cardRemoveFromHand,
   cardResolve,
   cardShuffleDeck,
   cardShuffleDiscards,

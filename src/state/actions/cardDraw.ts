@@ -12,6 +12,9 @@ function cardDrawHandler(
   if (!state.raw.deck.length) {
     state.act.cardShuffleDiscards();
   }
+  if (!state.raw.deck.length) {
+    return;
+  }
   const [first, ...rest] = state.raw.deck;
   state.setRaw({
     ...state.raw,

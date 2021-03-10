@@ -4,19 +4,18 @@ import { registerHandler } from "~state/handleAction";
 import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
 import WrappedState from "~types/WrappedState";
 
-const cardAddToDeck = createStandardAction("CARD_ADD_TO_DECK")<CardCode>();
-export default cardAddToDeck;
+const cardAddToHand = createStandardAction("cardAddToHand")<CardCode>();
+export default cardAddToHand;
 
-function cardAddToDeckHandler(
+function cardAddToHandHandler(
   state: WrappedState,
-  action: ReturnType<typeof cardAddToDeck>,
+  action: ReturnType<typeof cardAddToHand>,
 ) {
   state.setRaw({
     ...state.raw,
     deck: [...state.raw.deck, action.payload],
   });
-  state.act.cardShuffleDeck();
   wyrmDisplaySystem(state);
 }
 
-registerHandler(cardAddToDeckHandler, cardAddToDeck);
+registerHandler(cardAddToHandHandler, cardAddToHand);

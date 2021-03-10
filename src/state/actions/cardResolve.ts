@@ -29,12 +29,12 @@ function cardResolveHandler(
     return;
   }
 
-  card.effect(state, direction);
   state.act.cardDiscardFromHand(index);
   state.setRaw({
     ...state.raw,
     playing: null,
   });
+  card.effect(state, direction);
   if (!card.fast) {
     state.act.playerTookTurn();
   }
