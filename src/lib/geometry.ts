@@ -70,6 +70,16 @@ export function getNonTightDirections(direction: Direction | null) {
   return [];
 }
 
+export function getTightDirections(direction: Direction | null) {
+  if (direction === "N") return ["SE", "SW"];
+  if (direction === "NE") return ["NW", "S"];
+  if (direction === "SE") return ["N", "SW"];
+  if (direction === "S") return ["NE", "NW"];
+  if (direction === "SW") return ["SE", "N"];
+  if (direction === "NW") return ["NE", "S"];
+  return [];
+}
+
 export function getConstDir(direction: Direction) {
   for (const constDir of DIRECTIONS) {
     if (areDirectionsEqual(direction, constDir)) return constDir;

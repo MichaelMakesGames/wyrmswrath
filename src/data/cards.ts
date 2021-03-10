@@ -4,14 +4,16 @@ import { createEntityFromTemplate } from "~lib/entities";
 import {
   getAdjacentPositions,
   getNonTightDirections,
+  getTightDirections,
   getPositionToDirection,
   getPosKey,
+  parsePosKey,
 } from "~lib/geometry";
 import { rangeTo } from "~lib/math";
 import { choose } from "~lib/rng";
 import renderer from "~renderer";
 import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
-import { Direction } from "~types";
+import { Direction, Entity } from "~types";
 import type WrappedState from "~types/WrappedState";
 
 export type CardCode =
@@ -284,15 +286,26 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_HEAL",
     name: "Heal",
     type: "mushroom",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Heal SIZE*2 health and remove 1 Poison",
+    effect: (state) => {
+      state.act.heal({
+        entityId: PLAYER_ID,
+        amount: state.select.playerSize() * 2,
+      });
+      state.act.statusEffectRemove({
+        entityId: PLAYER_ID,
+        type: "POISONED",
+        value: 1,
+      });
+    },
   },
   MUSHROOM_OPEN_YOUR_MIND: {
     code: "MUSHROOM_OPEN_YOUR_MIND",
     name: "Open Your Mind",
     type: "mushroom",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    fast: true,
+    description: "Draw 3 cards.",
+    effect: (state) => rangeTo(3).forEach(() => state.act.cardDraw()),
   },
   MUSHROOM_PARALYZING_SPORES: {
     code: "MUSHROOM_PARALYZING_SPORES",
@@ -339,29 +352,66 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_STRENGTHEN",
     name: "Strengthen",
     type: "mushroom",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description:
+      "Strengthen yourself for SIZE turns, dealing twice as much damage.",
+    effect: (state) =>
+      state.act.statusEffectAdd({
+        entityId: PLAYER_ID,
+        type: "STRENGTHENED",
+        expiresIn: state.select.playerSize(),
+      }),
   },
   SLIME_MALLEABLE: {
     code: "SLIME_MALLEABLE",
     name: "Malleable",
     type: "slime",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Make a tight turn.",
+    directional: true,
+    validator: tightAngleNotBlocked,
+    effect: (state, direction) => {
+      if (!direction) return;
+      state.act.moveWyrm({ direction, fast: true, tightAllowed: true });
+    },
   },
   SLIME_MUTATE: {
     code: "SLIME_MUTATE",
     name: "Mutate",
     type: "slime",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Gain a random new card to your hand.",
+    effect: (state) =>
+      state.act.cardAddToHand(choose(Object.values(cards)).code),
   },
   SLIME_OOZE: {
     code: "SLIME_OOZE",
     name: "Ooze",
     type: "slime",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description:
+      "Turn adjacent tiles into Slime terrain and slime any enemies already there.",
+    effect: (state) =>
+      getPlayerAdjacentPositions(state).forEach((pos) => {
+        const ground = state.select
+          .entitiesAtPosition(pos)
+          .find((e) => e.ground);
+        if (ground) {
+          state.act.removeEntity(ground.id);
+          state.act.addEntity(
+            createEntityFromTemplate("TERRAIN_SLIME", { pos }),
+          );
+        }
+        const monster = state.select
+          .entitiesAtPosition(pos)
+          .find((e) => e.monster);
+        if (
+          monster &&
+          !(monster.statusEffects && monster.statusEffects.SLIME_WALK)
+        ) {
+          state.act.statusEffectAdd({
+            entityId: monster.id,
+            type: "SLIMED",
+            expiresIn: 1,
+          });
+        }
+      }),
   },
   SLIME_POISON_SKIN: {
     code: "SLIME_POISON_SKIN",
@@ -381,8 +431,31 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_SHAPE_SHIFTING",
     name: "Shape Shifting",
     type: "slime",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "Reverse yourself, flipping your head and tail.",
+    fast: true,
+    effect: (state) => {
+      const tail = state.select.tail();
+      if (!tail) return;
+      const segments: Entity[] = [tail];
+      let done = false;
+      while (!done) {
+        const previous = segments[segments.length - 1];
+        if (!previous.wyrm || !previous.wyrm.connectsTo) {
+          done = true;
+        } else {
+          const next = state.select.entityById(previous.wyrm.connectsTo);
+          segments.push(next);
+        }
+      }
+      const positionsReversed = segments.map((s) => s.pos).reverse();
+      segments.forEach((segment, i) => {
+        state.act.updateEntity({
+          ...segment,
+          pos: positionsReversed[i],
+        });
+      });
+      wyrmDisplaySystem(state);
+    },
   },
   SLIME_SLIME_WALK: {
     code: "SLIME_SLIME_WALK",
@@ -402,15 +475,61 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_TOXICITY",
     name: "Toxicity",
     type: "slime",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description: "All enemies within 3 tiles on Slime terrain become poisoned.",
+    effect: (state) =>
+      getMonstersWithinRange(state, 3)
+        .filter((e) =>
+          state.select
+            .entitiesAtPosition(e.pos)
+            .some((other) => other.ground && other.ground.slimy),
+        )
+        .forEach((e) =>
+          state.act.statusEffectAdd({
+            entityId: e.id,
+            type: "POISONED",
+            value: 1,
+          }),
+        ),
   },
   SLIME_VOMIT: {
     code: "SLIME_VOMIT",
     name: "Vomit",
     type: "slime",
-    description: "TODO",
-    effect: (state) => state.act.logMessage({ message: "TODO" }),
+    description:
+      "Turn a line of SIZE tiles into healing Slime terrain, and slime all enemies already there.",
+    directional: true,
+    validator: wideAngleOnly,
+    effect: (state, direction) => {
+      const head = state.select.head();
+      const origin = head && head.pos;
+      if (!origin || !direction) return;
+      let pos = origin;
+      rangeTo(state.select.playerSize()).forEach(() => {
+        pos = getPositionToDirection(pos, direction);
+        const groundAtPosition = state.select
+          .entitiesAtPosition(pos)
+          .find((e) => e.ground);
+        if (groundAtPosition) {
+          state.act.removeEntity(groundAtPosition.id);
+          state.act.addEntity(
+            createEntityFromTemplate("TERRAIN_SLIME", { pos }),
+          );
+        }
+        const nonSlimeWalkingMonsterAtPosition = state.select
+          .entitiesAtPosition(pos)
+          .find(
+            (e) =>
+              e.monster && !(e.statusEffects && e.statusEffects.SLIME_WALK),
+          );
+        if (nonSlimeWalkingMonsterAtPosition) {
+          state.act.statusEffectAdd({
+            entityId: nonSlimeWalkingMonsterAtPosition.id,
+            type: "SLIMED",
+            expiresIn: 1,
+          });
+        }
+      });
+    },
   },
 };
 
@@ -424,6 +543,20 @@ function wideAngleOnly(state: WrappedState, direction: Direction | undefined) {
     return {
       valid: false,
       message: `Must target a wide-angled direction (${validDirections.join(
+        ", ",
+      )}).`,
+    };
+  }
+}
+
+function tightAngleOnly(state: WrappedState, direction: Direction | undefined) {
+  const validDirections = getTightDirections(state.select.playerDirection());
+  if (validDirections.includes(direction || "")) {
+    return { valid: true };
+  } else {
+    return {
+      valid: false,
+      message: `Must target a tight-angled direction (${validDirections.join(
         ", ",
       )}).`,
     };
@@ -462,16 +595,37 @@ function wideAngleNotBlocked(
   return notBlocked(state, direction, tailBlocks);
 }
 
-function getAdjacentMonsters(state: WrappedState) {
-  const positions = new Set<string>();
-  for (const segment of state.select
+function tightAngleNotBlocked(
+  state: WrappedState,
+  direction: Direction | undefined,
+  tailBlocks?: boolean,
+) {
+  if (!tightAngleOnly(state, direction).valid)
+    return tightAngleOnly(state, direction);
+  return notBlocked(state, direction, tailBlocks);
+}
+
+function getPlayerAdjacentPositions(state: WrappedState) {
+  const segments = state.select
     .entitiesWithComps("pos", "wyrm")
-    .filter((e) => e.wyrm)) {
+    .filter((e) => e.wyrm.isPlayer);
+  const wyrmPositions = new Set<string>(
+    segments.map((segment) => getPosKey(segment.pos)),
+  );
+  const positions = new Set<string>();
+  for (const segment of segments) {
     for (const adjacent of getAdjacentPositions(segment.pos)) {
-      positions.add(getPosKey(adjacent));
+      const posKey = getPosKey(adjacent);
+      if (!wyrmPositions.has(posKey)) {
+        positions.add(getPosKey(adjacent));
+      }
     }
   }
+  return Array.from(positions).map(parsePosKey);
+}
 
+function getAdjacentMonsters(state: WrappedState) {
+  const positions = new Set(getPlayerAdjacentPositions(state).map(getPosKey));
   return state.select
     .entitiesWithComps("monster", "pos")
     .filter((e) => positions.has(getPosKey(e.pos)));

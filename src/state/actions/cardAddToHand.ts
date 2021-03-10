@@ -13,7 +13,7 @@ function cardAddToHandHandler(
 ) {
   state.setRaw({
     ...state.raw,
-    deck: [...state.raw.deck, action.payload],
+    hand: [...state.raw.hand, action.payload],
   });
   wyrmDisplaySystem(state);
 }
