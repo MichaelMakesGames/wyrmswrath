@@ -22,11 +22,7 @@ export default function Menu() {
     code: ControlCode.Menu,
     callback: open,
     group: HotkeyGroup.Main,
-    allowedGroups: [
-      HotkeyGroup.Tutorial,
-      HotkeyGroup.BuildingSelection,
-      HotkeyGroup.JobPriorities,
-    ],
+    allowedGroups: [HotkeyGroup.CardGain],
   });
 
   useControl({
@@ -51,9 +47,7 @@ export default function Menu() {
       HotkeyGroup.Intro,
       HotkeyGroup.GameOver,
       HotkeyGroup.Menu,
-      HotkeyGroup.Tutorial,
-      HotkeyGroup.JobPriorities,
-      HotkeyGroup.BuildingSelection,
+      HotkeyGroup.CardGain,
     ],
   });
 

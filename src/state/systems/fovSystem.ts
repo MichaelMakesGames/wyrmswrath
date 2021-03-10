@@ -2,7 +2,6 @@ import { FOV } from "rot-js";
 import colors from "~colors";
 import { FOV_RANGE } from "~constants";
 import { fromRotPos, getPosKey, parsePosKey, toRotPos } from "~lib/geometry";
-import { Pos } from "~types";
 import WrappedState from "~types/WrappedState";
 
 const FOG_COLOR = colors.activeBuilding;
@@ -18,7 +17,8 @@ export default function fovSystem(state: WrappedState): void {
       .every((e) => !e.blocking || !e.blocking.fov);
   const fov = new FOV.PreciseShadowcasting(lightPasses, { topology: 6 });
   const visiblePositions = new Set<string>();
-  fov.compute(...toRotPos(origin), FOV_RANGE, (x, y) =>
+  const [rotX, rotY] = toRotPos(origin);
+  fov.compute(rotX, rotY, FOV_RANGE, (x, y) =>
     visiblePositions.add(getPosKey(fromRotPos([x, y]))),
   );
 
