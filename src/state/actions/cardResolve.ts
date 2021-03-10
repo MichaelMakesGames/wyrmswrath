@@ -1,6 +1,7 @@
 import { createStandardAction } from "typesafe-actions";
 import cards from "~data/cards";
 import { registerHandler } from "~state/handleAction";
+import fovSystem from "~state/systems/fovSystem";
 import { Direction } from "~types";
 import WrappedState from "~types/WrappedState";
 
@@ -37,6 +38,8 @@ function cardResolveHandler(
   card.effect(state, direction);
   if (!card.fast) {
     state.act.playerTookTurn();
+  } else {
+    fovSystem(state);
   }
 }
 

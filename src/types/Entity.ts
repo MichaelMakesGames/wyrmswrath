@@ -16,6 +16,7 @@ export interface Display {
   hasBackground?: boolean;
   flashWhenVisible?: boolean;
   discreteMovement?: boolean;
+  hidden?: boolean;
 }
 
 export interface AnimationToggle {
@@ -44,6 +45,7 @@ export interface Monster {
 
 export interface Blocking {
   moving: boolean;
+  fov: boolean;
 }
 export interface Description {
   name: string;
@@ -89,6 +91,10 @@ export interface Ground {
 }
 
 export interface Cursor {}
+
+export interface Explorable {}
+
+export interface InFov {}
 export interface Entity {
   id: string;
   parentTemplate?: TemplateName;
@@ -109,4 +115,6 @@ export interface Entity {
   wyrm?: Wyrm;
   ground?: Ground;
   statusEffects?: StatusEffects;
+  explorable?: Explorable;
+  inFov?: InFov;
 }

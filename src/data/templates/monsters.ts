@@ -7,6 +7,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: {
       tile: "mushroomman-bandit",
       priority: PRIORITY_UNIT,
+      hidden: true,
     },
     monster: {
       meleeDamage: 0,
@@ -28,12 +29,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 20,
       mushroom: true,
     },
-    blocking: { moving: true },
+    blocking: { moving: true, fov: false },
   },
   MONSTER_MAD_CRYSTALMAN: {
     display: {
       tile: "mad-crystalman",
       priority: PRIORITY_UNIT,
+      hidden: true,
     },
     monster: {
       meleeDamage: 1,
@@ -54,7 +56,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 20,
       crystal: true,
     },
-    blocking: { moving: true },
+    blocking: { moving: true, fov: false },
     statusEffects: {
       ARMORED: { type: "ARMORED", value: 1 },
     },
@@ -63,6 +65,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: {
       tile: "feral-slime",
       priority: PRIORITY_UNIT,
+      hidden: true,
     },
     monster: {
       meleeDamage: 1,
@@ -83,7 +86,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 20,
       slime: true,
     },
-    blocking: { moving: true },
+    blocking: { moving: true, fov: false },
     statusEffects: {
       SLIME_WALK: { type: "SLIME_WALK" },
       CONFUSED: { type: "CONFUSED" },

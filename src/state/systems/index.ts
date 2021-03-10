@@ -4,6 +4,7 @@ import animationToggleSystem from "./animationToggleSystem";
 import colorToggleSystem from "./colorToggleSystem";
 import energySystem from "./energySystem";
 import eventSystem from "./eventSystem";
+import fovSystem from "./fovSystem";
 import gameOverSystem from "./gameOverSystem";
 import healingSystem from "./healingSystem";
 import poisonSystem from "./poisonSystem";
@@ -22,6 +23,7 @@ const systems: ((state: WrappedState) => void)[] = [
   gameOverSystem,
   colorToggleSystem,
   animationToggleSystem,
+  fovSystem,
   wyrmDisplaySystem,
 ];
 

@@ -1,5 +1,6 @@
 import PriorityQueue from "priorityqueuejs";
 import { createStandardAction } from "typesafe-actions";
+import { DIJKSTRA_RANGE } from "~constants";
 import { getAdjacentPositions, getPosKey } from "~lib/geometry";
 import { registerHandler } from "~state/handleAction";
 import { Pos } from "~types";
@@ -19,7 +20,7 @@ function calcPlayerDijkstraHandler(
     ...state.raw,
     playerDijkstra: dijkstra({
       sources: playerSegments.map((e) => e.pos),
-      maxDistance: 10,
+      maxDistance: DIJKSTRA_RANGE,
       getCost: (pos) =>
         state.select.isPositionBlocked(
           pos,

@@ -4,6 +4,7 @@ import { resetEntitiesByCompAndPos } from "~lib/entities";
 import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
 import animationToggleSystem from "~state/systems/animationToggleSystem";
+import fovSystem from "~state/systems/fovSystem";
 import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
 import { RawState } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -30,6 +31,7 @@ function loadGameHandler(
     .forEach((entity) => renderer.addEntity(entity));
   animationToggleSystem(state);
   wyrmDisplaySystem(state);
+  fovSystem(state);
 }
 
 registerHandler(loadGameHandler, loadGame);

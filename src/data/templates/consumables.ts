@@ -6,7 +6,9 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: {
       tile: "mushroom",
       priority: PRIORITY_BUILDING_LOW,
+      hidden: true,
     },
+    explorable: true,
     consumable: {
       energy: 20,
       mushroom: true,
@@ -16,7 +18,9 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: {
       tile: "crystal",
       priority: PRIORITY_BUILDING_LOW,
+      hidden: true,
     },
+    explorable: true,
     consumable: {
       energy: 20,
       crystal: true,
@@ -26,7 +30,9 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: {
       tile: "slime",
       priority: PRIORITY_BUILDING_LOW,
+      hidden: true,
     },
+    explorable: true,
     consumable: {
       energy: 20,
       slime: true,
@@ -36,7 +42,9 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: {
       tile: "corpse",
       priority: PRIORITY_BUILDING_LOW,
+      hidden: true,
     },
+    explorable: true,
     consumable: {
       energy: 20,
     },

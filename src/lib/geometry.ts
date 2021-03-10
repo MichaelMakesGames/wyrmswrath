@@ -5,6 +5,18 @@ export function getPosKey(pos: Pos) {
   return `${pos.x},${pos.y}`;
 }
 
+export function toRotPos({ x, y }: Pos): [number, number] {
+  const even = x % 2 === 0;
+  return [even ? y * 2 : y * 2 + 1, x];
+}
+
+export function fromRotPos([x, y]: [number, number]): Pos {
+  return {
+    x: y,
+    y: Math.floor(x / 2),
+  };
+}
+
 export function parsePosKey(posKey: string): Pos {
   const [x, y] = posKey.split(",").map(parseFloat);
   return { x, y };

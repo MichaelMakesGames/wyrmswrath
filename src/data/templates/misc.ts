@@ -10,7 +10,7 @@ import { Entity } from "~types";
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   WYRM: {
     wyrm: { isPlayer: true },
-    blocking: { moving: true },
+    blocking: { moving: true, fov: false },
     health: {
       current: MAX_HEALTH_PER_SIZE,
       max: MAX_HEALTH_PER_SIZE,

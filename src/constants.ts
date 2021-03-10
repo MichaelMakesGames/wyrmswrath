@@ -23,6 +23,9 @@ export const CARD_CHOICES_PER_UNLOCK = 3;
 export const MAX_ENERGY_PER_SIZE = 20;
 export const MAX_HEALTH_PER_SIZE = 10;
 
+export const FOV_RANGE = 10;
+export const DIJKSTRA_RANGE = 12;
+
 export const PRIORITY_MARKER = 30;
 export const PRIORITY_LASER = 25;
 export const PRIORITY_BUILDING_DETAIL = 20;

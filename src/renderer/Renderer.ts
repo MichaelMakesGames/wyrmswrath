@@ -205,6 +205,14 @@ export default class Renderer {
         }
       }
 
+      if (renderEntity.displayComp.hidden !== entity.display.hidden) {
+        renderEntity.displayComp = {
+          ...renderEntity.displayComp,
+          hidden: entity.display.hidden,
+        };
+        renderEntity.sprite.visible = !entity.display.hidden;
+      }
+
       if (
         renderEntity.displayComp.tile !== entity.display.tile ||
         renderEntity.displayComp.color !== entity.display.color ||
@@ -318,6 +326,7 @@ export default class Renderer {
     sprite.width = this.tileWidth;
     sprite.height = this.tileHeight;
     sprite.tint = parseInt((display.color || "#FFFFFF").substr(1), 16);
+    sprite.visible = !display.hidden;
 
     return sprite;
   }
@@ -362,7 +371,8 @@ export default class Renderer {
 
   private updateVisibility(renderEntity: RenderEntity): void {
     const wasVisible = renderEntity.isVisible;
-    const isVisible = this.isPosVisible(renderEntity.pos);
+    const isVisible =
+      this.isPosVisible(renderEntity.pos) && renderEntity.sprite.visible;
     // eslint-disable-next-line no-param-reassign
     renderEntity.isVisible = isVisible;
     if (isVisible && !wasVisible && renderEntity.displayComp.flashWhenVisible) {
