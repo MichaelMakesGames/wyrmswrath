@@ -35,7 +35,22 @@ export default function generateMap(): Entity[] {
   }
 
   for (const pos of Object.values(groundPositions)) {
-    results.push(createEntityFromTemplate("TERRAIN_GROUND", { pos }));
+    results.push(
+      createEntityFromTemplate(
+        choose([
+          "TERRAIN_GROUND",
+          "TERRAIN_GROUND",
+          "TERRAIN_GROUND",
+          "TERRAIN_GROUND",
+          "TERRAIN_GROUND",
+          "TERRAIN_GROUND",
+          "TERRAIN_SLIME",
+          "TERRAIN_CRYSTAL",
+          "TERRAIN_MUSHROOM",
+        ]),
+        { pos },
+      ),
+    );
     for (const adjacent of getAdjacentPositions(pos)) {
       const key = getPosKey(adjacent);
       if (!groundPositions[key] && !wallPositions[key]) {

@@ -1,3 +1,5 @@
+import { StatusEffectType } from "~data/statusEffectTypes";
+
 export interface Pos {
   x: number;
   y: number;
@@ -72,6 +74,20 @@ export interface Consumable {
   mushroom?: boolean;
 }
 
+export interface StatusEffect {
+  type: StatusEffectType;
+  value?: number;
+  expiresIn?: number;
+}
+export interface StatusEffects
+  extends Partial<Record<StatusEffectType, StatusEffect>> {}
+
+export interface Ground {
+  spiky?: boolean;
+  slimy?: boolean;
+  healing?: boolean;
+}
+
 export interface Cursor {}
 export interface Entity {
   id: string;
@@ -91,4 +107,6 @@ export interface Entity {
   health?: Health;
   pos?: Pos;
   wyrm?: Wyrm;
+  ground?: Ground;
+  statusEffects?: StatusEffects;
 }

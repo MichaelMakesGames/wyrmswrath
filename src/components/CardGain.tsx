@@ -24,14 +24,16 @@ export default function CardGain() {
   const slimeUnlocked = slimeProgress >= slimeUnlock ? "Slime" : null;
   const unlocked = crystalUnlocked || mushroomUnlocked || slimeUnlocked;
 
+  const gameOver = useSelector(selectors.gameOver);
+
   const [isOpen, open, close] = useBoolean(false);
   useEffect(() => {
-    if (unlocked) {
+    if (unlocked && !gameOver) {
       open();
     } else {
       close();
     }
-  }, [unlocked]);
+  }, [unlocked, gameOver]);
 
   const [choices, setChoices] = useState<Card[]>([]);
   useEffect(() => {

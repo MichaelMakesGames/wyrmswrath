@@ -56,10 +56,24 @@ function moveWyrmHandler(
     if (!currentSegment.wyrm.connectsTo) {
       state.act.updateEntity({
         ...currentSegment,
-        pos: getPositionToDirection(currentSegment.pos, direction),
+        pos: destination,
       });
       state.act.consume();
       if (!fast) state.act.playerTookTurn();
+
+      if (
+        state.select
+          .entitiesAtPosition(destination)
+          .some((e) => e.ground && e.ground.slimy) &&
+        !(head.statusEffects && head.statusEffects.SLIME_WALK)
+      ) {
+        state.act.logMessage({
+          message:
+            "You take an extra turning moving into Slime without Slime Walk",
+        });
+        state.act.playerTookTurn();
+      }
+
       return;
     } else {
       const next = state.select.entityById(currentSegment.wyrm.connectsTo);

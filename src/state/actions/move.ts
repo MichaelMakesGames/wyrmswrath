@@ -35,6 +35,17 @@ function moveHandler(
     id: entity.id,
     pos: newPosition,
   });
+
+  if (
+    entitiesAtNewPosition.some((e) => e.ground && e.ground.slimy) &&
+    !(entity.statusEffects && entity.statusEffects.SLIME_WALK)
+  ) {
+    state.act.statusEffectAdd({
+      entityId: entity.id,
+      type: "SLIMED",
+      expiresIn: 2,
+    });
+  }
 }
 
 registerHandler(moveHandler, move);

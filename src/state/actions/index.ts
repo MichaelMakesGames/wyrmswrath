@@ -12,6 +12,7 @@ import cardShuffleDiscards from "./cardShuffleDiscards";
 import consume from "./consume";
 import damage from "./damage";
 import dig from "./dig";
+import heal from "./heal";
 import loadGame from "./loadGame";
 import logEvent from "./logEvent";
 import logMessage from "./logMessage";
@@ -23,6 +24,8 @@ import playerTookTurn from "./playerTookTurn";
 import removeEntities from "./removeEntities";
 import removeEntity from "./removeEntity";
 import setCursorPos from "./setCursorPos";
+import statusEffectAdd from "./statusEffectAdd";
+import statusEffectRemove from "./statusEffectRemove";
 import updateEntity from "./updateEntity";
 import wait from "./wait";
 
@@ -41,6 +44,7 @@ export default {
   consume,
   damage,
   dig,
+  heal,
   loadGame,
   logEvent,
   logMessage,
@@ -52,6 +56,8 @@ export default {
   removeEntities,
   removeEntity,
   setCursorPos,
+  statusEffectAdd,
+  statusEffectRemove,
   updateEntity,
   wait,
 };

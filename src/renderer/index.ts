@@ -29,7 +29,10 @@ renderer
   .then(() =>
     renderer.configureSpriteSheet("spritesheet", [
       { id: "wall", x: 9, y: 3 },
+      { id: "terrain-mushroom", x: 6, y: 0 },
+      { id: "terrain-crystal", x: 6, y: 3 },
       { id: "ground", x: 6, y: 5 },
+      { id: "terrain-slime", x: 6, y: 6 },
       { id: "mushroom", x: 0, y: 18 },
       { id: "mushroomman-bandit", x: 0, y: 17 },
       { id: "crystal", x: 1, y: 18 },

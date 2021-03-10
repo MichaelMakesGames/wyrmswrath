@@ -55,6 +55,9 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       crystal: true,
     },
     blocking: { moving: true },
+    statusEffects: {
+      ARMORED: { type: "ARMORED", value: 1 },
+    },
   },
   MONSTER_FERAL_SLIME: {
     display: {
@@ -81,6 +84,10 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       slime: true,
     },
     blocking: { moving: true },
+    statusEffects: {
+      SLIME_WALK: { type: "SLIME_WALK" },
+      CONFUSED: { type: "CONFUSED" },
+    },
   },
 };
 

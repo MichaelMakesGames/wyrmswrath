@@ -55,7 +55,7 @@ export default function Card({
       <h3>
         <Kbd>{settings.keyboardShortcuts[controlCode][0]}</Kbd> {card.name}
       </h3>
-      <span className="text-sm text-gray">{card.type}</span>
+      <span className="text-sm text-gray">{card.fast ? "fast" : "slow"}</span>
       <p className="text-sm">{card.description}</p>
     </button>
   );

@@ -1,12 +1,14 @@
 import { Required } from "Object/_api";
-import { PLAYER_ID } from "~constants";
+import { DIRECTIONS, PLAYER_ID } from "~constants";
 import {
   getAdjacentPositions,
   getDirectionToPosition,
+  getPositionToDirection,
   getPosKey,
 } from "~lib/geometry";
+import { choose } from "~lib/rng";
 import renderer from "~renderer";
-import { Entity, Monster, Pos, RawState } from "~types";
+import { Entity, Pos, RawState } from "~types";
 import WrappedState from "~types/WrappedState";
 
 export default function aiSystem(state: WrappedState): void {
@@ -25,15 +27,62 @@ function handleMonster(
   const posKey = getPosKey(pos);
   const dist = playerDijkstra.dist[posKey];
   if (!dist) return;
-  const attackIsPossible = canAttack(monster, dist, pos, playerDijkstra);
-  const moveIsPossible = canMove(state, monster, dist, pos, playerDijkstra);
-  if (moveIsPossible && monster.prioritizeDistance) {
+  const attackIsPossible = canAttack(entity, dist, playerDijkstra);
+  const moveIsPossible = canMove(state, entity, dist, playerDijkstra);
+  if (isConfused(entity)) {
+    doConfusedTurn(state, entity);
+  } else if (moveIsPossible && monster.prioritizeDistance) {
     move(state, entity, dist, playerDijkstra);
   } else if (attackIsPossible) {
     attack(state, entity, dist, playerDijkstra);
   } else if (moveIsPossible) {
     move(state, entity, dist, playerDijkstra);
   }
+}
+
+function isSlimed(entity: Entity) {
+  return Boolean(entity.statusEffects && entity.statusEffects.SLIMED);
+}
+
+function isConfused(entity: Entity) {
+  return Boolean(entity.statusEffects && entity.statusEffects.CONFUSED);
+}
+
+function isParalyzed(entity: Entity) {
+  return Boolean(entity.statusEffects && entity.statusEffects.PARALYZED);
+}
+
+function doConfusedTurn(
+  state: WrappedState,
+  entity: Required<Entity, "monster" | "pos">,
+) {
+  const options: (() => void)[] = [];
+  for (const direction of DIRECTIONS) {
+    const blockingEntities = state.select.getBlockingEntities(
+      getPositionToDirection(entity.pos, direction),
+    );
+    if (
+      blockingEntities.length === 0 &&
+      !isParalyzed(entity) &&
+      !isSlimed(entity)
+    ) {
+      options.push(() => state.act.move({ entityId: entity.id, direction }));
+    } else if (
+      blockingEntities.length === 1 &&
+      blockingEntities[0].health &&
+      entity.monster.meleeDamage &&
+      !isSlimed(entity)
+    ) {
+      options.push(() => {
+        state.act.damage({
+          entityId: blockingEntities[0].id,
+          amount: entity.monster.meleeDamage,
+          actorId: entity.id,
+        });
+      });
+    }
+  }
+  if (options.length) choose(options)();
 }
 
 function attack(
@@ -44,18 +93,20 @@ function attack(
 ) {
   const { monster, pos } = entity;
 
-  const targetPos = getAttackTargetPos(monster, dist, pos, dijkstra);
+  const targetPos = getAttackTargetPos(entity, dist, dijkstra);
   if (!targetPos) return;
 
   if (dist === 1) {
     renderer.bump(entity.id, targetPos);
     state.act.damage({
+      actorId: entity.id,
       entityId: PLAYER_ID,
       amount: monster.meleeDamage,
     });
   } else {
     renderer.projectile(pos, targetPos, monster.projectileColor);
     state.act.damage({
+      actorId: entity.id,
       entityId: PLAYER_ID,
       amount: monster.rangedDamage,
     });
@@ -68,8 +119,8 @@ function move(
   dist: number,
   dijkstra: RawState["playerDijkstra"],
 ) {
-  const { id: entityId, monster, pos } = entity;
-  const destination = getMoveDestination(state, monster, dist, pos, dijkstra);
+  const { id: entityId, pos } = entity;
+  const destination = getMoveDestination(state, entity, dist, dijkstra);
   const direction = getDirectionToPosition(pos, destination || undefined);
   if (direction) {
     state.act.move({ entityId, direction });
@@ -77,31 +128,35 @@ function move(
 }
 
 function canAttack(
-  monster: Monster,
+  entity: Required<Entity, "monster" | "pos">,
   dist: number,
-  pos: Pos,
   dijkstra: RawState["playerDijkstra"],
 ): boolean {
-  return Boolean(getAttackTargetPos(monster, dist, pos, dijkstra));
+  return (
+    !isSlimed(entity) && Boolean(getAttackTargetPos(entity, dist, dijkstra))
+  );
 }
 
 function canMove(
   state: WrappedState,
-  monster: Monster,
+  entity: Required<Entity, "monster" | "pos">,
   dist: number,
-  pos: Pos,
   dijkstra: RawState["playerDijkstra"],
 ): boolean {
-  return Boolean(getMoveDestination(state, monster, dist, pos, dijkstra));
+  return (
+    !isSlimed(entity) &&
+    !isParalyzed(entity) &&
+    Boolean(getMoveDestination(state, entity, dist, dijkstra))
+  );
 }
 
 function getMoveDestination(
   state: WrappedState,
-  monster: Monster,
+  entity: Required<Entity, "monster" | "pos">,
   dist: number,
-  pos: Pos,
   dijkstra: RawState["playerDijkstra"],
 ): Pos | null {
+  const { monster, pos } = entity;
   for (const adjacent of getAdjacentPositions(pos)) {
     const adjacentDist = dijkstra.dist[getPosKey(adjacent)];
     if (
@@ -117,11 +172,11 @@ function getMoveDestination(
 }
 
 function getAttackTargetPos(
-  monster: Monster,
+  entity: Required<Entity, "monster" | "pos">,
   dist: number,
-  pos: Pos,
   dijkstra: RawState["playerDijkstra"],
 ): Pos | null {
+  const { monster, pos } = entity;
   if (dist === 1 && monster.meleeDamage) {
     return dijkstra.prev[getPosKey(pos)] || null;
   } else if (dist > 1 && dist <= monster.range && monster.rangedDamage) {

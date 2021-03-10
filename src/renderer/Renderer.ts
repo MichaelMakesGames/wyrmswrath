@@ -5,6 +5,7 @@ import * as PIXI from "pixi.js";
 import colors from "~colors";
 import { PLAYER_ID, PRIORITY_LASER } from "~constants";
 import { arePositionsEqual } from "~lib/geometry";
+import { rangeTo } from "~lib/math";
 import { Display, Entity, Pos } from "~types";
 
 const BASE_SPEED = 3;
@@ -625,7 +626,7 @@ export default class Renderer {
     );
   }
 
-  public projectile(from: Pos, to: Pos, color?: string) {
+  public projectile(from: Pos, to: Pos, color?: string, speed: number = 1) {
     const id = nanoid();
     this.addEntity({
       id,
@@ -637,16 +638,8 @@ export default class Renderer {
       },
       pos: from,
     });
-    this.updateEntity({
-      id,
-      template: "NONE",
-      display: {
-        tile: "projectile",
-        priority: PRIORITY_LASER,
-        color,
-      },
-      pos: to,
-    });
+    const path: Pos[] = rangeTo(speed).map(() => to);
+    this.movementPaths.set(id, path);
     setTimeout(() => this.removeEntity(id), 250);
   }
 

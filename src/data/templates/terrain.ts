@@ -7,6 +7,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       tile: "ground",
       priority: PRIORITY_TERRAIN,
     },
+    ground: {},
   },
   TERRAIN_WALL: {
     display: {
@@ -17,6 +18,27 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       moving: true,
     },
     diggable: {},
+  },
+  TERRAIN_SLIME: {
+    display: {
+      tile: "terrain-slime",
+      priority: PRIORITY_TERRAIN,
+    },
+    ground: { slimy: true },
+  },
+  TERRAIN_CRYSTAL: {
+    display: {
+      tile: "terrain-crystal",
+      priority: PRIORITY_TERRAIN,
+    },
+    ground: { spiky: true },
+  },
+  TERRAIN_MUSHROOM: {
+    display: {
+      tile: "terrain-mushroom",
+      priority: PRIORITY_TERRAIN,
+    },
+    ground: { healing: true },
   },
 };
 
