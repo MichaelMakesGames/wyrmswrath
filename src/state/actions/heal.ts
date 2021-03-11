@@ -1,4 +1,5 @@
 import { createStandardAction } from "typesafe-actions";
+import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
 import { Entity } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -14,7 +15,8 @@ function healHandler(
   action: ReturnType<typeof heal>,
 ): void {
   const { entityId, amount } = action.payload;
-  let entity: Entity | undefined = state.select.entityById(entityId);
+  const targetEntity: Entity = state.select.entityById(entityId);
+  let entity: Entity | undefined = targetEntity;
   const isPlayer = entity.wyrm && entity.wyrm.isPlayer;
   if (isPlayer) {
     entity = state.select.head();
@@ -38,6 +40,9 @@ function healHandler(
       current: targetHealth,
     },
   });
+
+  if (targetHealth !== segmentHealth)
+    renderer.flashStatusEffect(targetEntity.id, "icon-healed");
 }
 
 registerHandler(healHandler, heal);

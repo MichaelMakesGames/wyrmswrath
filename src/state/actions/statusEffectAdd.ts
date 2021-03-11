@@ -1,6 +1,7 @@
 import { createStandardAction } from "typesafe-actions";
 import { PLAYER_ID } from "~constants";
 import { StatusEffectType } from "~data/statusEffectTypes";
+import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
 import { StatusEffects } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -42,6 +43,18 @@ function statueEffectAddHandler(
     ...entity,
     statusEffects,
   });
+
+  if (type === "SLIMED") {
+    renderer.flashStatusEffect(entityId, "icon-slimed");
+  } else if (type === "CONFUSED") {
+    renderer.flashStatusEffect(entityId, "icon-confused");
+  } else if (type === "PARALYZED") {
+    renderer.flashStatusEffect(entityId, "icon-paralyzed");
+  } else if (type === "STRENGTHENED") {
+    renderer.flashStatusEffect(entityId, "icon-strengthened");
+  } else if (type === "SLIME_WALK") {
+    renderer.flashStatusEffect(entityId, "icon-slime-walk");
+  }
 }
 
 registerHandler(statueEffectAddHandler, statueEffectAdd);

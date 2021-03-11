@@ -4,12 +4,12 @@ import { Required } from "Object/_api";
 import * as particles from "pixi-particles";
 import * as PIXI from "pixi.js";
 import colors from "~colors";
-import { PLAYER_ID, PRIORITY_LASER } from "~constants";
-import { arePositionsEqual } from "~lib/geometry";
+import { PLAYER_ID, PRIORITY_LASER, PRIORITY_MARKER } from "~constants";
+import { arePositionsEqual, getRelativePosition } from "~lib/geometry";
 import { rangeTo } from "~lib/math";
 import { Display, Entity, Pos } from "~types";
 
-const BASE_SPEED = 3;
+const BASE_SPEED = 1;
 
 export interface RendererConfig {
   gridWidth: number;
@@ -26,7 +26,6 @@ interface RenderEntity {
   pos: Pos;
   sprite: PIXI.Sprite;
   background?: PIXI.Graphics;
-  isVisible?: boolean;
 }
 
 export default class Renderer {
@@ -139,7 +138,6 @@ export default class Renderer {
       -appPos.x * 2 + this.appWidth / 2,
       -appPos.y * 2 + this.appHeight / 2,
     );
-    Object.values(this.renderEntities).forEach((e) => this.updateVisibility(e));
   }
 
   public zoomOut(): void {
@@ -150,7 +148,6 @@ export default class Renderer {
       -appPos.x + this.appWidth / 2,
       -appPos.y + this.appHeight / 2,
     );
-    Object.values(this.renderEntities).forEach((e) => this.updateVisibility(e));
   }
 
   public isZoomedIn() {
@@ -204,8 +201,6 @@ export default class Renderer {
       this.getLayer(display.priority).addChild(background);
     }
     this.getLayer(display.priority).addChild(sprite);
-
-    this.updateVisibility(this.renderEntities[entity.id]);
   }
 
   updateEntity(entity: Required<Entity, "display" | "pos">): void {
@@ -255,8 +250,6 @@ export default class Renderer {
       ) {
         this.reAddEntity(entity);
       }
-
-      this.updateVisibility(renderEntity);
     }
   }
 
@@ -347,10 +340,11 @@ export default class Renderer {
       (sprite as PIXI.AnimatedSprite).animationSpeed = display.speed || 0.2;
       (sprite as PIXI.AnimatedSprite).play();
     }
-    sprite.pivot.set(this.tileWidth / 2, this.tileHeight / 2);
+    const scale = display.scale || 1;
+    sprite.pivot.set(this.tileWidth / 2 / scale, this.tileHeight / 2 / scale);
     sprite.scale = new PIXI.Point(
-      display.flipX ? -1 : 1,
-      display.flipY ? -1 : 1,
+      scale * (display.flipX ? -1 : 1),
+      scale * (display.flipY ? -1 : 1),
     );
     sprite.angle = display.rotation || 0;
     this.setSpritePosition(sprite, pos, display);
@@ -398,34 +392,6 @@ export default class Renderer {
       return aPriority - bPriority;
     });
     return layer;
-  }
-
-  private updateVisibility(renderEntity: RenderEntity): void {
-    const wasVisible = renderEntity.isVisible;
-    const isVisible =
-      this.isPosVisible(renderEntity.pos) && renderEntity.sprite.visible;
-    // eslint-disable-next-line no-param-reassign
-    renderEntity.isVisible = isVisible;
-    if (isVisible && !wasVisible && renderEntity.displayComp.flashWhenVisible) {
-      this.flash(renderEntity.pos, renderEntity.displayComp.color || "#FFFFFF");
-    }
-  }
-
-  private isPosVisible(pos: Pos) {
-    if (this.zoomedIn) {
-      const xMin = this.app.stage.position.x / (this.tileWidth * -2);
-      const yMin = this.app.stage.position.y / (this.tileHeight * -2);
-      const xMax = xMin + this.gridWidth / 2;
-      const yMax = yMin + this.gridHeight / 2;
-      return pos.x >= xMin && pos.x < xMax && pos.y >= yMin && pos.y < yMax;
-    } else {
-      return (
-        pos.x >= 0 &&
-        pos.x < this.gridWidth &&
-        pos.y >= 0 &&
-        pos.y < this.gridHeight
-      );
-    }
   }
 
   public setBackgroundColor(color: string) {
@@ -519,62 +485,6 @@ export default class Renderer {
       emitter.destroy();
     }
     delete this.emitters[key];
-  }
-
-  public flash(pos: Pos, color: string): void {
-    if (!this.loadPromise) return;
-    this.loadPromise.then(() => {
-      const texture = PIXI.Texture.WHITE;
-      new particles.Emitter(this.app.stage, [texture], {
-        alpha: {
-          start: 1,
-          end: 0,
-        },
-        scale: {
-          start: 1 / 8,
-          end: 4,
-          minimumScaleMultiplier: 1,
-        },
-        color: {
-          start: color,
-          end: color,
-        },
-        speed: {
-          start: 5,
-          end: 3,
-          minimumSpeedMultiplier: 1,
-        },
-        acceleration: {
-          x: 0,
-          y: 0,
-        },
-        maxSpeed: 0,
-        startRotation: {
-          min: 0,
-          max: 0,
-        },
-        noRotation: true,
-        rotationSpeed: {
-          min: 0,
-          max: 0,
-        },
-        lifetime: {
-          min: 0.5,
-          max: 0.5,
-        },
-        blendMode: "normal",
-        frequency: 0.1,
-        emitterLifetime: 0.2,
-        maxParticles: 1000,
-        particlesPerWave: 1,
-        pos: {
-          x: pos.x * this.tileWidth + this.tileWidth / 2,
-          y: pos.y * this.tileHeight + this.tileHeight / 2,
-        },
-        addAtBack: false,
-        spawnType: "point",
-      }).playOnceAndDestroy();
-    });
   }
 
   public explode(pos: Pos): void {
@@ -682,6 +592,30 @@ export default class Renderer {
     const path: Pos[] = rangeTo(speed).map(() => to);
     this.movementPaths.set(id, path);
     setTimeout(() => this.removeEntity(id), 250);
+  }
+
+  public flashStatusEffect(entityId: string, tile: string) {
+    // set timeout to give entities time to move
+    setTimeout(() => {
+      const renderEntity = this.renderEntities[entityId];
+      if (renderEntity && renderEntity.sprite.visible) {
+        const id = nanoid();
+        this.addEntity({
+          template: "NONE",
+          id,
+          pos: renderEntity.pos,
+          display: {
+            tile,
+            scale: 0.5,
+            priority: PRIORITY_MARKER,
+          },
+        });
+        this.movementPaths.set(id, [
+          getRelativePosition(renderEntity.pos, ["N"]),
+        ]);
+        setTimeout(() => this.removeEntity(id), 250);
+      }
+    }, 50);
   }
 
   private handleMovement(delta: number) {

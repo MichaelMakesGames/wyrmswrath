@@ -11,10 +11,10 @@ export interface Display {
   flipX?: boolean;
   flipY?: boolean;
   speed?: number;
+  scale?: number;
   color?: string;
   priority: number;
   hasBackground?: boolean;
-  flashWhenVisible?: boolean;
   discreteMovement?: boolean;
   hidden?: boolean;
 }

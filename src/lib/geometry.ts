@@ -62,6 +62,10 @@ export function getPositionToDirection(pos: Pos, direction: Direction) {
   return pos;
 }
 
+export function getRelativePosition(origin: Pos, directions: Direction[]) {
+  return directions.reduce(getPositionToDirection, origin);
+}
+
 export function getDirectionToPosition(from: Pos, to?: Pos): Direction | null {
   if (!to) return null;
   for (const d of DIRECTIONS) {

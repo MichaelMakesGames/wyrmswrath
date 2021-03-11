@@ -1,5 +1,7 @@
 import { createStandardAction } from "typesafe-actions";
+import { PLAYER_ID } from "~constants";
 import { getNonTightDirections, getPositionToDirection } from "~lib/geometry";
+import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
 import { Direction, Entity } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -72,6 +74,7 @@ function moveWyrmHandler(
             "You take an extra turning moving into Slime without Slime Walk",
         });
         state.act.playerTookTurn();
+        renderer.flashStatusEffect(PLAYER_ID, "icon-slimed");
       }
 
       return;

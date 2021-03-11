@@ -1,5 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
 import { createEntityFromTemplate } from "~lib/entities";
+import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
 import { Entity } from "~types";
 import WrappedState from "~types/WrappedState";
@@ -59,6 +60,9 @@ function damageHandler(
           ...entity,
           health: { ...entity.health, current: newHealth },
         });
+        if (getArmor(state, entity, ignoreArmor)) {
+          renderer.flashStatusEffect(entity.id, "icon-armored");
+        }
       }
     }
   }
