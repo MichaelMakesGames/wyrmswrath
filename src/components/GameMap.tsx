@@ -1,4 +1,4 @@
-/* global document, ResizeObserver */
+/* global document */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import renderer from "~/renderer";

@@ -264,7 +264,12 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
 };
 
 function makeDisplay(tile: string) {
-  return { tile, priority: PRIORITY_UNIT, hidden: true };
+  return {
+    tile,
+    priority: PRIORITY_UNIT,
+    hidden: true,
+    discreteMovement: true,
+  };
 }
 
 function makeHealth(max: number) {

@@ -22,7 +22,7 @@ function updateEntityHandler(
   const partial = action.payload;
   const prev = selectors.entityById(state, partial.id);
   if (!prev) {
-    console.warn("tried to update nonexistant entity", partial);
+    console.error("tried to update nonexistant entity", partial);
   }
   const entity = { ...prev, ...partial };
   const { entitiesByPosition, entitiesByComp } = state;

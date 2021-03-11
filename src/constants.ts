@@ -4,8 +4,8 @@ export const VERSION = "0.0.0-unstable";
 export const PLAYER_ID = "PLAYER";
 export const CURSOR_ID = "CURSOR";
 
-export const MAP_WIDTH = 32;
-export const MAP_HEIGHT = 24;
+export const MAP_WIDTH = 48;
+export const MAP_HEIGHT = 32;
 export const HEX_WIDTH = 24;
 export const HEX_BASE_WIDTH = 12;
 export const HEX_HEIGHT = 24;
