@@ -272,9 +272,9 @@ const cards: Record<CardCode, Card> = {
     name: "Hallucinogenic Spores",
     type: "mushroom",
     description:
-      "Confuse all enemies within 2 tiles for 3 turns, so they randomly move and attack.",
+      "Confuse all enemies within 3 tiles for 3 turns, so they randomly move and attack.",
     effect: (state) =>
-      getMonstersWithinRange(state, 2).forEach((e) =>
+      getMonstersWithinRange(state, 3).forEach((e) =>
         state.act.statusEffectAdd({
           entityId: e.id,
           type: "CONFUSED",
@@ -287,6 +287,7 @@ const cards: Record<CardCode, Card> = {
     name: "Heal",
     type: "mushroom",
     description: "Heal SIZE*2 health and remove 1 Poison",
+    fast: true,
     effect: (state) => {
       state.act.heal({
         entityId: PLAYER_ID,
@@ -312,9 +313,9 @@ const cards: Record<CardCode, Card> = {
     name: "Paralyzing Spores",
     type: "mushroom",
     description:
-      "Paralyze all enemies within 2 tiles for 3 turns, so they can't move (but can still attack).",
+      "Paralyze all enemies within 3 tiles for 3 turns, so they can't move (but can still attack).",
     effect: (state) =>
-      getMonstersWithinRange(state, 2).forEach((e) =>
+      getMonstersWithinRange(state, 3).forEach((e) =>
         state.act.statusEffectAdd({
           entityId: e.id,
           type: "PARALYZED",

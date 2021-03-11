@@ -59,6 +59,8 @@ export default class Renderer {
 
   private hexBaseWidth: number = 0;
 
+  private center: Pos = { x: 0, y: 0 };
+
   public constructor({
     gridWidth,
     gridHeight,
@@ -103,18 +105,38 @@ export default class Renderer {
     return this.loadPromise;
   }
 
-  public zoomTo(pos: Pos): void {
-    const X_MIN = 0;
-    const Y_MIN = 0;
-    const X_MAX = this.gridWidth / 2;
-    const Y_MAX = this.gridHeight / 2;
-    const x = Math.max(Math.min(pos.x - this.gridWidth / 4, X_MAX), X_MIN);
-    const y = Math.max(Math.min(pos.y - this.gridHeight / 4, Y_MAX), Y_MIN);
+  public setDimensions(width: number, height: number): void {
+    if (width !== this.appWidth || height !== this.appHeight) {
+      this.appWidth = width;
+      this.appHeight = height;
+      this.app.view.width = width;
+      this.app.view.height = height;
+      this.app.renderer.resize(width, height);
+      this.app.renderer.clear();
+      this.recenter();
+    }
+  }
+
+  public setCenter(pos: Pos): void {
+    this.center = pos;
+    this.recenter();
+  }
+
+  private recenter(): void {
+    if (this.isZoomedIn()) {
+      this.zoomIn();
+    } else {
+      this.zoomOut();
+    }
+  }
+
+  public zoomIn(): void {
     this.zoomedIn = true;
     this.app.stage.scale = new PIXI.Point(2, 2);
+    const appPos = this.calcAppPos(this.center);
     this.app.stage.position = new PIXI.Point(
-      -x * this.tileWidth * 2,
-      -y * this.tileHeight * 2,
+      -appPos.x * 2 + this.appWidth / 2,
+      -appPos.y * 2 + this.appHeight / 2,
     );
     Object.values(this.renderEntities).forEach((e) => this.updateVisibility(e));
   }
@@ -122,7 +144,11 @@ export default class Renderer {
   public zoomOut(): void {
     this.zoomedIn = false;
     this.app.stage.scale = new PIXI.Point(1, 1);
-    this.app.stage.position = new PIXI.Point(0, 0);
+    const appPos = this.calcAppPos(this.center);
+    this.app.stage.position = new PIXI.Point(
+      -appPos.x + this.appWidth / 2,
+      -appPos.y + this.appHeight / 2,
+    );
     Object.values(this.renderEntities).forEach((e) => this.updateVisibility(e));
   }
 
@@ -130,11 +156,11 @@ export default class Renderer {
     return this.zoomedIn;
   }
 
-  public toggleZoom(pos: Pos) {
+  public toggleZoom() {
     if (this.isZoomedIn()) {
       this.zoomOut();
     } else {
-      this.zoomTo(pos);
+      this.zoomIn();
     }
   }
 
@@ -151,6 +177,10 @@ export default class Renderer {
   public addEntity(entity: Required<Entity, "pos" | "display">): void {
     const { pos, display } = entity;
     const sprite = this.createSprite(pos, display);
+
+    if (entity.id === PLAYER_ID) {
+      this.setCenter(entity.pos);
+    }
 
     this.renderEntities[entity.id] = {
       displayComp: { ...display },
@@ -200,8 +230,8 @@ export default class Renderer {
             entity.pos.y * this.tileHeight,
           );
         }
-        if (entity.id === PLAYER_ID && this.zoomedIn) {
-          this.zoomTo(entity.pos);
+        if (entity.id === PLAYER_ID) {
+          this.setCenter(entity.pos);
         }
       }
 
@@ -332,11 +362,11 @@ export default class Renderer {
   }
 
   private setSpritePosition(sprite: PIXI.Sprite, pos: Pos, display: Display) {
-    const { x, y } = this.calcAppPos(pos, display);
+    const { x, y } = this.calcAppPos(pos);
     sprite.position.set(x, y);
   }
 
-  private calcAppPos(pos: Pos, display: Display): Pos {
+  private calcAppPos(pos: Pos): Pos {
     const { x, y } = pos;
     if (this.hex) {
       return {
@@ -662,10 +692,7 @@ export default class Renderer {
         const speed = BASE_SPEED * path.length;
         const oldX = entity.sprite.x;
         const oldY = entity.sprite.y;
-        const { x: destX, y: destY } = this.calcAppPos(
-          path[0],
-          entity.displayComp,
-        );
+        const { x: destX, y: destY } = this.calcAppPos(path[0]);
         const deltaX = destX - oldX;
         const deltaY = destY - oldY;
         const xSpeedModifier =

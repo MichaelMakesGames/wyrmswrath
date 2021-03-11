@@ -34,6 +34,8 @@ const defaultSettings: Settings = {
     [ControlCode.Back]: ["`", "esc"],
     [ControlCode.Help]: ["?"],
     [ControlCode.DismissNotifications]: ["backspace"],
+    [ControlCode.ZoomIn]: ["+", "="],
+    [ControlCode.ZoomOut]: ["-", "_"],
   },
 };
 

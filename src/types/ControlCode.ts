@@ -24,4 +24,6 @@ export enum ControlCode {
   Back = "BACK",
   Help = "HELP",
   DismissNotifications = "DISMISS_NOTIFICATIONS",
+  ZoomIn = "ZOOM_IN",
+  ZoomOut = "ZOOM_OUT",
 }

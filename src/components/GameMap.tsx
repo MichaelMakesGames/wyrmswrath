@@ -1,8 +1,9 @@
-/* global document */
+/* global document, ResizeObserver */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import renderer from "~/renderer";
 import { HotkeyGroup, useControl } from "~components/HotkeysProvider";
+import { useInterval } from "~hooks";
 import { getQuickAction, noFocusOnClick } from "~lib/controls";
 import { arePositionsEqual } from "~lib/geometry";
 import actions from "~state/actions";
@@ -124,9 +125,28 @@ export default function GameMap() {
     }
   };
 
+  useControl({
+    code: ControlCode.ZoomIn,
+    group: HotkeyGroup.Main,
+    callback: () => renderer.zoomIn(),
+  });
+  useControl({
+    code: ControlCode.ZoomOut,
+    group: HotkeyGroup.Main,
+    callback: () => renderer.zoomOut(),
+  });
+
+  useEffect(() => renderer.zoomIn(), []);
+  useInterval(() => {
+    renderer.setDimensions(
+      document.body.clientWidth - 256,
+      document.body.clientHeight - 266,
+    );
+  }, 500);
+
   return (
     <ContextMenu pos={contextMenuPos} onClose={() => setContextMenuPos(null)}>
-      <section className="relative">
+      <section className="relative w-full h-full">
         {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
         <div
           className="w-full h-full"
@@ -143,7 +163,7 @@ export default function GameMap() {
             if (e.nativeEvent.deltaY > 0) {
               renderer.zoomOut();
             } else if (e.nativeEvent.deltaY < 0 && playerPos) {
-              renderer.zoomTo(playerPos);
+              renderer.zoomIn();
             }
             if (mousePosRef.current) {
               const gamePos = renderer.getPosFromMouse(

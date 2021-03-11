@@ -9,11 +9,6 @@ body {
   @apply h-screen;
 }
 
-#map > canvas {
-  @apply w-full;
-  @apply h-full;
-}
-
 .btn {
   @apply font-normal;
   @apply border;

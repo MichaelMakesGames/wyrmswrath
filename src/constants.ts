@@ -9,14 +9,6 @@ export const MAP_HEIGHT = 24;
 export const HEX_WIDTH = 24;
 export const HEX_BASE_WIDTH = 12;
 export const HEX_HEIGHT = 24;
-export const SIDE_BAR_CSS_WIDTH = "256px";
-export const HEADER_CSS_HEIGHT = "33px";
-export const BUILD_MENU_CSS_HEIGHT = "34px";
-export const MAP_CSS_WIDTH = `min(calc(100vw - ${SIDE_BAR_CSS_WIDTH} - ${SIDE_BAR_CSS_WIDTH}), calc(100vh - ${BUILD_MENU_CSS_HEIGHT} - ${HEADER_CSS_HEIGHT}), ${
-  ((HEX_WIDTH + HEX_BASE_WIDTH) / 2) * MAP_WIDTH +
-  (HEX_WIDTH - HEX_BASE_WIDTH) / 2
-}px)`;
-export const HEADER_CSS_WIDTH = `calc(${MAP_CSS_WIDTH} + ${SIDE_BAR_CSS_WIDTH} + ${SIDE_BAR_CSS_WIDTH})`;
 
 export const HAND_SIZE = 3;
 export const CARD_CHOICES_PER_UNLOCK = 3;

@@ -93,6 +93,7 @@
     "@babel/polyfill": "^7.2.5",
     "@tippyjs/react": "^4.1.0",
     "@types/classnames": "^2.2.9",
+    "@types/resize-observer-browser": "^0.1.5",
     "classnames": "^2.2.6",
     "has": "^1.0.3",
     "howler": "^2.2.1",

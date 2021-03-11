@@ -1,7 +1,6 @@
 /* global document */
 import React, { useEffect } from "react";
 import colors from "~colors";
-import { MAP_CSS_WIDTH } from "~constants";
 import BottomMenu from "./BottomMenu";
 import CardGain from "./CardGain";
 import GameMap from "./GameMap";
@@ -22,25 +21,18 @@ export default function Game() {
   return (
     <HotkeysProvider>
       <main className="h-full flex flex-col">
-        <Header />
         <LoadGame />
-        <div className="flex flex-row flex-1 w-full max-w-screen-xl mx-auto">
-          <div className="flex-none w-64 h-full flex flex-col border-l border-r border-gray z-10">
+        <div className="flex flex-row flex-1 w-full">
+          <div className="flex-none w-64 h-full flex flex-col border-r border-gray z-10">
+            <Header />
             <Status />
-          </div>
-          <div
-            className="flex-none h-full border-gray"
-            style={{
-              width: MAP_CSS_WIDTH,
-            }}
-          >
-            <GameMap />
-          </div>
-          <div className="flex-none w-64 h-full flex flex-col border-l border-r border-gray z-10">
             <Inspector />
           </div>
+          <div className="flex-1 h-full w-full">
+            <GameMap />
+          </div>
         </div>
-        <div className="w-full max-w-screen-xl mx-auto">
+        <div className="w-full">
           <BottomMenu />
         </div>
         <Introduction />
