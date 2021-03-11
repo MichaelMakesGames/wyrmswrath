@@ -75,3 +75,7 @@ export function mushroomUnlock(state: RawState): number {
     2 ** allCards(state).filter((code) => code.startsWith("MUSHROOM")).length
   );
 }
+
+export function level(state: RawState): number {
+  return state.level;
+}

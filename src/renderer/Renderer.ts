@@ -1,3 +1,4 @@
+/* global document */
 import nanoid from "nanoid";
 import { Required } from "Object/_api";
 import * as particles from "pixi-particles";
@@ -76,13 +77,8 @@ export default class Renderer {
     this.tileHeight = tileHeight;
     this.hex = Boolean(hex);
     this.hexBaseWidth = hexBaseWidth || tileWidth / 2;
-    this.appWidth = this.hex
-      ? this.gridWidth * ((this.tileWidth + this.hexBaseWidth) / 2) +
-        (this.tileWidth - this.hexBaseWidth) / 2
-      : this.gridWidth * this.tileWidth;
-    this.appHeight = this.hex
-      ? this.gridHeight * this.tileHeight + this.tileHeight / 2
-      : this.gridHeight * this.tileHeight;
+    this.appWidth = document.body.clientWidth - 256;
+    this.appHeight = document.body.clientHeight - 266;
     this.app = new PIXI.Application({
       width: this.appWidth,
       height: this.appHeight,
@@ -106,12 +102,17 @@ export default class Renderer {
   }
 
   public setDimensions(width: number, height: number): void {
-    if (width !== this.appWidth || height !== this.appHeight) {
-      this.appWidth = width;
-      this.appHeight = height;
-      this.app.view.width = width;
-      this.app.view.height = height;
-      this.app.renderer.resize(width, height);
+    // odd numbered width is causing little red dots
+    const adjustedWidth = width % 2 ? width - 1 : width;
+    // height doesn't appear to have any effect
+    const adjustedHeight = height;
+
+    if (adjustedWidth !== this.appWidth || adjustedHeight !== this.appHeight) {
+      this.appWidth = adjustedWidth;
+      this.appHeight = adjustedHeight;
+      this.app.view.width = adjustedWidth;
+      this.app.view.height = adjustedHeight;
+      this.app.renderer.resize(adjustedWidth, adjustedHeight);
       this.app.renderer.clear();
       this.recenter();
     }

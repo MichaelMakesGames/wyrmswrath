@@ -1,7 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
-import { MAP_HEIGHT, MAP_WIDTH, PLAYER_ID } from "~constants";
+import { PLAYER_ID } from "~constants";
 import { createEntityFromTemplate } from "~lib/entities";
-import { getPositionToDirection } from "~lib/geometry";
 import makeLevel from "~lib/makeLevel";
 import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
@@ -17,17 +16,17 @@ function newGameHandler(
 ): void {
   state.setRaw(createInitialState());
   renderer.clear();
-  makeLevel(state);
 
-  const middle = { x: MAP_WIDTH / 2, y: MAP_HEIGHT / 2 };
-  const head = createEntityFromTemplate("WYRM", { pos: middle });
+  const head = createEntityFromTemplate("WYRM", { pos: { x: 0, y: 0 } });
   head.id = PLAYER_ID;
   state.act.addEntity(head);
   const body = createEntityFromTemplate("WYRM", {
     wyrm: { connectsTo: head.id, isPlayer: true },
-    pos: getPositionToDirection(middle, "N"),
+    pos: { x: 0, y: 0 },
   });
   state.act.addEntity(body);
+
+  makeLevel(state);
   // const body2 = createEntityFromTemplate("WYRM", {
   //   wyrm: { connectsTo: body.id, isPlayer: true },
   //   pos: getPositionToDirection(getPositionToDirection(middle, "N"), "N"),

@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import levels from "~data/levels";
 import actions from "~state/actions";
 import selectors from "~state/selectors";
 import { ControlCode } from "~types/ControlCode";
@@ -8,6 +9,7 @@ import { HotkeyGroup } from "./HotkeysProvider";
 
 export default function Status() {
   const dispatch = useDispatch();
+  const level = useSelector(selectors.level);
   const energy = useSelector(selectors.playerEnergy);
   const maxEnergy = useSelector(selectors.playerMaxEnergy);
   const health = useSelector(selectors.playerHealth);
@@ -21,7 +23,7 @@ export default function Status() {
   const gameOver = useSelector(selectors.gameOver);
   const victory = useSelector(selectors.victory);
 
-  let mainStatus = "Level 1";
+  let mainStatus = `Level ${level + 1}: ${levels[level].name}`;
   if (gameOver && victory) {
     mainStatus = "Victory!";
   } else if (gameOver && energy <= 0) {

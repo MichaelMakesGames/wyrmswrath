@@ -74,6 +74,7 @@ export interface Consumable {
   slime?: boolean;
   crystal?: boolean;
   mushroom?: boolean;
+  victory?: boolean;
 }
 
 export interface StatusEffect {
@@ -93,6 +94,8 @@ export interface Ground {
 export interface Cursor {}
 
 export interface Explorable {}
+
+export interface Stairs {}
 
 export interface InFov {}
 export interface Entity {
@@ -117,4 +120,5 @@ export interface Entity {
   statusEffects?: StatusEffects;
   explorable?: Explorable;
   inFov?: InFov;
+  stairs?: Stairs;
 }

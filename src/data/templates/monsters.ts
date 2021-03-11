@@ -250,6 +250,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   },
   MONSTER_KING: {
     parentTemplate: "MONSTER_SUITLESS_BASE",
+    consumable: { victory: true, energy: 10 },
     display: makeDisplay("king"),
     health: makeHealth(8),
     monster: {

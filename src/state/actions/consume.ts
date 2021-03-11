@@ -25,6 +25,13 @@ function consumeHandler(
         state.raw.mushroomProgress + (consumable.mushroom ? 1 : 0),
       slimeProgress: state.raw.slimeProgress + (consumable.slime ? 1 : 0),
     });
+    if (consumable.victory) {
+      state.setRaw({
+        ...state.raw,
+        gameOver: true,
+        victory: true,
+      });
+    }
   }
   state.act.removeEntities(consumables.map((e) => e.id));
 }

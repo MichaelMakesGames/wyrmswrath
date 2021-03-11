@@ -50,6 +50,8 @@ renderer
       { id: "laborer", x: 7, y: 18 },
       { id: "corpse", x: 8, y: 18 },
       { id: "king", x: 8, y: 19 },
+      { id: "stairs", x: 7, y: 9 },
+      { id: "chalice", x: 8, y: 10 },
       ...getWyrmSpriteConfig("purple", 0),
       ...getWyrmSpriteConfig("blue", 3),
       ...getWyrmSpriteConfig("green", 6),

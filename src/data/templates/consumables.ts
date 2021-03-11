@@ -49,6 +49,18 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       energy: 30,
     },
   },
+  CHALICE: {
+    display: {
+      tile: "corpse",
+      priority: PRIORITY_BUILDING_LOW,
+      hidden: true,
+    },
+    explorable: true,
+    consumable: {
+      energy: 10,
+      victory: true,
+    },
+  },
 };
 
 export default templates;

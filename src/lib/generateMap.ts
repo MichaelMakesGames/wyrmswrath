@@ -1,7 +1,8 @@
 import { Map, RNG } from "rot-js";
 import { MAP_HEIGHT, MAP_WIDTH } from "~/constants";
 import { Entity, Pos } from "~/types/Entity";
-import { Level, Room } from "~data/levels";
+import { Level } from "~data/levels";
+import { Room } from "~data/rooms";
 import { createEntityFromTemplate } from "./entities";
 import {
   fromRotPos,
@@ -11,7 +12,9 @@ import {
 } from "./geometry";
 import { rangeTo } from "./math";
 
-export default function generateMap(level: Level): Entity[] {
+export default function generateMap(
+  level: Level,
+): { start: null | Pos; end: null | Pos; entities: Entity[] } {
   const rotWidth = MAP_HEIGHT * 2;
   const rotHeight = MAP_WIDTH;
   const map = new Map.Cellular(rotWidth, rotHeight, {
@@ -20,25 +23,25 @@ export default function generateMap(level: Level): Entity[] {
     survive: [3, 4, 5, 6],
   });
 
-  for (const i of rangeTo(rotWidth)) {
-    for (const j of rangeTo(rotHeight)) {
-      const dx = i / rotWidth - 0.5;
-      const dy = j / rotHeight - 0.5;
-      const dist = (dx * dx + dy * dy) ** 0.25;
-      if (Math.random() < dist) {
-        map.set(i, j, 1);
-      }
-    }
-  }
+  map.randomize(level.groundChance);
 
   const caverns: Set<string>[] = [];
-  map.create();
-  map.create();
-  map.create();
+
+  let start: null | Pos = null;
+  let end: null | Pos = null;
+
+  rangeTo(level.iterations - 1).forEach(() => map.create());
   map.create((x, y, contents) => {
-    if (!contents) {
+    if (contents) {
       const pos = fromRotPos([x, y]);
       const posKey = getPosKey(pos);
+
+      if (!start || start.x + start.y > pos.x + pos.y) {
+        start = pos;
+      }
+      if (!end || end.x + end.y < pos.x + pos.y) {
+        end = pos;
+      }
 
       const adjacentCaverns = findAdjacentCaverns(caverns, pos);
       if (!adjacentCaverns.length) {
@@ -55,17 +58,19 @@ export default function generateMap(level: Level): Entity[] {
     }
   });
 
+  console.warn(caverns.filter((c) => c.size >= 5));
+
   const hallways: Set<string> = new Set();
   caverns.push(hallways);
   map.connect((x, y, contents) => {
-    if (!contents) {
+    if (contents) {
       const pos = fromRotPos([x, y]);
       const posKey = getPosKey(pos);
       if (!caverns.some((c) => c.has(posKey))) {
         hallways.add(posKey);
       }
     }
-  }, 0);
+  }, 1);
 
   const results: Entity[] = [];
   const wallPositions: Set<string> = new Set();
@@ -108,7 +113,19 @@ export default function generateMap(level: Level): Entity[] {
     }
   }
 
-  return results;
+  if (end) {
+    if (level.hasStairs) {
+      results.push(createEntityFromTemplate("TERRAIN_STAIRS", { pos: end }));
+    } else {
+      results.push(createEntityFromTemplate("MONSTER_KING", { pos: end }));
+    }
+  }
+
+  return {
+    start,
+    end,
+    entities: results,
+  };
 }
 
 function mergeCaverns(r1: Set<string>, r2: Set<string>): void {
@@ -125,5 +142,5 @@ function findAdjacentCaverns(rooms: Set<string>[], pos: Pos) {
 }
 
 function findValidRooms(level: Level, size: number): Room[] {
-  return level.rooms.filter((r) => size >= r.minSize && size <= r.maxSize);
+  return level.rooms.filter((r) => size >= r.minSize && size < r.maxSize);
 }

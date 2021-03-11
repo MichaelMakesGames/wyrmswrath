@@ -18,8 +18,12 @@ function digHandler(state: WrappedState, action: ReturnType<typeof dig>): void {
   state.act.addEntity(
     createEntityFromTemplate("TERRAIN_GROUND", { pos: action.payload }),
   );
-  for (const pos of [...getAdjacentPositions(action.payload)]) {
-    if (state.select.entitiesAtPosition(pos).length === 0) {
+  for (const pos of getAdjacentPositions(action.payload)) {
+    if (
+      !state.select
+        .entitiesAtPosition(pos)
+        .some((e) => e.ground || (e.blocking && e.blocking.fov))
+    ) {
       state.act.addEntity(createEntityFromTemplate("TERRAIN_WALL", { pos }));
     }
   }

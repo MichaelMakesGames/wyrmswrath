@@ -9,12 +9,14 @@ import fovSystem from "./fovSystem";
 import gameOverSystem from "./gameOverSystem";
 import healingSystem from "./healingSystem";
 import poisonSystem from "./poisonSystem";
+import stairsSystem from "./stairsSystem";
 import statusEffectSystem from "./statusEffectSystem";
 import timeSystem from "./timeSystem";
 import wyrmDisplaySystem from "./wyrmDisplaySystem";
 
 const systems: ((state: WrappedState) => void)[] = [
   energySystem,
+  stairsSystem,
   aiSystem,
   coolDownSystem,
   poisonSystem,

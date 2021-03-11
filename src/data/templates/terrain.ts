@@ -1,4 +1,4 @@
-import { PRIORITY_TERRAIN } from "~/constants";
+import { PRIORITY_BUILDING_LOW, PRIORITY_TERRAIN } from "~/constants";
 import { Entity } from "~types";
 
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
@@ -49,6 +49,15 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       hidden: true,
     },
     ground: { healing: true },
+    explorable: {},
+  },
+  TERRAIN_STAIRS: {
+    display: {
+      tile: "stairs",
+      priority: PRIORITY_BUILDING_LOW,
+      hidden: true,
+    },
+    stairs: {},
     explorable: {},
   },
 };
