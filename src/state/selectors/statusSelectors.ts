@@ -1,4 +1,5 @@
 import { RawState } from "~types";
+import { player } from "./entitySelectors";
 
 export function gameOver(state: RawState) {
   return state.gameOver;
@@ -78,4 +79,9 @@ export function mushroomUnlock(state: RawState): number {
 
 export function level(state: RawState): number {
   return state.level;
+}
+
+export function playerStatusEffects(state: RawState) {
+  const p = player(state);
+  return p ? p.statusEffects || {} : {};
 }
