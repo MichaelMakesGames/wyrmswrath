@@ -15,7 +15,7 @@ export function createInitialState() {
     events: {},
     cursorPos: null,
     isAutoMoving: false,
-    hand: ["CRYSTAL_FLASH", "MUSHROOM_GROWTH", "SLIME_VOMIT"],
+    hand: ["CRYSTAL_JAVELIN", "CRYSTAL_SPIKED_TAIL", "CRYSTAL_JAVELIN"],
     deck: [],
     discard: [],
     playing: null,

@@ -67,9 +67,9 @@ export default function generateMap(): Entity[] {
     results.push(
       createEntityFromTemplate(
         choose([
-          "MONSTER_MAD_CRYSTALMAN",
-          "MONSTER_MUSHROOMMAN_BANDIT",
-          "MONSTER_FERAL_SLIME",
+          "MONSTER_CRYSTAL_LEGIONNAIRE",
+          "MONSTER_SLIME_ENGINEER",
+          "MONSTER_SHROOM_CHEMIST",
         ]),
         {
           pos: choose(Object.values(groundPositions)),
@@ -77,6 +77,11 @@ export default function generateMap(): Entity[] {
       ),
     );
   });
+  results.push(
+    createEntityFromTemplate("MONSTER_KING", {
+      pos: choose(Object.values(groundPositions)),
+    }),
+  );
 
   return results;
 }

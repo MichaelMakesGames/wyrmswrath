@@ -2,6 +2,7 @@ import WrappedState from "~types/WrappedState";
 import aiSystem from "./aiSystem";
 import animationToggleSystem from "./animationToggleSystem";
 import colorToggleSystem from "./colorToggleSystem";
+import coolDownSystem from "./coolDownSystem";
 import energySystem from "./energySystem";
 import eventSystem from "./eventSystem";
 import fovSystem from "./fovSystem";
@@ -15,6 +16,7 @@ import wyrmDisplaySystem from "./wyrmDisplaySystem";
 const systems: ((state: WrappedState) => void)[] = [
   energySystem,
   aiSystem,
+  coolDownSystem,
   poisonSystem,
   healingSystem,
   statusEffectSystem,

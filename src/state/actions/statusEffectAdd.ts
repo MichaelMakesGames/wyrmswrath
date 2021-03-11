@@ -1,4 +1,5 @@
 import { createStandardAction } from "typesafe-actions";
+import { PLAYER_ID } from "~constants";
 import { StatusEffectType } from "~data/statusEffectTypes";
 import { registerHandler } from "~state/handleAction";
 import { StatusEffects } from "~types";
@@ -20,8 +21,8 @@ function statueEffectAddHandler(
   const entity = state.select.entityById(entityId);
   if (!entity) return;
 
-  if (entity.wyrm && entity.wyrm.isPlayer && entity !== state.select.head()) {
-    state.act.statusEffectAdd({ entityId, type, value, expiresIn });
+  if (entity.wyrm && entity.wyrm.isPlayer && entity.id !== PLAYER_ID) {
+    state.act.statusEffectAdd({ entityId: PLAYER_ID, type, value, expiresIn });
   }
 
   const statusEffects: StatusEffects = { ...(entity.statusEffects || {}) };

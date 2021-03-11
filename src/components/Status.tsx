@@ -25,9 +25,9 @@ export default function Status() {
   if (gameOver && victory) {
     mainStatus = "Victory!";
   } else if (gameOver && energy <= 0) {
-    mainStatus = "Defeat: Starvation";
+    mainStatus = "Starvation";
   } else if (gameOver && health <= 0) {
-    mainStatus = "Defeat: Slain";
+    mainStatus = "Slain";
   } else if (gameOver) {
     mainStatus = "Defeat";
   }

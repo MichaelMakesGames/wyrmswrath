@@ -46,7 +46,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
     explorable: true,
     consumable: {
-      energy: 20,
+      energy: 30,
     },
   },
 };
