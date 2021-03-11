@@ -232,7 +232,12 @@ function getAttackTargetPos(
   const { monster, pos } = entity;
   if (dist === 1 && monster.meleeDamage) {
     return dijkstra.prev[getPosKey(pos)] || null;
-  } else if (dist > 1 && dist <= monster.range && monster.rangedDamage) {
+  } else if (
+    dist > 1 &&
+    dist <= monster.range &&
+    monster.rangedDamage &&
+    entity.inFov
+  ) {
     let current = pos;
     while (dijkstra.prev[getPosKey(current)]) {
       current = dijkstra.prev[getPosKey(current)];
