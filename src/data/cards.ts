@@ -205,13 +205,14 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_ROCK_HARD",
     name: "Rock Hard",
     type: "crystal",
-    description: "Gain 1 Armor for SIZE turns",
+    description: "Gain SIZE Armor for 1 turns",
+    fast: true,
     effect: (state: WrappedState) =>
       state.act.statusEffectAdd({
         entityId: PLAYER_ID,
         type: "ARMORED",
-        value: 1,
-        expiresIn: state.select.playerSize(),
+        value: state.select.playerSize(),
+        expiresIn: 1,
       }),
   },
   CRYSTAL_SPIKED_TAIL: {
@@ -354,12 +355,13 @@ const cards: Record<CardCode, Card> = {
     name: "Strengthen",
     type: "mushroom",
     description:
-      "Strengthen yourself for SIZE turns, dealing twice as much damage.",
+      "Strengthen yourself for 3 turns, dealing twice as much damage.",
+    fast: true,
     effect: (state) =>
       state.act.statusEffectAdd({
         entityId: PLAYER_ID,
         type: "STRENGTHENED",
-        expiresIn: state.select.playerSize(),
+        expiresIn: 3,
       }),
   },
   SLIME_MALLEABLE: {

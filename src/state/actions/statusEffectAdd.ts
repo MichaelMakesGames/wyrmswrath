@@ -40,7 +40,7 @@ function statueEffectAddHandler(
     statusEffects[type] = { type, value, expiresIn };
   }
   state.act.updateEntity({
-    ...entity,
+    id: entity.id,
     statusEffects,
   });
 
@@ -54,6 +54,8 @@ function statueEffectAddHandler(
     renderer.flashStatusEffect(entityId, "icon-strengthened");
   } else if (type === "SLIME_WALK") {
     renderer.flashStatusEffect(entityId, "icon-slime-walk");
+  } else if (type === "ARMORED") {
+    renderer.flashStatusEffect(entityId, "icon-armored");
   }
 }
 
