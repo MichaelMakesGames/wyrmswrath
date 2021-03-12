@@ -24,6 +24,19 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     diggable: {},
     explorable: {},
   },
+  TERRAIN_SLIME_WALL: {
+    display: {
+      tile: "slime-wall",
+      priority: PRIORITY_TERRAIN,
+      hidden: true,
+    },
+    blocking: {
+      moving: true,
+      fov: true,
+    },
+    diggable: {},
+    explorable: {},
+  },
   TERRAIN_SLIME: {
     display: {
       tile: "terrain-slime",

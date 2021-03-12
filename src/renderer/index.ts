@@ -30,9 +30,12 @@ renderer
     renderer.configureSpriteSheet("spritesheet", [
       { id: "wall", x: 9, y: 3 },
       { id: "terrain-mushroom", x: 6, y: 0 },
+      { id: "mushroom-wall", x: 7, y: 0 },
       { id: "terrain-crystal", x: 6, y: 3 },
-      { id: "ground", x: 6, y: 5 },
+      { id: "crystal-wall", x: 7, y: 3 },
       { id: "terrain-slime", x: 6, y: 6 },
+      { id: "slime-wall", x: 7, y: 6 },
+      { id: "ground", x: 6, y: 5 },
       { id: "crystal", x: 6, y: 10 },
       { id: "mushroom", x: 5, y: 10 },
       { id: "slime", x: 7, y: 10 },

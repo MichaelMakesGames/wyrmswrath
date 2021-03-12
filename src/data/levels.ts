@@ -11,8 +11,8 @@ export interface Level {
 const levels: Level[] = [
   {
     name: "Lair",
-    groundChance: 0.4,
-    iterations: 1,
+    groundChance: 0.5,
+    iterations: 3,
     hasStairs: true,
     rooms: [
       rooms.LAIR_MIXED,

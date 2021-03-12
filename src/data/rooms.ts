@@ -1,3 +1,5 @@
+import prefabs, { Prefab } from "./prefabs";
+
 export interface Room {
   minSize: number;
   maxSize: number;
@@ -5,6 +7,7 @@ export interface Room {
   wallWeights: Record<string, number>;
   enemyWeights: Record<string, number>;
   enemyChance: number;
+  prefabs: { prefab: Prefab; attempts: number }[];
 }
 
 function makeRoom({
@@ -14,6 +17,8 @@ function makeRoom({
   wallWeights = { TERRAIN_WALL: 1 },
   enemyWeights = {},
   enemyChance = 0.05,
+  // eslint-disable-next-line no-shadow
+  prefabs = [],
 }: Partial<Room>): Room {
   return {
     minSize,
@@ -22,6 +27,7 @@ function makeRoom({
     wallWeights,
     enemyChance,
     enemyWeights,
+    prefabs,
   };
 }
 
@@ -40,6 +46,7 @@ export default {
       MONSTER_MUSHROOMMAN_BANDIT: 1,
       MONSTER_FERAL_SLIME: 1,
     },
+    prefabs: [{ prefab: prefabs.SLIME_HOARD_LARGE, attempts: 5 }],
   }),
   LAIR_CRYSTAL: makeRoom({
     maxSize: 25,
