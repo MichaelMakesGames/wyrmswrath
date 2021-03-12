@@ -15,10 +15,10 @@ export default function BottomMenu() {
   const discard = useSelector(selectors.discard);
   return (
     <section
-      className="border-t border-b border-gray flex flex-row p-3"
+      className="border-t border-gray flex flex-row"
       data-section="BOTTOM_MENU"
     >
-      <div>
+      <div className="w-64 flex-none p-3 border-gray border-r">
         <div>
           Deck: {deck.length} {deck.length !== 1 ? "Cards" : "Card"}
         </div>
@@ -101,7 +101,10 @@ function Hand() {
   const playing = useSelector(selectors.playing);
   const dispatch = useDispatch();
   return (
-    <div className="flex flex-row h-60">
+    <div
+      className="flex-none flex flex-row flex-wrap overflow-y-auto p-3"
+      style={{ height: 250 + 24, gap: "0.5rem", width: "calc(100% - 16rem)" }}
+    >
       {hand.map((code, index) => (
         <Card
           // eslint-disable-next-line react/no-array-index-key

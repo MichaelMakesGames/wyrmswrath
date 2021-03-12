@@ -77,7 +77,7 @@ export default class Renderer {
     this.hex = Boolean(hex);
     this.hexBaseWidth = hexBaseWidth || tileWidth / 2;
     this.appWidth = document.body.clientWidth - 256;
-    this.appHeight = document.body.clientHeight - 266;
+    this.appHeight = document.body.clientHeight - 250 - 25;
     this.app = new PIXI.Application({
       width: this.appWidth,
       height: this.appHeight,

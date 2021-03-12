@@ -276,7 +276,7 @@ const cards: Record<CardCode, Card> = {
   },
   MUSHROOM_HALLUCINOGENIC_SPORES: {
     code: "MUSHROOM_HALLUCINOGENIC_SPORES",
-    name: "Hallucinogenic Spores",
+    name: "Dazing Spores",
     type: "mushroom",
     description:
       "Confuse all enemies within 3 tiles for 3 turns, so they randomly move and attack.",

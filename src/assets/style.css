@@ -3,7 +3,7 @@
 /* purgecss start ignore */
 
 body {
-  @apply bg-black;
+  @apply bg-darkestGray;
   @apply text-white;
   @apply leading-normal;
   @apply h-screen;

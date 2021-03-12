@@ -140,7 +140,7 @@ export default function GameMap() {
   useInterval(() => {
     renderer.setDimensions(
       document.body.clientWidth - 256,
-      document.body.clientHeight - 266,
+      document.body.clientHeight - 250 - 25,
     );
   }, 500);
 

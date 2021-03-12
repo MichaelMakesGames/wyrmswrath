@@ -51,9 +51,13 @@ export default function CardGain() {
   }, [unlocked]);
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={() => {}}>
+    <Modal
+      isOpen={isOpen}
+      style={{ content: { width: "calc(5rem + 170px * 3)" } }}
+      onRequestClose={() => {}}
+    >
       <h2 className="text-2xl flex-grow">Choose a {unlocked} card</h2>
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-2">
         {choices.map((card, index) => (
           <CardComponent
             key={card.code}

@@ -1,5 +1,6 @@
 {
-  "black": "#111111",
+  "black": "#101010",
+  "darkestGray": "#181818",
   "darkGray": "#333333",
   "gray": "#555555",
   "lightGray": "#AAAAAA",

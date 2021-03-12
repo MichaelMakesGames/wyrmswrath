@@ -4,6 +4,19 @@ import cards, { CardCode } from "~data/cards";
 import { ControlCode } from "~types/ControlCode";
 import { HotkeyGroup, useControl } from "./HotkeysProvider";
 import Kbd from "./Kbd";
+// @ts-ignore
+import cardCrystal from "~assets/tiles/card-crystal.png";
+// @ts-ignore
+import cardMushroom from "~assets/tiles/card-mushroom.png";
+// @ts-ignore
+import cardSlime from "~assets/tiles/card-slime.png";
+import colors from "~colors";
+
+const cardBackgrounds = {
+  crystal: cardCrystal,
+  mushroom: cardMushroom,
+  slime: cardSlime,
+};
 
 export default function Card({
   code,
@@ -45,9 +58,13 @@ export default function Card({
 
   return (
     <button
-      className={`w-40 h-60 ${
-        active ? "border-4" : "border"
-      } border-white rounded p-2 ml-2 disabled:cursor-not-allowed disabled:text-gray disabled:border-gray`}
+      className="relative flex-none flex flex-col rounded align-top px-6 pt-12 disabled:cursor-not-allowed disabled:opacity-50 transform transition-all hover:scale-105 hover:shadow-xl"
+      style={{
+        width: 170,
+        height: 250,
+        backgroundImage: `url("${cardBackgrounds[card.type]}")`,
+        backgroundColor: colors.background,
+      }}
       type="button"
       onClick={() => callback(code, index)}
       disabled={disabled}
@@ -55,8 +72,19 @@ export default function Card({
       <h3>
         <Kbd>{settings.keyboardShortcuts[controlCode][0]}</Kbd> {card.name}
       </h3>
-      <span className="text-sm text-gray">{card.fast ? "fast" : "slow"}</span>
-      <p className="text-sm">{card.description}</p>
+      <span className="$text-xs text-lightGray">
+        {card.fast ? "fast" : "slow"}
+      </span>
+      <p
+        className={
+          card.description.length > 80 ||
+          (card.name.length > 10 && card.description.length > 30)
+            ? "text-xs"
+            : "text-sm"
+        }
+      >
+        {card.description}
+      </p>
     </button>
   );
 }

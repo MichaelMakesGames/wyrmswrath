@@ -40,7 +40,7 @@ export default function LoadGame() {
   }
 
   return (
-    <div className="fixed w-screen h-screen bg-black z-20 text-center text-2xl pt-20">
+    <div className="fixed w-screen h-screen bg-darkestGray z-20 text-center text-2xl pt-20">
       Loading...
       {oldSave && (
         <Modal isOpen>
