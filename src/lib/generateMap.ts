@@ -80,7 +80,7 @@ export default function generateMap(
   const GENERIC_ROOM = {
     minSize: 0,
     maxSize: Infinity,
-    enemyChance: 0,
+    enemiesPerTile: 0,
     enemyWeights: {},
     wallWeights: { TERRAIN_WALL: 1 },
     groundWeights: { TERRAIN_GROUND: 1 },
@@ -107,19 +107,36 @@ export default function generateMap(
       });
     }
 
-    for (const pos of Array.from(cavern)
-      .filter((p) => !prefabPositions.has(p))
-      .map(parsePosKey)) {
+    const nonPrefabPositions = RNG.shuffle(
+      Array.from(cavern)
+        .filter((p) => !prefabPositions.has(p))
+        .map(parsePosKey),
+    );
+
+    // calc num enemies
+    let numEnemies = cavern.size * room.enemiesPerTile;
+    numEnemies =
+      Math.floor(numEnemies) + (RNG.getUniform() < numEnemies % 1 ? 1 : 0);
+
+    // create enemies
+    for (const pos of nonPrefabPositions.slice(
+      0,
+      Math.min(numEnemies, nonPrefabPositions.length),
+    )) {
+      const enemyTemplate = RNG.getWeightedValue(room.enemyWeights);
+      if (enemyTemplate)
+        results.push(createEntityFromTemplate(enemyTemplate, { pos }));
+    }
+
+    // create floors
+    for (const pos of nonPrefabPositions) {
       const groundTemplate =
         RNG.getWeightedValue(room.groundWeights) || "TERRAIN_GROUND";
       results.push(createEntityFromTemplate(groundTemplate, { pos }));
+    }
 
-      if (Math.random() < room.enemyChance) {
-        const enemyTemplate = RNG.getWeightedValue(room.enemyWeights);
-        if (enemyTemplate)
-          results.push(createEntityFromTemplate(enemyTemplate, { pos }));
-      }
-
+    // create surrounding walls
+    for (const pos of Array.from(cavern).map(parsePosKey)) {
       for (const adjacent of getAdjacentPositions(pos)) {
         const key = getPosKey(adjacent);
         if (!caverns.some((c) => c.has(key)) && !wallPositions.has(key)) {

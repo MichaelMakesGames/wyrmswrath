@@ -5,8 +5,8 @@ export interface Room {
   maxSize: number;
   groundWeights: Record<string, number>;
   wallWeights: Record<string, number>;
+  enemiesPerTile: number;
   enemyWeights: Record<string, number>;
-  enemyChance: number;
   prefabs: { prefab: Prefab; attempts: number }[];
 }
 
@@ -15,8 +15,8 @@ function makeRoom({
   maxSize = Infinity,
   groundWeights = { TERRAIN_GROUND: 1 },
   wallWeights = { TERRAIN_WALL: 1 },
+  enemiesPerTile = 0,
   enemyWeights = {},
-  enemyChance = 0.05,
   // eslint-disable-next-line no-shadow
   prefabs = [],
 }: Partial<Room>): Room {
@@ -25,7 +25,7 @@ function makeRoom({
     maxSize,
     groundWeights,
     wallWeights,
-    enemyChance,
+    enemiesPerTile,
     enemyWeights,
     prefabs,
   };
@@ -40,7 +40,7 @@ export default {
       TERRAIN_SLIME: 1,
       TERRAIN_GROUND: 10,
     },
-    enemyChance: 0.01,
+    enemiesPerTile: 0.01,
     enemyWeights: {
       MONSTER_MAD_CRYSTALMAN: 1,
       MONSTER_MUSHROOMMAN_BANDIT: 1,
@@ -54,7 +54,7 @@ export default {
       TERRAIN_CRYSTAL: 1,
       TERRAIN_GROUND: 2,
     },
-    enemyChance: 0.1,
+    enemiesPerTile: 0.1,
     enemyWeights: {
       MONSTER_MAD_CRYSTALMAN: 1,
     },
@@ -65,7 +65,7 @@ export default {
       TERRAIN_MUSHROOM: 1,
       TERRAIN_GROUND: 1,
     },
-    enemyChance: 0.1,
+    enemiesPerTile: 0.1,
     enemyWeights: {
       MONSTER_MUSHROOMMAN_BANDIT: 1,
     },
@@ -76,7 +76,7 @@ export default {
       TERRAIN_SLIME: 1,
       TERRAIN_GROUND: 2,
     },
-    enemyChance: 0.1,
+    enemiesPerTile: 0.1,
     enemyWeights: {
       MONSTER_FERAL_SLIME: 1,
     },
