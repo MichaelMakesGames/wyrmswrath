@@ -36,7 +36,7 @@ export default function Introduction() {
 
   return (
     <Modal isOpen onRequestClose={close}>
-      <h2 className="text-2xl">Welcome to Serpentine!</h2>
+      <h2 className="text-2xl">Welcome to Wyrm&apos;s Wrath!</h2>
       <p className="my-2">
         Use <Kbd>qweasd</Kbd> to move.
       </p>

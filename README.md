@@ -1,6 +1,6 @@
-# Serpentine
+# Wyrm's Wrath
 
-Serpentine is a roguelike deckbuilder created for 7DRL 2021.
+Wyrm's Wrath is a roguelike deckbuilder created for 7DRL 2021.
 
 ## Running the Game
 
