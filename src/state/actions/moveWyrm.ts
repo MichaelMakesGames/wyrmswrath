@@ -24,7 +24,8 @@ function moveWyrmHandler(
 
   const playerDirection = state.select.playerDirection();
   const nonTightDirections = getNonTightDirections(playerDirection);
-  const wouldBeTightTurn = !nonTightDirections.includes(direction);
+  const wouldBeTightTurn =
+    Boolean(playerDirection) && !nonTightDirections.includes(direction);
   if (!tightAllowed && wouldBeTightTurn) {
     state.act.logMessage({
       message: "Cannot take a tight turn without using the Malleable card.",

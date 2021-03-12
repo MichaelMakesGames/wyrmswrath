@@ -53,6 +53,11 @@ function getWyrmDisplay(
   const dirStr = `${dirToPrev}-${dirToNext}`;
   const common = { priority: PRIORITY_UNIT, discreteMovement: true };
   switch (dirStr) {
+    // egg
+    case "null-null": {
+      return { tile: `${variant}-egg`, ...common };
+    }
+
     // tails
     case "null-N":
       return {

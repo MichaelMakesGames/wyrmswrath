@@ -4,7 +4,7 @@ import { RawState } from "~types";
 export function createInitialState() {
   const initialState: RawState = {
     version: VERSION,
-    level: 3,
+    level: 0,
     entities: {},
     entitiesByPosition: {},
     entitiesByComp: {},

@@ -96,6 +96,8 @@ function getWyrmSpriteConfig(variant: string, yOffset: number) {
     { id: `${variant}-tight-vertical-to-diagonal-alt`, x: 3, y: 2 + yOffset },
     { id: `${variant}-head-diagonal`, x: 3, y: 0 + yOffset },
     { id: `${variant}-wide-diagonal-to-diagonal`, x: 3, y: 1 + yOffset },
+    { id: `${variant}-egg`, x: 4, y: 0 + yOffset },
+    { id: `${variant}-egg-hatched`, x: 4, y: 1 + yOffset },
   ];
 }
 

@@ -163,6 +163,10 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
     explorable: {},
   },
+  DECORATION_EGG_HATCHED: {
+    display: makeDisplay("red-egg-hatched", PRIORITY_BUILDING_LOW),
+    explorable: true,
+  },
 };
 
 function makeDisplay(tile: string, priority = PRIORITY_TERRAIN): Display {
