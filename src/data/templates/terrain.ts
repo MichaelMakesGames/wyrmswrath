@@ -2,45 +2,61 @@ import { PRIORITY_BUILDING_LOW, PRIORITY_TERRAIN } from "~/constants";
 import { Display, Entity } from "~types";
 
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
+  TERRAIN_WALL_BASE: {
+    blocking: {
+      moving: true,
+      fov: true,
+    },
+    diggable: {},
+    explorable: {},
+  },
   TERRAIN_GROUND: {
     display: makeDisplay("ground"),
     ground: {},
     explorable: {},
   },
   TERRAIN_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
     display: makeDisplay("wall"),
-    blocking: {
-      moving: true,
-      fov: true,
-    },
-    diggable: {},
-    explorable: {},
   },
   TERRAIN_CRYSTAL_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
     display: makeDisplay("crystal-wall"),
-    blocking: {
-      moving: true,
-      fov: true,
-    },
-    diggable: {},
-    explorable: {},
   },
   TERRAIN_MUSHROOM_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
     display: makeDisplay("mushroom-wall"),
-    blocking: {
-      moving: true,
-      fov: true,
-    },
-    diggable: {},
-    explorable: {},
   },
   TERRAIN_SLIME_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
     display: makeDisplay("slime-wall"),
-    blocking: {
-      moving: true,
-      fov: true,
-    },
-    diggable: {},
+  },
+  TERRAIN_WOODEN_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
+    display: makeDisplay("wooden-wall"),
+  },
+  TERRAIN_WOODEN_FLOOR: {
+    display: makeDisplay("wooden-floor"),
+    ground: {},
+    explorable: {},
+  },
+  TERRAIN_BRICK_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
+    display: makeDisplay("brick-wall"),
+  },
+  TERRAIN_BRICK_FLOOR: {
+    display: makeDisplay("brick-floor"),
+    ground: {},
+    explorable: {},
+  },
+  TERRAIN_FIELD: {
+    display: makeDisplay("field"),
+    ground: {},
+    explorable: {},
+  },
+  TERRAIN_MUSHROOM_FIELD: {
+    display: makeDisplay("mushroom-field"),
+    ground: {},
     explorable: {},
   },
   TERRAIN_SLIME: {
@@ -61,6 +77,90 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   TERRAIN_STAIRS: {
     display: makeDisplay("stairs", PRIORITY_BUILDING_LOW),
     stairs: {},
+    explorable: {},
+  },
+  DECORATION_SHOVEL: {
+    display: makeDisplay("shovel", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_PICKAX: {
+    display: makeDisplay("pickax", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_CART: {
+    display: makeDisplay("cart", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_CART_LOADED: {
+    display: makeDisplay("cart-loaded", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_VERTICAL: {
+    display: makeDisplay("track-vertical", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_VERTICAL_T_E: {
+    display: makeDisplay("track-t-vertical", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_VERTICAL_T_W: {
+    display: {
+      ...makeDisplay("track-t-vertical", PRIORITY_BUILDING_LOW),
+      flipX: true,
+    },
+    explorable: {},
+  },
+  DECORATION_TRACK_HORIZONTAL_T_S: {
+    display: {
+      ...makeDisplay("track-t-horizontal", PRIORITY_BUILDING_LOW),
+      flipY: true,
+    },
+    explorable: {},
+  },
+  DECORATION_TRACK_HORIZONTAL_T_N: {
+    display: makeDisplay("track-t-horizontal", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_HORIZONTAL: {
+    display: makeDisplay("track-horizontal", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_HORIZONTAL_TOP_HALF: {
+    display: makeDisplay("track-horizontal-top", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_HORIZONTAL_BOTTOM_HALF: {
+    display: makeDisplay("track-horizontal-bottom", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_CROSS: {
+    display: makeDisplay("track-cross", PRIORITY_BUILDING_LOW),
+    explorable: {},
+  },
+  DECORATION_TRACK_TURN_N_E: {
+    display: { ...makeDisplay("track-turn", PRIORITY_BUILDING_LOW) },
+    explorable: {},
+  },
+  DECORATION_TRACK_TURN_N_W: {
+    display: {
+      ...makeDisplay("track-turn", PRIORITY_BUILDING_LOW),
+      flipX: true,
+    },
+    explorable: {},
+  },
+  DECORATION_TRACK_TURN_S_E: {
+    display: {
+      ...makeDisplay("track-turn", PRIORITY_BUILDING_LOW),
+      flipY: true,
+    },
+    explorable: {},
+  },
+  DECORATION_TRACK_TURN_S_W: {
+    display: {
+      ...makeDisplay("track-turn", PRIORITY_BUILDING_LOW),
+      flipX: true,
+      flipY: true,
+    },
     explorable: {},
   },
 };

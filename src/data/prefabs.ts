@@ -4,11 +4,13 @@ import { Direction } from "~types";
 export interface Prefab {
   tiles: {
     directions: Direction[];
-    templates: TemplateName[];
+    templates: (TemplateName | TemplateName[])[];
   }[];
 }
 
-function makePrefab(tiles: Record<string, TemplateName[]>): Prefab {
+function makePrefab(
+  tiles: Record<string, (TemplateName | TemplateName[])[]>,
+): Prefab {
   return {
     tiles: Object.entries(tiles).map((t) => ({
       directions: convertStringToDirectionArray(t[0]),
@@ -54,6 +56,83 @@ const prefabs = {
     "S": ["TERRAIN_SLIME_WALL"],
     "SW": ["TERRAIN_SLIME_WALL"],
     "NW": ["TERRAIN_SLIME_WALL"],
+  }),
+  WOODEN_BUILDING_SMALL: makePrefab({
+    "": ["TERRAIN_WOODEN_FLOOR", "MONSTER_LABORER"],
+    "N": [["TERRAIN_WOODEN_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "NE": ["TERRAIN_WOODEN_WALL"],
+    "SE": ["TERRAIN_WOODEN_WALL"],
+    "S": [["TERRAIN_WOODEN_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "SW": ["TERRAIN_WOODEN_WALL"],
+    "NW": ["TERRAIN_WOODEN_WALL"],
+  }),
+  WOODEN_BUILDING_MEDIUM: makePrefab({
+    "": ["TERRAIN_WOODEN_FLOOR", "MONSTER_LABORER"],
+    "N": ["TERRAIN_WOODEN_FLOOR"],
+    "NE": ["TERRAIN_WOODEN_FLOOR", "MONSTER_LABORER"],
+    "S": ["TERRAIN_WOODEN_WALL"],
+    "SW": ["TERRAIN_WOODEN_WALL"],
+    "NW": [["TERRAIN_WOODEN_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "NW,N": ["TERRAIN_WOODEN_WALL"],
+    "N,N": ["TERRAIN_WOODEN_WALL"],
+    "N,NE": [["TERRAIN_WOODEN_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "NE,NE": ["TERRAIN_WOODEN_WALL"],
+    "NE,SE": ["TERRAIN_WOODEN_WALL"],
+    "SE": [["TERRAIN_WOODEN_WALL", "TERRAIN_WOODEN_FLOOR"]],
+  }),
+  BRICK_BUILDING_SMALL: makePrefab({
+    "": ["TERRAIN_WOODEN_FLOOR", "MONSTER_LABORER"],
+    "N": [["TERRAIN_BRICK_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "NE": ["TERRAIN_BRICK_WALL"],
+    "SE": ["TERRAIN_BRICK_WALL"],
+    "S": [["TERRAIN_BRICK_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "SW": ["TERRAIN_BRICK_WALL"],
+    "NW": ["TERRAIN_BRICK_WALL"],
+  }),
+  BRICK_BUILDING_MEDIUM: makePrefab({
+    "": ["TERRAIN_WOODEN_FLOOR", "MONSTER_LABORER"],
+    "N": ["TERRAIN_WOODEN_FLOOR"],
+    "NE": ["TERRAIN_WOODEN_FLOOR", "MONSTER_LABORER"],
+    "S": ["TERRAIN_BRICK_WALL"],
+    "SW": ["TERRAIN_BRICK_WALL"],
+    "NW": [["TERRAIN_BRICK_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "NW,N": ["TERRAIN_BRICK_WALL"],
+    "N,N": ["TERRAIN_BRICK_WALL"],
+    "N,NE": [["TERRAIN_BRICK_WALL", "TERRAIN_WOODEN_FLOOR"]],
+    "NE,NE": ["TERRAIN_BRICK_WALL"],
+    "NE,SE": ["TERRAIN_BRICK_WALL"],
+    "SE": [["TERRAIN_BRICK_WALL", "TERRAIN_WOODEN_FLOOR"]],
+  }),
+  PICKAX: makePrefab({
+    "": ["TERRAIN_GROUND", "DECORATION_PICKAX"],
+  }),
+  SHOVEL: makePrefab({
+    "": ["TERRAIN_GROUND", "DECORATION_SHOVEL"],
+  }),
+  TRACK_1: makePrefab({
+    "": ["TERRAIN_GROUND", "DECORATION_TRACK_TURN_N_E"],
+    "N": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL"],
+    "NE": [
+      "TERRAIN_GROUND",
+      "DECORATION_TRACK_HORIZONTAL_BOTTOM_HALF",
+      "DECORATION_CART_LOADED",
+    ],
+    "SE": ["TERRAIN_GROUND", "DECORATION_TRACK_HORIZONTAL_TOP_HALF"],
+    "NE,SE": ["TERRAIN_GROUND", "DECORATION_TRACK_CROSS"],
+    "NE,SE,N": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL"],
+    "NE,SE,N,N": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL_T_E"],
+  }),
+  TRACK_2: makePrefab({
+    "": ["TERRAIN_GROUND", "DECORATION_TRACK_TURN_S_E"],
+    "NE": ["TERRAIN_GROUND", "DECORATION_TRACK_HORIZONTAL_BOTTOM_HALF"],
+    "SE": ["TERRAIN_GROUND", "DECORATION_TRACK_HORIZONTAL_TOP_HALF"],
+    "NE,SE": [
+      "TERRAIN_GROUND",
+      "DECORATION_TRACK_HORIZONTAL",
+      "DECORATION_CART",
+    ],
+    "S": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL"],
+    "S,S": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL"],
   }),
 };
 

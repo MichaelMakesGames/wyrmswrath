@@ -114,10 +114,7 @@ export default function generateMap(
           Array.from(cavern).filter((p) => !prefabPositions.has(p)),
         );
         if (origin && canPlacePrefab(origin, prefab, cavern, prefabPositions)) {
-          console.warn("CAN PLACE!");
           placePrefab(origin, prefab, prefabPositions, results);
-        } else {
-          console.warn("cannot place");
         }
       });
     }
@@ -220,6 +217,13 @@ function placePrefab(
   for (const { directions, templates } of prefab.tiles) {
     const pos = getRelativePosition(parsePosKey(origin), directions);
     if (templates.length) prefabPositions.add(getPosKey(pos));
-    results.push(...templates.map((t) => createEntityFromTemplate(t, { pos })));
+    results.push(
+      ...templates.map((t) =>
+        createEntityFromTemplate(
+          Array.isArray(t) ? (RNG.getItem(t) as TemplateName) : t,
+          { pos },
+        ),
+      ),
+    );
   }
 }

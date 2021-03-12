@@ -9,6 +9,15 @@ export function createEntityFromTemplate(
   additionalComps?: Partial<Entity>,
 ) {
   const template = templates[templateId];
+
+  if (!template) {
+    console.error(`Template does not exist: ${templateId}`);
+    return {
+      id: `${templateId}_${nanoid()}`,
+      template: templateId,
+    };
+  }
+
   const parent: Entity = template.parentTemplate
     ? createEntityFromTemplate(template.parentTemplate)
     : { id: "tempId", template: "NONE" };
