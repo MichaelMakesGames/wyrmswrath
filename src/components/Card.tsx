@@ -1,9 +1,5 @@
+import Tippy from "@tippyjs/react";
 import React, { useContext } from "react";
-import { SettingsContext } from "~contexts";
-import cards, { CardCode } from "~data/cards";
-import { ControlCode } from "~types/ControlCode";
-import { HotkeyGroup, useControl } from "./HotkeysProvider";
-import Kbd from "./Kbd";
 // @ts-ignore
 import cardCrystal from "~assets/tiles/card-crystal.png";
 // @ts-ignore
@@ -11,6 +7,11 @@ import cardMushroom from "~assets/tiles/card-mushroom.png";
 // @ts-ignore
 import cardSlime from "~assets/tiles/card-slime.png";
 import colors from "~colors";
+import { SettingsContext } from "~contexts";
+import cards, { CardCode } from "~data/cards";
+import { ControlCode } from "~types/ControlCode";
+import { HotkeyGroup, useControl } from "./HotkeysProvider";
+import Kbd from "./Kbd";
 
 const cardBackgrounds = {
   crystal: cardCrystal,
@@ -72,15 +73,30 @@ export default function Card({
       <h3>
         <Kbd>{settings.keyboardShortcuts[controlCode][0]}</Kbd> {card.name}
       </h3>
-      <span className="$text-xs text-lightGray">
-        {card.fast ? "fast" : "slow"}
-      </span>
+      <div>
+        <Tippy
+          content={`${
+            card.fast
+              ? "Fast: does not take a turn."
+              : "Slow: counts as your turn."
+          } ${
+            card.directional
+              ? "Directional: choose a target direction when played."
+              : ""
+          }`}
+        >
+          <span className="text-xs text-lightGray">
+            {card.fast ? "Fast" : "Slow"}
+            {card.directional && " - Directional"}
+          </span>
+        </Tippy>
+      </div>
       <p
         className={
           card.description.length > 80 ||
           (card.name.length > 10 && card.description.length > 30)
-            ? "text-xs"
-            : "text-sm"
+            ? "text-xs mt-1"
+            : "text-sm mt-1"
         }
       >
         {card.description}
