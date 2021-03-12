@@ -1,5 +1,6 @@
+import { MAX_HAND_SIZE } from "~constants";
 import { RawState } from "~types";
-import { player } from "./entitySelectors";
+import { player, playerSize } from "./entitySelectors";
 
 export function gameOver(state: RawState) {
   return state.gameOver;
@@ -31,6 +32,10 @@ export function deck(state: RawState) {
 
 export function hand(state: RawState) {
   return state.hand;
+}
+
+export function handSize(state: RawState) {
+  return Math.min(MAX_HAND_SIZE, playerSize(state) + 1);
 }
 
 export function discard(state: RawState) {

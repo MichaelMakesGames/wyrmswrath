@@ -21,6 +21,7 @@ function cardDrawHandler(
     deck: rest,
     hand: [...state.raw.hand, first],
   });
+  state.act.cardDiscardToLimit();
 }
 
 registerHandler(cardDrawHandler, cardDraw);

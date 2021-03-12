@@ -3,6 +3,7 @@ import calcPlayerDijkstra from "./calcPlayerDijkstra";
 import cardAddToHand from "./cardAddToHand";
 import cardCancel from "./cardCancel";
 import cardDiscardFromHand from "./cardDiscardFromHand";
+import cardDiscardToLimit from "./cardDiscardToLimit";
 import cardDraw from "./cardDraw";
 import cardPlay from "./cardPlay";
 import cardRedrawHand from "./cardRedrawHand";
@@ -36,6 +37,7 @@ export default {
   cardAddToHand,
   cardCancel,
   cardDiscardFromHand,
+  cardDiscardToLimit,
   cardDraw,
   cardPlay,
   cardRedrawHand,

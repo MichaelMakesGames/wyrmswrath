@@ -32,6 +32,7 @@ function cardAddToHandHandler(
         : state.raw.slimeProgress,
   });
   wyrmDisplaySystem(state);
+  state.act.cardDiscardToLimit();
 }
 
 registerHandler(cardAddToHandHandler, cardAddToHand);

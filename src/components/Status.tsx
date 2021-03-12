@@ -1,17 +1,15 @@
+import Tippy from "@tippyjs/react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { HEX_HEIGHT, HEX_WIDTH } from "~constants";
 import levels from "~data/levels";
 import actions from "~state/actions";
 import selectors from "~state/selectors";
+import { StatusEffect } from "~types";
 import { ControlCode } from "~types/ControlCode";
-import HotkeyButton from "./HotkeyButton";
-import { HotkeyGroup, useControl } from "./HotkeysProvider";
 // @ts-ignore
 import tiles from "../assets/tiles/*.png";
-import { HEX_HEIGHT, HEX_WIDTH } from "~constants";
-import { StatusEffect } from "~types";
-import Tippy from "@tippyjs/react";
-import { T } from "ts-toolbelt";
+import { HotkeyGroup, useControl } from "./HotkeysProvider";
 
 export default function Status() {
   const dispatch = useDispatch();

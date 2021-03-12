@@ -10,7 +10,7 @@ export const HEX_WIDTH = 24;
 export const HEX_BASE_WIDTH = 12;
 export const HEX_HEIGHT = 24;
 
-export const HAND_SIZE = 3;
+export const MAX_HAND_SIZE = 10;
 export const CARD_CHOICES_PER_UNLOCK = 3;
 export const MAX_ENERGY_PER_SIZE = 20;
 export const MAX_HEALTH_PER_SIZE = 10;
