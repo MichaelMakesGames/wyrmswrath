@@ -613,7 +613,7 @@ export default class Renderer {
         this.movementPaths.set(id, [
           getRelativePosition(renderEntity.pos, ["N"]),
         ]);
-        setTimeout(() => this.removeEntity(id), 250);
+        setTimeout(() => this.removeEntity(id), 500);
       }
     }, 50);
   }

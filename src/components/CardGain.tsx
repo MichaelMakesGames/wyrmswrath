@@ -59,7 +59,14 @@ export default function CardGain() {
             key={card.code}
             code={card.code}
             index={index}
-            callback={() => dispatch(actions.cardAddToHand(card.code))}
+            callback={() =>
+              dispatch(
+                actions.cardAddToHand({
+                  cardCode: card.code,
+                  clearProgress: true,
+                }),
+              )
+            }
             hotkeyGroup={HotkeyGroup.CardGain}
           />
         ))}

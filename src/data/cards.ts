@@ -382,7 +382,10 @@ const cards: Record<CardCode, Card> = {
     type: "slime",
     description: "Gain a random new card to your hand.",
     effect: (state) =>
-      state.act.cardAddToHand(choose(Object.values(cards)).code),
+      state.act.cardAddToHand({
+        cardCode: choose(Object.values(cards)).code,
+        clearProgress: false,
+      }),
   },
   SLIME_OOZE: {
     code: "SLIME_OOZE",
