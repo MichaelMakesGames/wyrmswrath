@@ -142,11 +142,11 @@ export default class Renderer {
 
   public zoomOut(): void {
     this.zoomedIn = false;
-    this.app.stage.scale = new PIXI.Point(0.5, 0.5);
+    this.app.stage.scale = new PIXI.Point(1, 1);
     const appPos = this.calcAppPos(this.center);
     this.app.stage.position = new PIXI.Point(
-      0, // -appPos.x + this.appWidth / 2,
-      0, // -appPos.y + this.appHeight / 2,
+      -appPos.x + this.appWidth / 2,
+      -appPos.y + this.appHeight / 2,
     );
   }
 
