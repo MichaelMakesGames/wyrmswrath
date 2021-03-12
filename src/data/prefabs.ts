@@ -28,19 +28,32 @@ function convertStringToDirectionArray(s: string) {
 }
 
 const prefabs = {
-  SLIME_HOARD_LARGE: makePrefab({
-    "": ["TERRAIN_SLIME", "SLIME"],
-    "N": ["TERRAIN_SLIME", "SLIME"],
-    "NE": ["TERRAIN_SLIME", "SLIME"],
-    "N,N": ["TERRAIN_SLIME_WALL"],
-    "N,NE": ["TERRAIN_SLIME_WALL"],
-    "NE,NE": ["TERRAIN_SLIME_WALL"],
-    "NE,SE": ["TERRAIN_SLIME_WALL"],
+  CRYSTAL_HOARD_SMALL: makePrefab({
+    "": ["TERRAIN_CRYSTAL", "CRYSTAL", "MONSTER_MAD_CRYSTALMAN"],
+    "N": ["TERRAIN_CRYSTAL_WALL"],
+    "NE": ["TERRAIN_CRYSTAL_WALL"],
+    "SE": ["TERRAIN_CRYSTAL_WALL"],
+    "S": ["TERRAIN_CRYSTAL_WALL"],
+    "SW": ["TERRAIN_CRYSTAL_WALL"],
+    "NW": ["TERRAIN_CRYSTAL_WALL"],
+  }),
+  MUSHROOM_HOARD_SMALL: makePrefab({
+    "": ["TERRAIN_MUSHROOM", "MUSHROOM", "MONSTER_MUSHROOMMAN_BANDIT"],
+    "N": ["TERRAIN_MUSHROOM_WALL"],
+    "NE": ["TERRAIN_MUSHROOM_WALL"],
+    "SE": ["TERRAIN_MUSHROOM_WALL"],
+    "S": ["TERRAIN_MUSHROOM_WALL"],
+    "SW": ["TERRAIN_MUSHROOM_WALL"],
+    "NW": ["TERRAIN_MUSHROOM_WALL"],
+  }),
+  SLIME_HOARD_SMALL: makePrefab({
+    "": ["TERRAIN_SLIME", "SLIME", "MONSTER_FERAL_SLIME"],
+    "N": ["TERRAIN_SLIME_WALL"],
+    "NE": ["TERRAIN_SLIME_WALL"],
     "SE": ["TERRAIN_SLIME_WALL"],
     "S": ["TERRAIN_SLIME_WALL"],
     "SW": ["TERRAIN_SLIME_WALL"],
     "NW": ["TERRAIN_SLIME_WALL"],
-    "N,NW": ["TERRAIN_SLIME_WALL"],
   }),
 };
 

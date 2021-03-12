@@ -11,15 +11,10 @@ export interface Level {
 const levels: Level[] = [
   {
     name: "Lair",
-    groundChance: 0.5,
-    iterations: 3,
+    groundChance: 0.4,
+    iterations: 1,
     hasStairs: true,
-    rooms: [
-      rooms.LAIR_MIXED,
-      rooms.LAIR_CRYSTAL,
-      rooms.LAIR_MUSHROOM,
-      rooms.LAIR_SLIME,
-    ],
+    rooms: [rooms.LAIR_CRYSTAL, rooms.LAIR_MUSHROOM, rooms.LAIR_SLIME],
   },
   {
     name: "Frontier",

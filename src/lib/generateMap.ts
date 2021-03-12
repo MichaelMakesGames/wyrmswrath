@@ -11,12 +11,14 @@ import {
   getPosKey,
   getRelativePosition,
   parsePosKey,
+  toRotPos,
 } from "./geometry";
 import { rangeTo } from "./math";
 
 export default function generateMap(
   level: Level,
 ): { start: null | Pos; end: null | Pos; entities: Entity[] } {
+  // RNG.setSeed(0);
   const rotWidth = MAP_HEIGHT * 2;
   const rotHeight = MAP_WIDTH;
   const map = new Map.Cellular(rotWidth, rotHeight, {
@@ -27,23 +29,13 @@ export default function generateMap(
 
   map.randomize(level.groundChance);
 
-  const caverns: Set<string>[] = [];
-
-  let start: null | Pos = null;
-  let end: null | Pos = null;
+  let caverns: Set<string>[] = [];
 
   rangeTo(level.iterations - 1).forEach(() => map.create());
   map.create((x, y, contents) => {
     if (contents) {
       const pos = fromRotPos([x, y]);
       const posKey = getPosKey(pos);
-
-      if (!start || start.x + start.y > pos.x + pos.y) {
-        start = pos;
-      }
-      if (!end || end.x + end.y < pos.x + pos.y) {
-        end = pos;
-      }
 
       const adjacentCaverns = findAdjacentCaverns(caverns, pos);
       if (!adjacentCaverns.length) {
@@ -60,7 +52,30 @@ export default function generateMap(
     }
   });
 
-  console.warn(caverns.filter((c) => c.size >= 5));
+  console.warn(
+    caverns
+      .filter((c) => c.size >= 10)
+      .map((s) => s.size)
+      .sort((a, b) => b - a),
+    caverns.filter((c) => c.size >= 10).length,
+    caverns.length,
+  );
+
+  caverns
+    .filter((c) => c.size < 10)
+    .forEach((c) =>
+      Array.from(c)
+        .map(parsePosKey)
+        .map(toRotPos)
+        .forEach(([x, y]) => map.set(x, y, 0)),
+    );
+  caverns = caverns.filter((c) => c.size >= 10);
+
+  const [start, ...tail] = caverns
+    .flatMap((c) => Array.from(c))
+    .map(parsePosKey)
+    .sort((a, b) => a.x + a.y - (b.x + b.y));
+  const end = tail.pop() || null;
 
   const hallways: Set<string> = new Set();
   caverns.push(hallways);

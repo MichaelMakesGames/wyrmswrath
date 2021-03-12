@@ -33,7 +33,6 @@ function makeRoom({
 
 export default {
   LAIR_MIXED: makeRoom({
-    minSize: 25,
     groundWeights: {
       TERRAIN_CRYSTAL: 1,
       TERRAIN_MUSHROOM: 1,
@@ -46,39 +45,44 @@ export default {
       MONSTER_MUSHROOMMAN_BANDIT: 1,
       MONSTER_FERAL_SLIME: 1,
     },
-    prefabs: [{ prefab: prefabs.SLIME_HOARD_LARGE, attempts: 5 }],
   }),
   LAIR_CRYSTAL: makeRoom({
-    maxSize: 25,
     groundWeights: {
       TERRAIN_CRYSTAL: 1,
-      TERRAIN_GROUND: 2,
+      TERRAIN_GROUND: 1,
     },
     enemiesPerTile: 0.1,
     enemyWeights: {
-      MONSTER_MAD_CRYSTALMAN: 1,
+      MONSTER_MAD_CRYSTALMAN: 5,
+      MONSTER_MUSHROOMMAN_BANDIT: 1,
+      MONSTER_FERAL_SLIME: 1,
     },
+    prefabs: [{ prefab: prefabs.CRYSTAL_HOARD_SMALL, attempts: 3 }],
   }),
   LAIR_MUSHROOM: makeRoom({
-    maxSize: 25,
     groundWeights: {
       TERRAIN_MUSHROOM: 1,
       TERRAIN_GROUND: 1,
     },
     enemiesPerTile: 0.1,
     enemyWeights: {
-      MONSTER_MUSHROOMMAN_BANDIT: 1,
+      MONSTER_MAD_CRYSTALMAN: 1,
+      MONSTER_MUSHROOMMAN_BANDIT: 5,
+      MONSTER_FERAL_SLIME: 1,
     },
+    prefabs: [{ prefab: prefabs.MUSHROOM_HOARD_SMALL, attempts: 3 }],
   }),
   LAIR_SLIME: makeRoom({
-    maxSize: 25,
     groundWeights: {
       TERRAIN_SLIME: 1,
-      TERRAIN_GROUND: 2,
+      TERRAIN_GROUND: 1,
     },
     enemiesPerTile: 0.1,
     enemyWeights: {
-      MONSTER_FERAL_SLIME: 1,
+      MONSTER_MAD_CRYSTALMAN: 1,
+      MONSTER_MUSHROOMMAN_BANDIT: 1,
+      MONSTER_FERAL_SLIME: 5,
     },
+    prefabs: [{ prefab: prefabs.SLIME_HOARD_SMALL, attempts: 3 }],
   }),
 };
