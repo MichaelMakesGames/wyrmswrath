@@ -1,3 +1,5 @@
+import levels from "~data/levels";
+import audio from "~lib/audio";
 import { arePositionsEqual } from "~lib/geometry";
 import makeLevel from "~lib/makeLevel";
 import WrappedState from "~types/WrappedState";
@@ -17,5 +19,6 @@ export default function stairsSystem(state: WrappedState) {
       level: state.raw.level + 1,
     });
     makeLevel(state);
+    audio.playMusic(levels[state.raw.level].song);
   }
 }

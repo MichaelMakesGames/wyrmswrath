@@ -1,5 +1,7 @@
 import { createStandardAction } from "typesafe-actions";
 import { VERSION } from "~constants";
+import levels from "~data/levels";
+import audio from "~lib/audio";
 import { resetEntitiesByCompAndPos } from "~lib/entities";
 import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
@@ -32,6 +34,10 @@ function loadGameHandler(
   animationToggleSystem(state);
   wyrmDisplaySystem(state);
   fovSystem(state);
+  const level = levels[state.raw.level];
+  if (level && level.song) {
+    audio.playMusic(level.song);
+  }
 }
 
 registerHandler(loadGameHandler, loadGame);

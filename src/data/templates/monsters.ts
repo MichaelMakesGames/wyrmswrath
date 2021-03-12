@@ -154,7 +154,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       abilities: [
         {
           code: "SPAWN_SLIME",
-          coolDown: 2,
+          coolDown: 3,
           readyIn: 0,
         },
       ],
@@ -170,7 +170,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       range: 0,
       idealDistance: 1,
       prioritizeDistance: false,
-      abilities: [{ code: "POISON", coolDown: 1, readyIn: 0 }],
+      abilities: [{ code: "POISON", coolDown: 2, readyIn: 2 }],
     },
     statusEffects: {
       SLIME_WALK: { type: "SLIME_WALK" },

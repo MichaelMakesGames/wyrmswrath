@@ -16,7 +16,9 @@ export default class Audio {
   }
 
   play(sound: string) {
-    this.sounds[sound].play();
+    if (!this.sounds[sound].playing()) {
+      this.sounds[sound].play();
+    }
   }
 
   loop(sound: string) {
@@ -30,7 +32,7 @@ export default class Audio {
     this.sounds[sound].stop();
   }
 
-  playMusic(song: "night" | "day") {
+  playMusic(song: string) {
     if (this.currentMusic) {
       this.currentMusic.fade(1, 0, 1000);
       this.currentMusic.off();
@@ -42,16 +44,22 @@ export default class Audio {
         this.playMusic(song);
       });
     } else {
-      const intro = this.sounds[`${song}_intro`];
-      intro.volume(1);
-      const loop = this.sounds[`${song}_loop`];
-      loop.volume(1);
-      intro.play();
-      this.currentMusic = intro;
-      intro.once("end", () => {
-        this.currentMusic = loop;
-        loop.loop(true);
-        loop.play();
+      const sound = this.sounds[song];
+
+      const loopData: Record<string, number> = {
+        "song-city": 4.564,
+        "song-lair": 89.744,
+        "song-palace": 60.438,
+      };
+      const loopTo = loopData[song] || 0;
+
+      sound.volume(1);
+      sound.play();
+      this.currentMusic = sound;
+
+      sound.on("end", () => {
+        sound.seek(loopTo);
+        sound.play();
       });
     }
   }

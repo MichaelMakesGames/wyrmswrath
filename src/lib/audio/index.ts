@@ -1,5 +1,5 @@
 import Audio from "./Audio";
 
 const audio = new Audio();
-// audio.load();
+audio.load();
 export default audio;

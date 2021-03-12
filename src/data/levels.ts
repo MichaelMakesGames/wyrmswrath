@@ -2,6 +2,7 @@ import rooms, { Room } from "./rooms";
 
 export interface Level {
   name: string;
+  song: string;
   groundChance: number;
   iterations: number;
   hasStairs: boolean;
@@ -11,6 +12,7 @@ export interface Level {
 const levels: Level[] = [
   {
     name: "Lair",
+    song: "song-lair",
     groundChance: 0.4,
     iterations: 1,
     hasStairs: true,
@@ -23,6 +25,7 @@ const levels: Level[] = [
   },
   {
     name: "Frontier",
+    song: "song-frontier",
     groundChance: 0.4,
     iterations: 1,
     hasStairs: true,
@@ -35,6 +38,7 @@ const levels: Level[] = [
   },
   {
     name: "Outskirts",
+    song: "song-outskirts",
     groundChance: 0.4,
     iterations: 3,
     hasStairs: true,
@@ -47,6 +51,7 @@ const levels: Level[] = [
   },
   {
     name: "City",
+    song: "song-city",
     groundChance: 0.5,
     iterations: 4,
     hasStairs: true,
@@ -59,6 +64,7 @@ const levels: Level[] = [
   },
   {
     name: "Palace",
+    song: "song-palace",
     groundChance: 0.4,
     iterations: 1,
     hasStairs: false,
