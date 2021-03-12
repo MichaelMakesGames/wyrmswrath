@@ -1,5 +1,6 @@
 import { DIRECTIONS, MAP_HEIGHT, MAP_WIDTH } from "~/constants";
 import { Direction, Pos } from "~/types";
+import { rangeTo } from "./math";
 
 export function getPosKey(pos: Pos) {
   return `${pos.x},${pos.y}`;
@@ -64,6 +65,22 @@ export function getPositionToDirection(pos: Pos, direction: Direction) {
 
 export function getRelativePosition(origin: Pos, directions: Direction[]) {
   return directions.reduce(getPositionToDirection, origin);
+}
+
+export function getRing(origin: Pos, radius: number): Pos[] {
+  if (radius === 0) return [origin];
+  let pos = getRelativePosition(
+    origin,
+    rangeTo(radius).map(() => "N"),
+  );
+  const results: Pos[] = [pos];
+  (["SE", "S", "SW", "NW", "N", "NE"] as Direction[]).forEach((d) =>
+    rangeTo(radius).forEach(() => {
+      pos = getPositionToDirection(pos, d);
+      results.push(pos);
+    }),
+  );
+  return results;
 }
 
 export function getDirectionToPosition(from: Pos, to?: Pos): Direction | null {

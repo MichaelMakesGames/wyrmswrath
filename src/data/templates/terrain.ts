@@ -49,6 +49,25 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     ground: {},
     explorable: {},
   },
+  TERRAIN_MARBLE_WALL: {
+    parentTemplate: "TERRAIN_WALL_BASE",
+    display: makeDisplay("marble-wall"),
+  },
+  TERRAIN_MARBLE_FLOOR: {
+    display: makeDisplay("marble-floor"),
+    ground: {},
+    explorable: {},
+  },
+  TERRAIN_CARPET: {
+    display: makeDisplay("carpet"),
+    ground: {},
+    explorable: {},
+  },
+  TERRAIN_ROYAL_CARPET: {
+    display: makeDisplay("royal-carpet"),
+    ground: {},
+    explorable: {},
+  },
   TERRAIN_FIELD: {
     display: makeDisplay("field"),
     ground: {},
@@ -166,6 +185,18 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   DECORATION_EGG_HATCHED: {
     display: makeDisplay("red-egg-hatched", PRIORITY_BUILDING_LOW),
     explorable: true,
+  },
+  DECORATION_STONE_DOOR: {
+    display: makeDisplay("stone-door", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+    diggable: {},
+  },
+  DECORATION_WOODEN_DOOR: {
+    display: makeDisplay("wooden-door", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+    diggable: {},
   },
 };
 

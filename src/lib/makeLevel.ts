@@ -4,6 +4,7 @@ import { Direction, Entity, Pos } from "~types";
 import WrappedState from "~types/WrappedState";
 import { createEntityFromTemplate } from "./entities";
 import generateMap from "./generateMap";
+import generatePalace from "./generatePalace";
 import { getPositionToDirection, getRelativePosition } from "./geometry";
 
 export default function makeLevel(state: WrappedState): WrappedState {
@@ -13,6 +14,11 @@ export default function makeLevel(state: WrappedState): WrappedState {
       .filter((e) => e.pos && !(e.wyrm && e.wyrm.isPlayer))
       .map((e) => e.id),
   );
+
+  if (state.raw.level === levels.length - 1) {
+    generatePalace(state);
+    return state;
+  }
 
   const { start, entities } = generateMap(levels[state.raw.level]);
   for (const entity of entities) {

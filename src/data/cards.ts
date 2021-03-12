@@ -160,7 +160,7 @@ const cards: Record<CardCode, Card> = {
     name: "Javelin",
     type: "crystal",
     description:
-      "Launch a crystal that hits all enemies in it's path for SIZE-1 damage.",
+      "Launch a crystal that hits all enemies in it's path for SIZE damage.",
     directional: true,
     validator: wideAngleOnly,
     effect: (state, direction) => {
@@ -168,7 +168,7 @@ const cards: Record<CardCode, Card> = {
       const origin = head && head.pos;
       if (!origin || !direction) return;
 
-      const damage = state.select.playerSize() - 1;
+      const damage = state.select.playerSize();
       let pos = origin;
       let speed = 0;
       while (true) {
@@ -195,17 +195,21 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_RAZOR_SKIN",
     name: "Razor Skin",
     type: "crystal",
-    description: "Deal 1 damage to all adjacent enemies.",
+    description: "Deal SIZE/2 damage to all adjacent enemies.",
     effect: (state) =>
       getAdjacentMonsters(state).forEach((e) =>
-        state.act.damage({ entityId: e.id, amount: 1, actorId: PLAYER_ID }),
+        state.act.damage({
+          entityId: e.id,
+          amount: Math.round(state.select.playerSize() / 2),
+          actorId: PLAYER_ID,
+        }),
       ),
   },
   CRYSTAL_ROCK_HARD: {
     code: "CRYSTAL_ROCK_HARD",
     name: "Rock Hard",
     type: "crystal",
-    description: "Gain SIZE Armor for 1 turns",
+    description: "Gain SIZE Armor for 1 turn.",
     fast: true,
     effect: (state: WrappedState) =>
       state.act.statusEffectAdd({
@@ -242,6 +246,7 @@ const cards: Record<CardCode, Card> = {
     name: "Antidote",
     type: "mushroom",
     description: "Cure all Poison.",
+    fast: true,
     effect: (state) =>
       state.act.statusEffectRemove({
         entityId: PLAYER_ID,
@@ -307,8 +312,8 @@ const cards: Record<CardCode, Card> = {
     name: "Open Your Mind",
     type: "mushroom",
     fast: true,
-    description: "Draw 3 cards.",
-    effect: (state) => rangeTo(3).forEach(() => state.act.cardDraw()),
+    description: "Draw 2 cards.",
+    effect: (state) => rangeTo(2).forEach(() => state.act.cardDraw()),
   },
   MUSHROOM_PARALYZING_SPORES: {
     code: "MUSHROOM_PARALYZING_SPORES",
@@ -382,6 +387,7 @@ const cards: Record<CardCode, Card> = {
     name: "Mutate",
     type: "slime",
     description: "Gain a random new card to your hand.",
+    fast: true,
     effect: (state) =>
       state.act.cardAddToHand({
         cardCode: choose(Object.values(cards)).code,

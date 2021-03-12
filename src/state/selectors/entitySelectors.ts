@@ -107,6 +107,23 @@ export function tail(state: RawState) {
   );
 }
 
+export function tailToHead(
+  state: RawState,
+): Required<Entity, "pos" | "wyrm">[] {
+  let current = tail(state);
+  const segments: Required<Entity, "pos" | "wyrm">[] = [];
+  while (current) {
+    segments.push(current);
+    const next = entityById(state, current.wyrm.connectsTo || "FAKE_ID");
+    if (next && next.wyrm && next.pos) {
+      current = next as typeof current;
+    } else {
+      current = undefined;
+    }
+  }
+  return segments;
+}
+
 export function playerDirection(state: RawState): null | Direction {
   const h = head(state);
   if (!h) return null;

@@ -262,6 +262,19 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       abilities: [{ code: "STRENGTHEN", coolDown: 2, readyIn: 0 }],
     },
   },
+  MONSTER_ROYAL_GUARD: {
+    parentTemplate: "MONSTER_SUITLESS_BASE",
+    display: makeDisplay("royal-guard"),
+    health: makeHealth(5),
+    monster: {
+      meleeDamage: 3,
+      rangedDamage: 0,
+      range: 0,
+      idealDistance: 1,
+      prioritizeDistance: true,
+      abilities: [],
+    },
+  },
 };
 
 function makeDisplay(tile: string) {
