@@ -29,7 +29,7 @@ export default function Introduction() {
 
   return (
     <Modal isOpen onRequestClose={close}>
-      <h2 className="text-xl">The Wyrm is dead, but an egg remains.</h2>
+      <h2 className="text-xl">The Wyrm is dead, but an egg remains...</h2>
       <div className="text-sm">
         <p className="my-1">
           The Rogue who now calls himself King of the Dungeon has stolen the
@@ -42,11 +42,11 @@ export default function Introduction() {
         <hr className="border-gray my-3" />
         <div className="mb-3">
           <p className="my-1">
-            Wyrm&apos;s Wrath is a turn-based game. Each turn you can:
+            Wyrm&apos;s Wrath is a deck-building roguelike. Each turn you can:
           </p>
           <ul className="list-disc">
-            <li className="ml-3">play any number of fast cards then:</li>
-            <li className="ml-3">play a slow card</li>
+            <li className="ml-3">play any number of fast cards:</li>
+            <li className="ml-3">then play a slow card</li>
             <li className="ml-3">or redraw your hand</li>
             <li className="ml-3">or move</li>
           </ul>
@@ -55,7 +55,7 @@ export default function Introduction() {
             can simply move into their space, instantly eating them.
           </p>
           <p className="my-1">
-            To win, explore each level to find the stares, and reach the Palace
+            To win, explore each level to find the stairs, and reach the Palace
             on level 5. Retrieve the Chalice by eating the King, or killing him
             them eating the Chalice.
           </p>
