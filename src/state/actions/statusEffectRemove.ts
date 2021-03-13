@@ -31,6 +31,10 @@ function statusEffectRemoveHandler(
   if (value && existing.value) {
     if (value >= existing.value) {
       delete statusEffects[type];
+      state.act.logMessage({
+        message: getMessage(state.select.name(entityId), type),
+        type: getMessageType(entityId === PLAYER_ID, type),
+      });
     } else {
       statusEffects[type] = {
         ...existing,
@@ -39,12 +43,48 @@ function statusEffectRemoveHandler(
     }
   } else {
     delete statusEffects[type];
+    state.act.logMessage({
+      message: getMessage(state.select.name(entityId), type),
+      type: getMessageType(entityId === PLAYER_ID, type),
+    });
   }
 
   state.act.updateEntity({
     ...entity,
     statusEffects,
   });
+}
+
+function getMessage(name: string, statusType: StatusEffectType) {
+  switch (statusType) {
+    case "ARMORED":
+      return `${name} is no longer armored.`;
+    case "CONFUSED":
+      return `${name} is no longer confused.`;
+    case "PARALYZED":
+      return `${name} is no longer paralyzed.`;
+    case "POISONED":
+      return `${name} is no longer poisoned.`;
+    case "SLIMED":
+      return `${name} is no longer slimed.`;
+    case "SLIME_WALK":
+      return `${name} can no longer slime walk.`;
+    case "STRENGTHENED":
+      return `${name} is no longer poisoned.`;
+    default:
+      return `${name} is no longer ${statusType}.`;
+  }
+}
+
+function getMessageType(
+  isPlayer: boolean,
+  statusType: StatusEffectType,
+): "debuff" | "buff" | "enemy" {
+  if (isPlayer)
+    return ["ARMORED", "SLIME_WALK", "STRENGTHENED"].includes(statusType)
+      ? "debuff"
+      : "buff";
+  return "enemy";
 }
 
 registerHandler(statusEffectRemoveHandler, statusEffectRemove);

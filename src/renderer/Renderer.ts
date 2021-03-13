@@ -428,8 +428,8 @@ export default class Renderer {
           minimumScaleMultiplier: 1,
         },
         color: {
-          start: colors.ground,
-          end: colors.ground,
+          start: colors.darkGray,
+          end: colors.darkGray,
         },
         speed: {
           start: 5,
@@ -506,9 +506,9 @@ export default class Renderer {
         },
         color: {
           list: [
-            { value: colors.power, time: 0 },
-            { value: colors.laser, time: 0.5 },
-            { value: colors.ground, time: 1 },
+            { value: colors.yellow, time: 0 },
+            { value: colors.red, time: 0.5 },
+            { value: colors.darkGray, time: 1 },
           ],
         },
         speed: {

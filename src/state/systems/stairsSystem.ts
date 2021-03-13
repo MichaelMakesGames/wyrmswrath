@@ -19,6 +19,11 @@ export default function stairsSystem(state: WrappedState) {
       level: state.raw.level + 1,
     });
     makeLevel(state);
-    audio.playMusic(levels[state.raw.level].song);
+    const newLevel = levels[state.raw.level];
+    state.act.logMessage({
+      message: newLevel.message,
+      type: "buff",
+    });
+    audio.playMusic(newLevel.song);
   }
 }

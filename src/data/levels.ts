@@ -2,6 +2,7 @@ import rooms, { Room } from "./rooms";
 
 export interface Level {
   name: string;
+  message: string;
   song: string;
   groundChance: number;
   iterations: number;
@@ -12,6 +13,7 @@ export interface Level {
 const levels: Level[] = [
   {
     name: "Lair",
+    message: "",
     song: "song-lair",
     groundChance: 0.4,
     iterations: 1,
@@ -25,6 +27,7 @@ const levels: Level[] = [
   },
   {
     name: "Frontier",
+    message: "You enter the Frontier. Beware the Rogue-King's scouts.",
     song: "song-frontier",
     groundChance: 0.4,
     iterations: 1,
@@ -38,6 +41,7 @@ const levels: Level[] = [
   },
   {
     name: "Outskirts",
+    message: "You have entered the Kingdom proper. Time to feast.",
     song: "song-outskirts",
     groundChance: 0.4,
     iterations: 3,
@@ -51,6 +55,7 @@ const levels: Level[] = [
   },
   {
     name: "City",
+    message: "The heart of the Kingdom. Let's tear it out.",
     song: "song-city",
     groundChance: 0.5,
     iterations: 4,
@@ -64,6 +69,7 @@ const levels: Level[] = [
   },
   {
     name: "Palace",
+    message: "It is time. Take back what is rightfully yours.",
     song: "song-palace",
     groundChance: 0.4,
     iterations: 1,

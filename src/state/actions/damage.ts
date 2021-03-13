@@ -1,4 +1,5 @@
 import { createStandardAction } from "typesafe-actions";
+import { PLAYER_ID } from "~constants";
 import { createEntityFromTemplate } from "~lib/entities";
 import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
@@ -26,14 +27,28 @@ function damageHandler(
     ignoreArmor,
   } = action.payload;
   const entity = state.select.entityById(entityId);
-  const adjustedAmount = Math.max(
-    0,
-    amount * getStrengthened(state, actorId) -
-      getArmor(state, entity, ignoreArmor) +
-      getSpikes(state, entity, ignoreSpikes),
-  );
+
+  const strengthened = getStrengthened(state, actorId);
+  const armor = getArmor(state, entity, ignoreArmor);
+  const spikes = getSpikes(state, entity, ignoreSpikes);
+  const adjustedAmount = Math.max(0, amount * strengthened - armor + spikes);
+
+  if (actorId) {
+    const actorName = state.select.name(actorId || "");
+    const entityName = state.select.name(entityId);
+    state.act.logMessage({
+      message: `${actorName} attacks ${entityName} for ${
+        amount * strengthened
+      } damage${
+        spikes
+          ? `, and ${entityName} takes 1 more damage from the spiky crystal ground`
+          : ""
+      }${armor ? `, but armor blocks ${armor} damage.` : "."}`,
+      type: entity.wyrm ? "damage" : "enemy",
+    });
+  }
   if (entity && entity.health) {
-    if (entity.wyrm && entity.wyrm.isPlayer) {
+    if (entity.wyrm) {
       const head = state.select.head();
       if (head && head.health) {
         state.act.updateEntity({
@@ -45,8 +60,12 @@ function damageHandler(
         });
       }
     } else {
-      const newHealth = Math.max(0, entity.health.current - adjustedAmount);
-      if (newHealth === 0) {
+      const newHealth = entity.health.current - adjustedAmount;
+      if (newHealth <= 0) {
+        state.act.logMessage({
+          message: `${state.select.name(entityId)} dies.`,
+          type: "enemy",
+        });
         state.act.removeEntity(entityId);
         if (entity.pos && entity.drops) {
           state.act.addEntity(

@@ -30,6 +30,7 @@ export interface ColorToggle {
 }
 
 export interface Monster {
+  name: string;
   meleeDamage: number;
   rangedDamage: number;
   range: number;

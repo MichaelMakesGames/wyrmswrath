@@ -5,17 +5,32 @@
   "gray": "#555555",
   "lightGray": "#AAAAAA",
   "white": "#FFFFFF",
-  "opaqueWhite": "#DDDDDD80",
-  "red": "#f44336",
-  "lightBlue": "#5C6BC0",
-  "lighterBlue": "#99a8ff",
-  "blue": "#3949ab",
-  "darkerBlue": "#16161d",
-  "brown": "#bf772f",
-  "darkBrown": "#6d4c41",
-  "darkerBrown": "#1c1817",
-  "purple": "#cb44fc",
-  "darkPurple": "#512DA8",
-  "green": "#336635",
-  "yellow": "#FFD54F"
+
+  "darkGreen": "#35600a",
+  "green": "#59a011",
+  "lightGreen": "#95cc5f",
+  "lighterGreen": "#d1ffa3",
+
+  "darkBlue": "#0071bb",
+  "blue": "#0095eb",
+  "lightBlue": "#00edff",
+  "lighterBlue": "#baffff",
+
+  "darkPurple": "#331d3f",
+  "purple": "#7c4699",
+  "lightPurple": "#ab61d3",
+  "lighterPurple": "dda3ff",
+
+  "darkBrown": "#3d2b17",
+  "brown": "#54402b",
+  "lightBrown": "#99754f",
+  "lighterBrown": "#c49666",
+
+  "darkYellow": "#af6d00",
+  "yellow": "#cc9500",
+  "lightYellow": "#ffc900",
+  "lighterYellow": "#ffe177",
+
+  "darkRed": "#932121",
+  "red": "#ff3a3a"
 }

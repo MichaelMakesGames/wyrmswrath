@@ -157,3 +157,16 @@ export function playerEnergy(state: RawState): number {
 export function playerMaxEnergy(state: RawState): number {
   return playerSize(state) * MAX_ENERGY_PER_SIZE;
 }
+
+export function name(state: RawState, id: string): string {
+  const entity = entityById(state, id);
+  if (!entity) return "Enemy";
+  if (entity.wyrm) return "Player";
+  if (entity.monster) return entity.monster.name;
+  if (entity.consumable && entity.consumable.crystal) return "Crystal Shard";
+  if (entity.consumable && entity.consumable.mushroom) return "Mushroom";
+  if (entity.consumable && entity.consumable.slime) return "Slime Ball";
+  if (entity.consumable && entity.consumable.victory) return "Artifact";
+  if (entity.consumable && entity.consumable.energy) return "Corpse";
+  return "Enemy";
+}

@@ -8,11 +8,18 @@ export default function poisonSystem(state: WrappedState): void {
   )) {
     if (entity.statusEffects.POISONED) {
       renderer.flashStatusEffect(entity.id, "icon-poisoned");
+      const amount = entity.statusEffects.POISONED.value || 1;
+      state.act.logMessage({
+        message: `${state.select.name(
+          entity.id,
+        )} suffers ${amount} poison damage.`,
+        type: entity.wyrm ? "damage" : "enemy",
+      });
       state.act.damage({
         entityId: entity.id,
-        amount: entity.statusEffects.POISONED.value || 1,
         ignoreArmor: true,
         ignoreSpikes: true,
+        amount,
       });
     }
   }

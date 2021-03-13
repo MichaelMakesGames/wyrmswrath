@@ -53,10 +53,11 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("mushroomman-bandit"),
     health: makeHealth(2),
     monster: {
+      name: "Mushroomman Bandit",
       meleeDamage: 0,
       rangedDamage: 1,
       range: 3,
-      projectileColor: colors.enemyUnit,
+      projectileColor: colors.purple,
       idealDistance: 2,
       prioritizeDistance: false,
       abilities: [],
@@ -67,6 +68,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("mad-crystalman"),
     health: makeHealth(1),
     monster: {
+      name: "Mad Crystalman",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -83,6 +85,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("feral-slime"),
     health: makeHealth(3),
     monster: {
+      name: "Feral Slime",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -100,6 +103,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("laborer"),
     health: makeHealth(1),
     monster: {
+      name: "Laborer",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -113,10 +117,11 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("crystalbow-scout"),
     health: makeHealth(3),
     monster: {
+      name: "Crystalbow Scout",
       meleeDamage: 0,
       rangedDamage: 2,
       range: 3,
-      projectileColor: colors.water,
+      projectileColor: colors.blue,
       idealDistance: 2,
       prioritizeDistance: false,
       abilities: [],
@@ -127,6 +132,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("shroom-doctor"),
     health: makeHealth(3),
     monster: {
+      name: "Shroom Doctor",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -146,6 +152,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("slime-tamer"),
     health: makeHealth(3),
     monster: {
+      name: "Slime Tamer",
       meleeDamage: 2,
       rangedDamage: 0,
       range: 0,
@@ -165,6 +172,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("trained-slime"),
     health: makeHealth(2),
     monster: {
+      name: "Trained Slime",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -181,6 +189,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("crystal-legionnaire"),
     health: makeHealth(3),
     monster: {
+      name: "Crystal Legionnare",
       meleeDamage: 3,
       rangedDamage: 0,
       range: 0,
@@ -203,6 +212,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("slime-engineer"),
     health: makeHealth(5),
     monster: {
+      name: "Slime Engineer",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -216,6 +226,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("slime-bomb"),
     health: makeHealth(1),
     monster: {
+      name: "Slime Bomb",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -232,6 +243,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("shroom-chemist"),
     health: makeHealth(5),
     monster: {
+      name: "Shroom Chemist",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -254,6 +266,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("king"),
     health: makeHealth(8),
     monster: {
+      name: "Rogue-King",
       meleeDamage: 5,
       rangedDamage: 0,
       range: 0,
@@ -267,6 +280,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     display: makeDisplay("royal-guard"),
     health: makeHealth(5),
     monster: {
+      name: "Royal Guard",
       meleeDamage: 3,
       rangedDamage: 0,
       range: 0,

@@ -31,6 +31,7 @@ function cardDiscardToLimitHandler(
       message: `You were above the hand limit of ${MAX_HAND_SIZE}, and have been forced to discard the following: ${discarded
         .map((code) => cards[code].name)
         .join(", ")}`,
+      type: "error",
     });
   }
 }

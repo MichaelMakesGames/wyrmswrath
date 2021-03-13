@@ -44,6 +44,15 @@ function statueEffectAddHandler(
     statusEffects,
   });
 
+  state.act.logMessage({
+    message: getMessage(
+      state.select.name(entityId),
+      type,
+      (statusEffects[type] || {}).value,
+    ),
+    type: getMessageType(entityId === PLAYER_ID, type),
+  });
+
   if (type === "SLIMED") {
     renderer.flashStatusEffect(entityId, "icon-slimed");
   } else if (type === "CONFUSED") {
@@ -57,6 +66,42 @@ function statueEffectAddHandler(
   } else if (type === "ARMORED") {
     renderer.flashStatusEffect(entityId, "icon-armored");
   }
+}
+
+function getMessage(
+  name: string,
+  statusType: StatusEffectType,
+  value: number | undefined,
+) {
+  switch (statusType) {
+    case "ARMORED":
+      return `${name} is now armored${value ? ` (${value})` : ""}.`;
+    case "CONFUSED":
+      return `${name} is now confused${value ? ` (${value})` : ""}.`;
+    case "PARALYZED":
+      return `${name} is now paralyzed${value ? ` (${value})` : ""}.`;
+    case "POISONED":
+      return `${name} is now poisoned${value ? ` (${value})` : ""}.`;
+    case "SLIMED":
+      return `${name} is now slimed${value ? ` (${value})` : ""}.`;
+    case "SLIME_WALK":
+      return `${name} can now slime walk${value ? ` (${value})` : ""}.`;
+    case "STRENGTHENED":
+      return `${name} is now poisoned${value ? ` (${value})` : ""}.`;
+    default:
+      return `${name} is now ${statusType}${value ? ` (${value})` : ""}.`;
+  }
+}
+
+function getMessageType(
+  isPlayer: boolean,
+  statusType: StatusEffectType,
+): "debuff" | "buff" | "enemy" {
+  if (isPlayer)
+    return !["ARMORED", "SLIME_WALK", "STRENGTHENED"].includes(statusType)
+      ? "debuff"
+      : "buff";
+  return "enemy";
 }
 
 registerHandler(statueEffectAddHandler, statueEffectAdd);

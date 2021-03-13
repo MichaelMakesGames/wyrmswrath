@@ -26,6 +26,7 @@ function cardResolveHandler(
   if (!validationResult.valid) {
     state.act.logMessage({
       message: validationResult.message || "Invalid Card Play",
+      type: "error",
     });
     return;
   }

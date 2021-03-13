@@ -106,6 +106,7 @@ export default function HotkeysProvider({
           event.preventDefault();
           event.stopPropagation();
           hotkey.callback();
+          return;
         }
       }
     };

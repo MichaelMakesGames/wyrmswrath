@@ -18,6 +18,7 @@ export default function reducer(
   if (state.gameOver && !GAME_OVER_ALLOW_LIST.includes(action.type)) {
     wrappedState.act.logMessage({
       message: "Game Over! Press N to start a new game.",
+      type: "error",
     });
     return wrappedState.raw;
   }

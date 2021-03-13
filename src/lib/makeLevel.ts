@@ -1,3 +1,4 @@
+import { PRIORITY_BUILDING_LOW } from "~constants";
 import levels from "~data/levels";
 import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
 import { Direction, Entity, Pos } from "~types";
@@ -108,12 +109,18 @@ function generateNest(state: WrappedState, origin: Pos) {
   }
   wyrmDisplaySystem(state);
   // remove the wyrm component just to be safe
-  skeleton.forEach(({ id }) =>
+  skeleton.forEach(({ id }) => {
+    const { display } = state.select.entityById(id);
     state.act.updateEntity({
       id,
       wyrm: undefined,
       blocking: undefined,
       health: undefined,
-    }),
-  );
+      explorable: {},
+      display: display && {
+        ...display,
+        priority: PRIORITY_BUILDING_LOW,
+      },
+    });
+  });
 }

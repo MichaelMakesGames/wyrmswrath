@@ -28,7 +28,8 @@ function moveWyrmHandler(
     Boolean(playerDirection) && !nonTightDirections.includes(direction);
   if (!tightAllowed && wouldBeTightTurn) {
     state.act.logMessage({
-      message: "Cannot take a tight turn without using the Malleable card.",
+      message: "Cannot make a sharp turn without using the Malleable card.",
+      type: "error",
     });
     return;
   }
@@ -47,6 +48,7 @@ function moveWyrmHandler(
   ) {
     state.act.logMessage({
       message: "Cannot move there. Something is in the way.",
+      type: "error",
     });
     return;
   }
@@ -73,6 +75,7 @@ function moveWyrmHandler(
         state.act.logMessage({
           message:
             "You take an extra turning moving into Slime without Slime Walk",
+          type: "debuff",
         });
         state.act.playerTookTurn();
         renderer.flashStatusEffect(PLAYER_ID, "icon-slimed");

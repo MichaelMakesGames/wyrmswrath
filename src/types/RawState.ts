@@ -12,7 +12,7 @@ export interface RawState {
   crystalProgress: number;
   mushroomProgress: number;
   slimeProgress: number;
-  messageLog: Record<number, { type?: string; message: string }[]>;
+  messageLog: Record<number, { type: string; message: string }[]>;
   gameOver: boolean;
   victory: boolean;
   turn: number;

@@ -5,7 +5,7 @@ import notifications from "~lib/notifications";
 
 const logMessage = createStandardAction("LOG_MESSAGE")<{
   message: string;
-  type?: string;
+  type: "buff" | "debuff" | "enemy" | "damage" | "error";
 }>();
 export default logMessage;
 
@@ -31,10 +31,12 @@ function logMessageHandler(
 
   // should probably find a better solution to this
   // perhaps the same subscription system I'm planning for rendering
-  notifications.open({
-    type: type || "error",
-    message,
-  });
+  if (type === "error") {
+    notifications.open({
+      type: type || "error",
+      message,
+    });
+  }
 }
 
 registerHandler(logMessageHandler, logMessage);

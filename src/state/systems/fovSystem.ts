@@ -4,7 +4,7 @@ import { FOV_RANGE } from "~constants";
 import { fromRotPos, getPosKey, parsePosKey, toRotPos } from "~lib/geometry";
 import WrappedState from "~types/WrappedState";
 
-const FOG_COLOR = colors.activeBuilding;
+const FOG_COLOR = colors.lightGray;
 
 export default function fovSystem(state: WrappedState): void {
   const head = state.select.head();

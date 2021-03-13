@@ -1,13 +1,15 @@
+import { StatusEffectType } from "~data/statusEffectTypes";
 import { StatusEffect, StatusEffects } from "~types";
 import WrappedState from "~types/WrappedState";
 
 export default function statusEffectSystem(state: WrappedState): void {
   for (const entity of state.select.entitiesWithComps("statusEffects")) {
     const statusEffects: StatusEffects = { ...entity.statusEffects };
+    const typesToRemove: StatusEffectType[] = [];
     for (const statusEffect of Object.values(statusEffects) as StatusEffect[]) {
       if (statusEffect.expiresIn !== undefined) {
         if (statusEffect.expiresIn <= 1) {
-          delete statusEffects[statusEffect.type];
+          typesToRemove.push(statusEffect.type);
         } else {
           statusEffects[statusEffect.type] = {
             ...statusEffect,
@@ -17,8 +19,11 @@ export default function statusEffectSystem(state: WrappedState): void {
       }
     }
     state.act.updateEntity({
-      ...entity,
+      id: entity.id,
       statusEffects,
     });
+    typesToRemove.forEach((type) =>
+      state.act.statusEffectRemove({ entityId: entity.id, type }),
+    );
   }
 }

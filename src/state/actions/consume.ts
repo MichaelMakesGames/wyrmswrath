@@ -16,7 +16,7 @@ function consumeHandler(
   const consumables = state.select
     .entitiesWithComps("consumable", "pos")
     .filter((e) => arePositionsEqual(e.pos, pos));
-  for (const { consumable } of consumables) {
+  for (const { id, consumable } of consumables) {
     state.setRaw({
       ...state.raw,
       energy: state.raw.energy + consumable.energy,
@@ -25,11 +25,29 @@ function consumeHandler(
         state.raw.mushroomProgress + (consumable.mushroom ? 1 : 0),
       slimeProgress: state.raw.slimeProgress + (consumable.slime ? 1 : 0),
     });
+
+    if (
+      consumable.victory ||
+      consumable.energy ||
+      consumable.crystal ||
+      consumable.mushroom ||
+      consumable.slime
+    ) {
+      state.act.logMessage({
+        message: `Player consumes the ${state.select.name(id)}`,
+        type: "buff",
+      });
+    }
+
     if (consumable.victory) {
       state.setRaw({
         ...state.raw,
         gameOver: true,
         victory: true,
+      });
+      state.act.logMessage({
+        message: "VICTORY!",
+        type: "buff",
       });
     }
   }

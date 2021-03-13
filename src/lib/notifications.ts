@@ -2,12 +2,9 @@ import { Notyf } from "notyf";
 import colors from "~colors";
 
 const notifications = new Notyf({
-  position: { x: "right", y: "bottom" },
-  types: [
-    { type: "error", background: colors.invalid },
-    { type: "success", background: colors.secondary },
-  ],
-  duration: 10000,
+  position: { x: "right", y: "top" },
+  types: [{ type: "error", background: colors.red }],
+  duration: 3000,
   dismissible: true,
 });
 

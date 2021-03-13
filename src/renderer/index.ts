@@ -20,7 +20,7 @@ const renderer = new Renderer({
   tileHeight: HEX_HEIGHT,
   hex: true,
   hexBaseWidth: HEX_BASE_WIDTH,
-  backgroundColor: colors.background,
+  backgroundColor: colors.black,
 });
 
 renderer.load(tiles);

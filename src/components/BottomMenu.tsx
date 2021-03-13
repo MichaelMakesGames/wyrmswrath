@@ -103,7 +103,7 @@ function Hand() {
   return (
     <div
       className="flex-none flex flex-row flex-wrap overflow-y-auto p-3"
-      style={{ height: 250 + 24, gap: "0.5rem", width: "calc(100% - 16rem)" }}
+      style={{ height: 250 + 24, gap: "0.25rem", width: "calc(100% - 16rem)" }}
     >
       {hand.map((code, index) => (
         <Card

@@ -185,7 +185,7 @@ const cards: Record<CardCode, Card> = {
           }
         });
         if (entitiesAtPosition.some((e) => e.blocking && !e.health)) {
-          renderer.projectile(origin, pos, colors.water, speed);
+          renderer.projectile(origin, pos, colors.blue, speed);
           break;
         }
       }
@@ -374,7 +374,7 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_MALLEABLE",
     name: "Malleable",
     type: "slime",
-    description: "Make a tight turn.",
+    description: "Make a sharp turn (for example, from N to SE).",
     directional: true,
     validator: tightAngleNotBlocked,
     effect: (state, direction) => {

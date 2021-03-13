@@ -64,7 +64,7 @@ export default function Card({
         width: 170,
         height: 250,
         backgroundImage: `url("${cardBackgrounds[card.type]}")`,
-        backgroundColor: colors.background,
+        backgroundColor: colors.black,
       }}
       type="button"
       onClick={() => callback(code, index)}

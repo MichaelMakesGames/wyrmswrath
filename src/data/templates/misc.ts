@@ -19,7 +19,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   CURSOR: {
     display: {
       tile: "outline_solid",
-      color: colors.secondary,
+      color: colors.yellow,
       priority: PRIORITY_MARKER,
       discreteMovement: true,
     },

@@ -271,6 +271,13 @@ abilityFuncs.HEAL = (state, entity, targetPos) => {
     .find((e) => e.health);
   if (!target) return;
   state.act.heal({ entityId: target.id, amount: 2 });
+
+  const actorName = state.select.name(entity.id);
+  const targetName = state.select.name(target.id);
+  state.act.logMessage({
+    message: `${actorName} heals 2 damage from ${targetName}.`,
+    type: "enemy",
+  });
 };
 
 abilityTargetingFuncs.SPAWN_SLIME = (state, entity) => {
@@ -294,6 +301,11 @@ abilityFuncs.SPAWN_SLIME = (state, entity, pos) => {
   state.act.addEntity(
     createEntityFromTemplate("MONSTER_TRAINED_SLIME", { pos }),
   );
+
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} summons a Trained Slime.`,
+    type: "enemy",
+  });
 };
 
 abilityTargetingFuncs.POISON = (state, entity) => {
@@ -303,6 +315,11 @@ abilityTargetingFuncs.POISON = (state, entity) => {
 };
 
 abilityFuncs.POISON = (state, entity, pos) => {
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} poisons Player.`,
+    type: "debuff",
+  });
+
   renderer.bump(entity.id, pos);
   state.act.statusEffectAdd({
     entityId: PLAYER_ID,
@@ -331,6 +348,11 @@ abilityTargetingFuncs.CHARGE = (state, entity) => {
 };
 
 abilityFuncs.CHARGE = (state, entity, target) => {
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} poisons Player.`,
+    type: "debuff",
+  });
+
   const playerDijkstra = state.raw.playerDijkstra;
   let current = entity.pos;
   const path: Pos[] = [];
@@ -378,6 +400,11 @@ abilityTargetingFuncs.SLIME_BOMB = (state, entity) => {
 };
 
 abilityFuncs.SLIME_BOMB = (state, entity, target) => {
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} throws a Slime Bomb.`,
+    type: "enemy",
+  });
+
   const bomb = createEntityFromTemplate("MONSTER_SLIME_BOMB", {
     pos: entity.pos,
   });
@@ -391,6 +418,8 @@ abilityFuncs.SLIME_BOMB = (state, entity, target) => {
 abilityTargetingFuncs.SLIME_EXPLOSION = (state, entity) => entity.pos;
 
 abilityFuncs.SLIME_EXPLOSION = (state, entity, target) => {
+  let playerPoisoned = false;
+
   const positions = [entity.pos, ...getAdjacentPositions(entity.pos)];
   for (const pos of positions) {
     for (const e of state.select.entitiesAtPosition(pos)) {
@@ -401,6 +430,7 @@ abilityFuncs.SLIME_EXPLOSION = (state, entity, target) => {
           value: 1,
         });
       }
+      if (e.wyrm) playerPoisoned = true;
       if (e.ground && !e.ground.slimy) {
         state.act.removeEntity(e.id);
         state.act.addEntity(
@@ -409,6 +439,13 @@ abilityFuncs.SLIME_EXPLOSION = (state, entity, target) => {
       }
     }
   }
+
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} explodes, poisoning ${
+      playerPoisoned ? "Player and other creatures" : "all nearby creatures"
+    } and covering the area in slime.`,
+    type: playerPoisoned ? "debuff" : "enemy",
+  });
 };
 
 abilityTargetingFuncs.STRENGTHEN = (state, entity) => {
@@ -445,6 +482,13 @@ abilityFuncs.STRENGTHEN = (state, entity, targetPos, tookTurn) => {
     type: "STRENGTHENED",
     expiresIn: tookTurn.includes(target.id) ? 2 : 1,
   });
+
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} strengthens ${state.select.name(
+      target.id,
+    )}, doubling their attack.`,
+    type: "enemy",
+  });
 };
 
 abilityTargetingFuncs.ANTIDOTE = (state, entity) => {
@@ -472,4 +516,13 @@ abilityFuncs.ANTIDOTE = (state, entity, targetPos) => {
     .find((e) => e.statusEffects && e.statusEffects.POISONED);
   if (!target) return;
   state.act.statusEffectRemove({ entityId: target.id, type: "POISONED" });
+
+  renderer.flashStatusEffect(target.id, "icon-healed");
+
+  state.act.logMessage({
+    message: `${state.select.name(entity.id)} cures all of ${state.select.name(
+      target.id,
+    )}'s poison.`,
+    type: "enemy",
+  });
 };
