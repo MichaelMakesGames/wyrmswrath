@@ -150,7 +150,10 @@ const cards: Record<CardCode, Card> = {
     description: "Make a move without taking a turn.",
     fast: true,
     directional: true,
-    validator: wideAngleNotBlocked,
+    validator: (state, direction) =>
+      direction && state.select.wyrmCanMove(direction)
+        ? { valid: true }
+        : { valid: false, message: "Must play in a wide-angled direction." },
     effect: (state, direction) => {
       if (direction) {
         state.act.moveWyrm({ direction, fast: true });

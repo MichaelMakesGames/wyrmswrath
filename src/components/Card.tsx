@@ -9,6 +9,7 @@ import cardSlime from "~assets/tiles/card-slime.png";
 import colors from "~colors";
 import { SettingsContext } from "~contexts";
 import cards, { CardCode } from "~data/cards";
+import { noFocusOnClick } from "~lib/controls";
 import { ControlCode } from "~types/ControlCode";
 import { HotkeyGroup, useControl } from "./HotkeysProvider";
 import Kbd from "./Kbd";
@@ -59,7 +60,7 @@ export default function Card({
 
   return (
     <button
-      className="relative flex-none flex flex-col rounded align-top px-6 pt-12 disabled:cursor-not-allowed disabled:opacity-50 transform transition-all hover:scale-105 hover:shadow-xl"
+      className="relative flex-none flex flex-col rounded align-top px-6 pt-12 disabled:cursor-not-allowed disabled:opacity-25 transform transition-all hover:scale-105 hover:shadow-xl"
       style={{
         width: 170,
         height: 250,
@@ -67,7 +68,7 @@ export default function Card({
         backgroundColor: colors.black,
       }}
       type="button"
-      onClick={() => callback(code, index)}
+      onClick={noFocusOnClick(() => callback(code, index))}
       disabled={disabled}
     >
       <h3>

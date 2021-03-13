@@ -1,6 +1,7 @@
 import { MAX_HAND_SIZE } from "~constants";
-import { RawState } from "~types";
-import { player, playerSize } from "./entitySelectors";
+import { getNonTightDirections } from "~lib/geometry";
+import { Direction, RawState } from "~types";
+import { player, playerDirection, playerSize } from "./entitySelectors";
 
 export function gameOver(state: RawState) {
   return state.gameOver;
@@ -85,4 +86,11 @@ export function level(state: RawState): number {
 export function playerStatusEffects(state: RawState) {
   const p = player(state);
   return p ? p.statusEffects || {} : {};
+}
+
+export function wyrmCanMove(state: RawState, direction: Direction) {
+  return (
+    getNonTightDirections(playerDirection(state)).includes(direction) ||
+    playerDirection(state) === null
+  );
 }

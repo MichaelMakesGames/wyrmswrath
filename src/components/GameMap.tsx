@@ -24,80 +24,17 @@ export default function GameMap() {
   const [contextMenuPos, setContextMenuPos] = useState<Pos | null>(null);
   const playerPos = useSelector(selectors.playerPos);
   const mousePosRef = useRef<Pos | null>(null);
-  const isPlayingCard = useSelector(selectors.isPlayingCard);
 
   useEffect(() => setContextMenuPos(null), [playerPos]);
 
-  const movementDisabled = isPlayingCard;
-  useControl({
-    code: ControlCode.N,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm({ direction: "N" })),
-    shift: false,
-    alt: false,
-    ctrl: false,
-    meta: false,
-    disabled: movementDisabled,
-  });
-  useControl({
-    code: ControlCode.NE,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm({ direction: "NE" })),
-    shift: false,
-    alt: false,
-    ctrl: false,
-    meta: false,
-    disabled: movementDisabled,
-  });
-  useControl({
-    code: ControlCode.SE,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm({ direction: "SE" })),
-    shift: false,
-    alt: false,
-    ctrl: false,
-    meta: false,
-    disabled: movementDisabled,
-  });
-  useControl({
-    code: ControlCode.S,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm({ direction: "S" })),
-    shift: false,
-    alt: false,
-    ctrl: false,
-    meta: false,
-    disabled: movementDisabled,
-  });
-  useControl({
-    code: ControlCode.SW,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm({ direction: "SW" })),
-    shift: false,
-    alt: false,
-    ctrl: false,
-    meta: false,
-    disabled: movementDisabled,
-  });
-  useControl({
-    code: ControlCode.NW,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.moveWyrm({ direction: "NW" })),
-    shift: false,
-    alt: false,
-    ctrl: false,
-    meta: false,
-    disabled: movementDisabled,
-  });
-
-  useControl({
-    code: ControlCode.Back,
-    group: HotkeyGroup.Main,
-    callback: () => {
-      setContextMenuPos(null);
-      if (cursorPos) dispatch(actions.setCursorPos(null));
-    },
-  });
+  // useControl({
+  //   code: ControlCode.Back,
+  //   group: HotkeyGroup.Main,
+  //   callback: () => {
+  //     setContextMenuPos(null);
+  //     if (cursorPos) dispatch(actions.setCursorPos(null));
+  //   },
+  // });
 
   // const performDefaultAction = (pos: Pos | null) => {
   //   const quickAction = getQuickAction(state, pos);

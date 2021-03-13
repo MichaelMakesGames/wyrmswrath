@@ -41,7 +41,7 @@ export default class Audio {
     if (this.currentMusic) {
       const [sound, id] = this.currentMusic;
       sound.fade(1, 0, 1000, id);
-      sound.off(undefined, undefined, id);
+      sound.off();
       sound.on(
         "fade",
         () => {
