@@ -20,10 +20,9 @@ export enum ControlCode {
 
   NewGame = "NEW_GAME",
   Wait = "WAIT",
-  QuickAction = "QUICK_ACTION",
   Back = "BACK",
   Help = "HELP",
-  DismissNotifications = "DISMISS_NOTIFICATIONS",
   ZoomIn = "ZOOM_IN",
   ZoomOut = "ZOOM_OUT",
+  ToggleFullscreen = "TOGGLE_FULLSCREEN",
 }

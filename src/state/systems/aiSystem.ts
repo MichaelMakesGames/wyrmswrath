@@ -52,7 +52,9 @@ function handleMonster(
   const attackIsPossible = canAttack(entity, dist, playerDijkstra);
   const moveIsPossible = canMove(state, entity, dist, playerDijkstra);
   const abilityCodeAndTarget = getAbilityCodeAndTarget(state, entity);
-  if (isConfused(entity)) {
+  if (isParalyzed(entity)) {
+    doParalyzedTurn(state, entity);
+  } else if (isConfused(entity)) {
     doConfusedTurn(state, entity);
   } else if (moveIsPossible && monster.prioritizeDistance) {
     move(state, entity, dist, playerDijkstra);
@@ -109,17 +111,17 @@ function doAbility(
   });
 }
 
+function doParalyzedTurn(state: WrappedState, entity: MonsterEntity) {
+  renderer.flashStatusEffect(entity.id, "icon-paralyzed");
+}
+
 function doConfusedTurn(state: WrappedState, entity: MonsterEntity) {
   const options: (() => void)[] = [];
   for (const direction of DIRECTIONS) {
     const blockingEntities = state.select.getBlockingEntities(
       getPositionToDirection(entity.pos, direction),
     );
-    if (
-      blockingEntities.length === 0 &&
-      !isParalyzed(entity) &&
-      !isSlimed(entity)
-    ) {
+    if (blockingEntities.length === 0 && !isSlimed(entity)) {
       options.push(() => state.act.move({ entityId: entity.id, direction }));
     } else if (
       blockingEntities.length === 1 &&
@@ -138,6 +140,14 @@ function doConfusedTurn(state: WrappedState, entity: MonsterEntity) {
     }
   }
   if (options.length) choose(options)();
+
+  if (
+    entity.statusEffects &&
+    entity.statusEffects.CONFUSED &&
+    entity.statusEffects.CONFUSED.expiresIn
+  ) {
+    renderer.flashStatusEffect(entity.id, "icon-confused");
+  }
 }
 
 function attack(

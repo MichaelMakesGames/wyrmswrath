@@ -27,15 +27,13 @@ const defaultSettings: Settings = {
     [ControlCode.Menu9]: ["9"],
     [ControlCode.Menu0]: ["0"],
 
-    [ControlCode.QuickAction]: ["space"],
-
     [ControlCode.NewGame]: ["n"],
     [ControlCode.Wait]: ["z"],
     [ControlCode.Back]: ["`", "esc"],
     [ControlCode.Help]: ["?"],
-    [ControlCode.DismissNotifications]: ["backspace"],
     [ControlCode.ZoomIn]: ["+", "="],
     [ControlCode.ZoomOut]: ["-", "_"],
+    [ControlCode.ToggleFullscreen]: ["F11"],
   },
 };
 

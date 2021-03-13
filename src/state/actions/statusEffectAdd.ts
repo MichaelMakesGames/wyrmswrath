@@ -56,10 +56,6 @@ function statueEffectAddHandler(
 
   if (type === "SLIMED") {
     renderer.flashStatusEffect(entityId, "icon-slimed");
-  } else if (type === "CONFUSED") {
-    renderer.flashStatusEffect(entityId, "icon-confused");
-  } else if (type === "PARALYZED") {
-    renderer.flashStatusEffect(entityId, "icon-paralyzed");
   } else if (type === "STRENGTHENED") {
     renderer.flashStatusEffect(entityId, "icon-strengthened");
   } else if (type === "SLIME_WALK") {

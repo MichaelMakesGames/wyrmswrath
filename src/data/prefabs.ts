@@ -134,6 +134,23 @@ const prefabs = {
     "S": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL"],
     "S,S": ["TERRAIN_GROUND", "DECORATION_TRACK_VERTICAL"],
   }),
+  CAMPSITE_1: makePrefab({
+    "": ["TERRAIN_GROUND", "DECORATION_TENT_CENTRAL"],
+    "N": ["TERRAIN_GROUND", "DECORATION_TENT_N"],
+    "NE": ["TERRAIN_GROUND", "DECORATION_TENT_NE"],
+    "SE": [
+      "TERRAIN_GROUND",
+      "DECORATION_TENT_SE",
+      ["NONE", "DECORATION_BARREL"],
+    ],
+    "NW": ["TERRAIN_GROUND", "DECORATION_TENT_NW"],
+    "SW": [
+      "TERRAIN_GROUND",
+      "DECORATION_TENT_SW",
+      ["NONE", "DECORATION_SHOVEL"],
+    ],
+    "S": ["TERRAIN_GROUND", ["NONE", "DECORATION_CAMPFIRE"]],
+  }),
 };
 
 export default prefabs;

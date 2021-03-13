@@ -202,13 +202,53 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     consumable: { energy: 0 },
     diggable: {},
   },
+  DECORATION_TENT_CENTRAL: {
+    display: makeDisplay("tent-central", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_TENT_N: {
+    display: makeDisplay("tent-n", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_TENT_NE: {
+    display: makeDisplay("tent-ne", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_TENT_SE: {
+    display: makeDisplay("tent-se", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_TENT_NW: {
+    display: makeDisplay("tent-nw", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_TENT_SW: {
+    display: makeDisplay("tent-sw", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_BARREL: {
+    display: makeDisplay("barrel", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
+  DECORATION_CAMPFIRE: {
+    display: makeDisplay("campfire", PRIORITY_BUILDING_LOW),
+    explorable: true,
+    consumable: { energy: 0 },
+  },
 };
 
 function makeDisplay(tile: string, priority = PRIORITY_TERRAIN): Display {
   return {
     tile,
     priority,
-    hidden: true,
+    hidden: false,
   };
 }
 

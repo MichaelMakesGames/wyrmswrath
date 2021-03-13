@@ -142,6 +142,7 @@ export default {
       MONSTER_SLIME_TAMER: 1,
       MONSTER_SHROOM_DOCTOR: 1,
     },
+    prefabs: [{ prefab: prefabs.CAMPSITE_1, attempts: 5 }],
   }),
 
   OUTSKIRTS_MAIN: makeRoom({
@@ -162,6 +163,7 @@ export default {
     prefabs: [
       { prefab: prefabs.WOODEN_BUILDING_MEDIUM, attempts: 20 },
       { prefab: prefabs.WOODEN_BUILDING_SMALL, attempts: 20 },
+      { prefab: prefabs.CAMPSITE_1, attempts: 5 },
     ],
   }),
   OUTSKIRTS_CRYSTAL_MINE: makeRoom({
@@ -185,7 +187,7 @@ export default {
       { prefab: prefabs.TRACK_1, attempts: 2 },
       { prefab: prefabs.TRACK_2, attempts: 2 },
       { prefab: prefabs.PICKAX, attempts: 1 },
-      { prefab: prefabs.SHOVEL, attempts: 1 },
+      { prefab: prefabs.CAMPSITE_1, attempts: 5 },
     ],
   }),
   OUTSKIRTS_MUSHROOM_FARM: makeRoom({
@@ -229,6 +231,7 @@ export default {
     },
     prefabs: [
       { prefab: prefabs.SHOVEL, attempts: 1 },
+      { prefab: prefabs.CAMPSITE_1, attempts: 5 },
       { prefab: prefabs.TRACK_2, attempts: 1 },
     ],
   }),

@@ -324,13 +324,13 @@ const cards: Record<CardCode, Card> = {
     name: "Paralyzing Spores",
     type: "mushroom",
     description:
-      "Paralyze all enemies within 3 tiles for 5 turns, so they can't move (but can still attack).",
+      "Paralyze all enemies within 5 tiles for 3 turns, so they can't move or attack.",
     effect: (state) =>
-      getMonstersWithinRange(state, 3).forEach((e) =>
+      getMonstersWithinRange(state, 5).forEach((e) =>
         state.act.statusEffectAdd({
           entityId: e.id,
           type: "PARALYZED",
-          expiresIn: 5,
+          expiresIn: 3,
         }),
       ),
   },

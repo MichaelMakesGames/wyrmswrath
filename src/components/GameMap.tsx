@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import renderer from "~/renderer";
 import { HotkeyGroup, useControl } from "~components/HotkeysProvider";
 import { useInterval } from "~hooks";
-import { getQuickAction, noFocusOnClick } from "~lib/controls";
 import { arePositionsEqual } from "~lib/geometry";
 import actions from "~state/actions";
 import selectors from "~state/selectors";
@@ -24,7 +23,6 @@ export default function GameMap() {
   const cursorPos = useSelector(selectors.cursorPos);
   const [contextMenuPos, setContextMenuPos] = useState<Pos | null>(null);
   const playerPos = useSelector(selectors.playerPos);
-  const state = useSelector(selectors.state);
   const mousePosRef = useRef<Pos | null>(null);
   const isPlayingCard = useSelector(selectors.isPlayingCard);
 
@@ -101,29 +99,29 @@ export default function GameMap() {
     },
   });
 
-  const performDefaultAction = (pos: Pos | null) => {
-    const quickAction = getQuickAction(state, pos);
-    if (quickAction) {
-      dispatch(quickAction.action);
-    }
-  };
-  useControl({
-    code: ControlCode.QuickAction,
-    group: HotkeyGroup.Main,
-    callback: () => performDefaultAction(cursorPos),
-  });
+  // const performDefaultAction = (pos: Pos | null) => {
+  //   const quickAction = getQuickAction(state, pos);
+  //   if (quickAction) {
+  //     dispatch(quickAction.action);
+  //   }
+  // };
+  // useControl({
+  //   code: ControlCode.QuickAction,
+  //   group: HotkeyGroup.Main,
+  //   callback: () => performDefaultAction(cursorPos),
+  // });
 
-  const onMouseMoveOrEnter = (e: React.MouseEvent) => {
-    const mousePos = {
-      x: e.nativeEvent.offsetX,
-      y: e.nativeEvent.offsetY,
-    };
-    mousePosRef.current = mousePos;
-    const pos = renderer.getPosFromMouse(mousePos.x, mousePos.y);
-    if (!cursorPos || (!arePositionsEqual(cursorPos, pos) && !contextMenuPos)) {
-      dispatch(actions.setCursorPos(pos));
-    }
-  };
+  // const onMouseMoveOrEnter = (e: React.MouseEvent) => {
+  //   const mousePos = {
+  //     x: e.nativeEvent.offsetX,
+  //     y: e.nativeEvent.offsetY,
+  //   };
+  //   mousePosRef.current = mousePos;
+  //   const pos = renderer.getPosFromMouse(mousePos.x, mousePos.y);
+  //   if (!cursorPos || (!arePositionsEqual(cursorPos, pos) && !contextMenuPos)) {
+  //     dispatch(actions.setCursorPos(pos));
+  //   }
+  // };
 
   useControl({
     code: ControlCode.ZoomIn,
@@ -151,14 +149,14 @@ export default function GameMap() {
         <div
           className="w-full h-full"
           id="map"
-          onMouseMove={onMouseMoveOrEnter}
-          onMouseEnter={onMouseMoveOrEnter}
-          onMouseOut={() => {
-            mousePosRef.current = null;
-            if (!contextMenuPos && cursorPos) {
-              dispatch(actions.setCursorPos(null));
-            }
-          }}
+          // onMouseMove={onMouseMoveOrEnter}
+          // onMouseEnter={onMouseMoveOrEnter}
+          // onMouseOut={() => {
+          //   mousePosRef.current = null;
+          //   if (!contextMenuPos && cursorPos) {
+          //     dispatch(actions.setCursorPos(null));
+          //   }
+          // }}
           onWheel={(e) => {
             if (e.nativeEvent.deltaY > 0) {
               renderer.zoomOut();
@@ -175,39 +173,39 @@ export default function GameMap() {
               }
             }
           }}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            const mousePos = {
-              x: e.nativeEvent.offsetX,
-              y: e.nativeEvent.offsetY,
-            };
-            mousePosRef.current = mousePos;
-            const gamePos = renderer.getPosFromMouse(mousePos.x, mousePos.y);
-            if (!cursorPos || !arePositionsEqual(cursorPos, gamePos)) {
-              dispatch(actions.setCursorPos(gamePos));
-            }
-            if (!contextMenuPos) {
-              setContextMenuPos(gamePos);
-            } else {
-              setContextMenuPos(null);
-            }
-          }}
-          onClick={noFocusOnClick((e) => {
-            if (contextMenuPos) {
-              setContextMenuPos(null);
-              return;
-            }
-            const mousePos = {
-              x: e.nativeEvent.offsetX,
-              y: e.nativeEvent.offsetY,
-            };
-            mousePosRef.current = mousePos;
-            const gamePos = renderer.getPosFromMouse(mousePos.x, mousePos.y);
-            if (!cursorPos || !arePositionsEqual(cursorPos, gamePos)) {
-              dispatch(actions.setCursorPos(gamePos));
-            }
-            performDefaultAction(gamePos);
-          })}
+          // onContextMenu={(e) => {
+          //   e.preventDefault();
+          //   const mousePos = {
+          //     x: e.nativeEvent.offsetX,
+          //     y: e.nativeEvent.offsetY,
+          //   };
+          //   mousePosRef.current = mousePos;
+          //   const gamePos = renderer.getPosFromMouse(mousePos.x, mousePos.y);
+          //   if (!cursorPos || !arePositionsEqual(cursorPos, gamePos)) {
+          //     dispatch(actions.setCursorPos(gamePos));
+          //   }
+          //   if (!contextMenuPos) {
+          //     setContextMenuPos(gamePos);
+          //   } else {
+          //     setContextMenuPos(null);
+          //   }
+          // }}
+          // onClick={noFocusOnClick((e) => {
+          //   if (contextMenuPos) {
+          //     setContextMenuPos(null);
+          //     return;
+          //   }
+          //   const mousePos = {
+          //     x: e.nativeEvent.offsetX,
+          //     y: e.nativeEvent.offsetY,
+          //   };
+          //   mousePosRef.current = mousePos;
+          //   const gamePos = renderer.getPosFromMouse(mousePos.x, mousePos.y);
+          //   if (!cursorPos || !arePositionsEqual(cursorPos, gamePos)) {
+          //     dispatch(actions.setCursorPos(gamePos));
+          //   }
+          //   performDefaultAction(gamePos);
+          // })}
         />
       </section>
     </ContextMenu>

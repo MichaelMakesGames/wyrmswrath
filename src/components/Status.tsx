@@ -1,18 +1,14 @@
 import Tippy from "@tippyjs/react";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { HEX_HEIGHT, HEX_WIDTH } from "~constants";
 import levels from "~data/levels";
-import actions from "~state/actions";
 import selectors from "~state/selectors";
 import { StatusEffect } from "~types";
-import { ControlCode } from "~types/ControlCode";
 // @ts-ignore
 import tiles from "../assets/tiles/*.png";
-import { HotkeyGroup, useControl } from "./HotkeysProvider";
 
 export default function Status() {
-  const dispatch = useDispatch();
   const size = useSelector(selectors.playerSize);
   const level = useSelector(selectors.level);
   const energy = useSelector(selectors.playerEnergy);
@@ -38,12 +34,6 @@ export default function Status() {
   } else if (gameOver) {
     mainStatus = "Defeat";
   }
-
-  useControl({
-    code: ControlCode.NewGame,
-    group: HotkeyGroup.Main,
-    callback: () => dispatch(actions.newGame()),
-  });
 
   return (
     <section className="p-2 border-b border-gray" data-section="STATUS">

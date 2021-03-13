@@ -52,15 +52,6 @@ export default function generateMap(
     }
   });
 
-  console.warn(
-    caverns
-      .filter((c) => c.size >= 10)
-      .map((s) => s.size)
-      .sort((a, b) => b - a),
-    caverns.filter((c) => c.size >= 10).length,
-    caverns.length,
-  );
-
   caverns
     .filter((c) => c.size < 10)
     .forEach((c) =>

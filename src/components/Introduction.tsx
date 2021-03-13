@@ -19,13 +19,6 @@ export default function Introduction() {
   }, [Boolean(player), turn]);
 
   useControl({
-    code: ControlCode.QuickAction,
-    group: HotkeyGroup.Intro,
-    callback: close,
-    disabled: !isOpen,
-  });
-
-  useControl({
     code: ControlCode.Back,
     group: HotkeyGroup.Intro,
     callback: close,
@@ -45,7 +38,7 @@ export default function Introduction() {
         <p className="my-1">
           Grow, explore, ascend, and find his Palace, and retrieve the Chalice.
         </p>
-        <hr className="border-b border-gray my-3" />
+        <hr className="border-gray my-3" />
         <div className="mb-3">
           <p className="my-1">
             Wyrm&apos;s Wrath is a turn-based game. Each turn you can:

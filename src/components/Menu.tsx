@@ -6,7 +6,7 @@ import { SettingsContext } from "~contexts";
 import { useBoolean } from "~hooks";
 import actions from "~state/actions";
 import { ControlCode } from "~types/ControlCode";
-import { noFocusOnClick } from "~lib/controls";
+import { isMac, noFocusOnClick } from "~lib/controls";
 import { HotkeyGroup, useControl } from "./HotkeysProvider";
 import Kbd from "./Kbd";
 import KeyboardControls from "./KeyboardControls";
@@ -40,6 +40,38 @@ export default function Menu() {
   });
 
   useControl({
+    code: ControlCode.NewGame,
+    callback: () => dispatch(actions.newGame()),
+    group: HotkeyGroup.Main,
+    allowedGroups: [
+      HotkeyGroup.Intro,
+      HotkeyGroup.GameOver,
+      HotkeyGroup.Menu,
+      HotkeyGroup.CardGain,
+    ],
+  });
+
+  const toggleFullscreen = () => {
+    if (document.fullscreen) {
+      document.exitFullscreen();
+    } else {
+      document.body.requestFullscreen();
+    }
+  };
+  useControl({
+    code: ControlCode.ToggleFullscreen,
+    callback: toggleFullscreen,
+    group: HotkeyGroup.Main,
+    allowedGroups: [
+      HotkeyGroup.Intro,
+      HotkeyGroup.GameOver,
+      HotkeyGroup.Menu,
+      HotkeyGroup.CardGain,
+    ],
+    disabled: !isMac(), // F11 is already the shortcut on Windows and Linux
+  });
+
+  useControl({
     code: ControlCode.Help,
     callback: openControls,
     group: HotkeyGroup.Main,
@@ -62,27 +94,21 @@ export default function Menu() {
         isOpen ? (
           <ul>
             <MenuOption
-              index={0}
+              controlCode={ControlCode.NewGame}
               label="New Game"
               callback={() => dispatch(actions.newGame())}
               closeMenu={close}
             />
             <MenuOption
-              index={1}
-              label="Toggle Fullscreen"
-              callback={() => {
-                if (document.fullscreen) {
-                  document.exitFullscreen();
-                } else {
-                  document.body.requestFullscreen();
-                }
-              }}
+              controlCode={ControlCode.Help}
+              label="Controls"
+              callback={openControls}
               closeMenu={close}
             />
             <MenuOption
-              index={2}
-              label="Controls"
-              callback={openControls}
+              controlCode={ControlCode.ToggleFullscreen}
+              label="Toggle Fullscreen"
+              callback={toggleFullscreen}
               closeMenu={close}
             />
           </ul>
@@ -98,38 +124,16 @@ export default function Menu() {
 }
 
 function MenuOption({
+  controlCode,
   callback,
   closeMenu,
-  index,
   label,
 }: {
+  controlCode: ControlCode;
   callback: () => void;
   closeMenu: () => void;
-  index: number;
   label: string;
 }) {
-  const controlCode = [
-    ControlCode.Menu1,
-    ControlCode.Menu2,
-    ControlCode.Menu3,
-    ControlCode.Menu4,
-    ControlCode.Menu5,
-    ControlCode.Menu6,
-    ControlCode.Menu7,
-    ControlCode.Menu8,
-    ControlCode.Menu9,
-    ControlCode.Menu0,
-  ][index];
-
-  useControl({
-    code: controlCode,
-    group: HotkeyGroup.Menu,
-    callback: () => {
-      closeMenu();
-      callback();
-    },
-  });
-
   const settings = useContext(SettingsContext);
   const shortcuts = settings.keyboardShortcuts[controlCode];
 
