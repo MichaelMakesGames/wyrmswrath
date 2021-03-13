@@ -38,6 +38,7 @@ export interface Monster {
   prioritizeDistance: boolean;
   projectileColor?: string;
   attackSfx?: string;
+  alwaysTryAbility?: boolean;
   abilities: {
     code: string;
     coolDown: number;

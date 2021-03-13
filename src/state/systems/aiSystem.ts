@@ -52,7 +52,9 @@ function handleMonster(
   const attackIsPossible = canAttack(entity, dist, playerDijkstra);
   const moveIsPossible = canMove(state, entity, dist, playerDijkstra);
   const abilityCodeAndTarget = getAbilityCodeAndTarget(state, entity);
-  if (isParalyzed(entity)) {
+  if (monster.alwaysTryAbility && abilityCodeAndTarget) {
+    doAbility(state, entity, tookTurn, ...abilityCodeAndTarget);
+  } else if (isParalyzed(entity)) {
     doParalyzedTurn(state, entity);
   } else if (isConfused(entity)) {
     doConfusedTurn(state, entity);

@@ -241,6 +241,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
       range: 0,
       idealDistance: Infinity,
       prioritizeDistance: false,
+      alwaysTryAbility: true,
       abilities: [{ code: "SLIME_EXPLOSION", coolDown: 0, readyIn: 0 }],
     },
     statusEffects: {
