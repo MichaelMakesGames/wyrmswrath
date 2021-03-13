@@ -248,7 +248,7 @@ function makeDisplay(tile: string, priority = PRIORITY_TERRAIN): Display {
   return {
     tile,
     priority,
-    hidden: false,
+    hidden: true,
   };
 }
 
