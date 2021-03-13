@@ -4,6 +4,7 @@ import colors from "~colors";
 import BottomMenu from "./BottomMenu";
 import CardGain from "./CardGain";
 import GameMap from "./GameMap";
+import GameOver from "./GameOver";
 import Header from "./Header";
 import HotkeysProvider from "./HotkeysProvider";
 import Introduction from "./Introduction";
@@ -40,6 +41,7 @@ export default function Game() {
         </div>
         <Introduction />
         <CardGain />
+        <GameOver />
       </main>
     </HotkeysProvider>
   );
