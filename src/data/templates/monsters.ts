@@ -54,6 +54,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(2),
     monster: {
       name: "Mushroomman Bandit",
+      attackSfx: "sfx-ranged",
       meleeDamage: 0,
       rangedDamage: 1,
       range: 3,
@@ -69,6 +70,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(1),
     monster: {
       name: "Mad Crystalman",
+      attackSfx: "sfx-crystal-melee",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -86,6 +88,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(3),
     monster: {
       name: "Feral Slime",
+      attackSfx: "sfx-slime",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -118,6 +121,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(3),
     monster: {
       name: "Crystalbow Scout",
+      attackSfx: "sfx-crystal-ranged",
       meleeDamage: 0,
       rangedDamage: 2,
       range: 3,
@@ -133,9 +137,10 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(3),
     monster: {
       name: "Shroom Doctor",
-      meleeDamage: 1,
-      rangedDamage: 0,
-      range: 0,
+      attackSfx: "sfx-mushroom",
+      meleeDamage: 0,
+      rangedDamage: 1,
+      range: 2,
       idealDistance: 3,
       prioritizeDistance: false,
       abilities: [
@@ -153,6 +158,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(3),
     monster: {
       name: "Slime Tamer",
+      attackSfx: "sfx-slime-whip",
       meleeDamage: 2,
       rangedDamage: 0,
       range: 0,
@@ -173,6 +179,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(2),
     monster: {
       name: "Trained Slime",
+      attackSfx: "sfx-slime",
       meleeDamage: 1,
       rangedDamage: 0,
       range: 0,
@@ -190,6 +197,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(3),
     monster: {
       name: "Crystal Legionnare",
+      attackSfx: "sfx-crystal-melee",
       meleeDamage: 3,
       rangedDamage: 0,
       range: 0,
@@ -213,7 +221,8 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(5),
     monster: {
       name: "Slime Engineer",
-      meleeDamage: 0,
+      attackSfx: "sfx-slime-melee",
+      meleeDamage: 2,
       rangedDamage: 0,
       range: 0,
       idealDistance: 3,
@@ -267,6 +276,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(8),
     monster: {
       name: "Rogue-King",
+      attackSfx: "sfx-melee",
       meleeDamage: 5,
       rangedDamage: 0,
       range: 0,
@@ -281,6 +291,7 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     health: makeHealth(5),
     monster: {
       name: "Royal Guard",
+      attackSfx: "sfx-melee",
       meleeDamage: 3,
       rangedDamage: 0,
       range: 0,

@@ -24,6 +24,7 @@ function statueEffectAddHandler(
 
   if (entity.wyrm && entity.wyrm.isPlayer && entity.id !== PLAYER_ID) {
     state.act.statusEffectAdd({ entityId: PLAYER_ID, type, value, expiresIn });
+    return;
   }
 
   const statusEffects: StatusEffects = { ...(entity.statusEffects || {}) };

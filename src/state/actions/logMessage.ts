@@ -2,6 +2,7 @@ import { createStandardAction } from "typesafe-actions";
 import { registerHandler } from "~state/handleAction";
 import WrappedState from "~types/WrappedState";
 import notifications from "~lib/notifications";
+import audio from "~lib/audio";
 
 const logMessage = createStandardAction("LOG_MESSAGE")<{
   message: string;
@@ -36,6 +37,7 @@ function logMessageHandler(
       type: type || "error",
       message,
     });
+    audio.play("kenney-error");
   }
 }
 

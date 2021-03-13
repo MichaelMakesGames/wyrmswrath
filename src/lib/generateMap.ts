@@ -74,7 +74,7 @@ export default function generateMap(
   const [start, ...tail] = caverns
     .flatMap((c) => Array.from(c))
     .map(parsePosKey)
-    .sort((a, b) => a.x + a.y - (b.x + b.y));
+    .sort((a, b) => a.x - b.x);
   const end = tail.pop() || null;
 
   const hallways: Set<string> = new Set();

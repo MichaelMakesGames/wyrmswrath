@@ -22,6 +22,7 @@ function statusEffectRemoveHandler(
 
   if (entity.wyrm && entity.wyrm.isPlayer && entity.id !== PLAYER_ID) {
     state.act.statusEffectRemove({ entityId: PLAYER_ID, type, value });
+    return;
   }
 
   const statusEffects: StatusEffects = { ...(entity.statusEffects || {}) };

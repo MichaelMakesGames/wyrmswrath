@@ -8,4 +8,4 @@ Assuming you have npm installed on your system, go to the root directory of this
 
 ## License
 
-The code is licensed under a GPL license. Art assets copyrighted by Lemunde and used with their permission.
+The code is licensed under a GPL license. Art assets copyrighted by Lemunde, music and sound effects are copyrighted by brightbone, used with their permission. Interface sound effects with names starting with "kenney" are public domain from kenney.nl.

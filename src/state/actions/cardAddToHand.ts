@@ -1,5 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
 import { CardCode } from "~data/cards";
+import audio from "~lib/audio";
 import { registerHandler } from "~state/handleAction";
 import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
 import WrappedState from "~types/WrappedState";
@@ -31,6 +32,7 @@ function cardAddToHandHandler(
         ? 0
         : state.raw.slimeProgress,
   });
+  audio.play("kenney-card-slide-1");
   wyrmDisplaySystem(state);
   state.act.cardDiscardToLimit();
 }

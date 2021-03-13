@@ -113,6 +113,10 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   DECORATION_CART_LOADED: {
     display: makeDisplay("cart-loaded", PRIORITY_BUILDING_LOW),
     explorable: {},
+    consumable: {
+      energy: 20,
+      crystal: true,
+    },
   },
   DECORATION_TRACK_VERTICAL: {
     display: makeDisplay("track-vertical", PRIORITY_BUILDING_LOW),

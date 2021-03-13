@@ -4,7 +4,7 @@ export const VERSION = "0.0.0-unstable";
 export const PLAYER_ID = "PLAYER";
 export const CURSOR_ID = "CURSOR";
 
-export const MAP_WIDTH = 60;
+export const MAP_WIDTH = 40;
 export const MAP_HEIGHT = 40;
 export const HEX_WIDTH = 24;
 export const HEX_BASE_WIDTH = 12;
@@ -12,8 +12,8 @@ export const HEX_HEIGHT = 24;
 
 export const MAX_HAND_SIZE = 10;
 export const CARD_CHOICES_PER_UNLOCK = 3;
-export const MAX_ENERGY_PER_SIZE = 20;
-export const MAX_HEALTH_PER_SIZE = 10;
+export const MAX_ENERGY_PER_SIZE = 30;
+export const MAX_HEALTH_PER_SIZE = 15;
 
 export const FOV_RANGE = 10;
 export const DIJKSTRA_RANGE = 12;

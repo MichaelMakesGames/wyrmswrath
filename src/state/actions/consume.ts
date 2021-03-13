@@ -1,4 +1,5 @@
 import { createStandardAction } from "typesafe-actions";
+import audio from "~lib/audio";
 import { arePositionsEqual } from "~lib/geometry";
 import { registerHandler } from "~state/handleAction";
 import WrappedState from "~types/WrappedState";
@@ -12,10 +13,12 @@ function consumeHandler(
 ): void {
   const head = state.select.head();
   if (!head) return;
+
   const { pos } = head;
   const consumables = state.select
     .entitiesWithComps("consumable", "pos")
     .filter((e) => arePositionsEqual(e.pos, pos));
+
   for (const { id, consumable } of consumables) {
     state.setRaw({
       ...state.raw,
@@ -51,7 +54,10 @@ function consumeHandler(
       });
     }
   }
+
   state.act.removeEntities(consumables.map((e) => e.id));
+
+  if (consumables.length) audio.play("sfx-consume");
 }
 
 registerHandler(consumeHandler, consume);

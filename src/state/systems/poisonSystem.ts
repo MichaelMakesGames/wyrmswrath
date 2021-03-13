@@ -1,3 +1,4 @@
+import { PLAYER_ID } from "~constants";
 import renderer from "~renderer";
 import WrappedState from "~types/WrappedState";
 
@@ -21,6 +22,24 @@ export default function poisonSystem(state: WrappedState): void {
         ignoreSpikes: true,
         amount,
       });
+
+      if (
+        entity.wyrm &&
+        entity.statusEffects &&
+        entity.statusEffects.POISONED &&
+        (entity.statusEffects.POISONED.value || 1) > 1
+      ) {
+        state.act.logMessage({
+          message:
+            "Since player has more than 1 poison, the poison level decays by 1.",
+          type: "buff",
+        });
+        state.act.statusEffectRemove({
+          entityId: PLAYER_ID,
+          type: "POISONED",
+          value: 1,
+        });
+      }
     }
   }
 }

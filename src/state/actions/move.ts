@@ -1,5 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
 import { PLAYER_ID } from "~/constants";
+import audio from "~lib/audio";
 import { getPositionToDirection } from "~lib/geometry";
 import { registerHandler } from "~state/handleAction";
 import { Direction } from "~types";
@@ -35,6 +36,8 @@ function moveHandler(
     pos: newPosition,
   });
 
+  audio.play("sfx-move-wyrm");
+
   if (
     entitiesAtNewPosition.some((e) => e.ground && e.ground.slimy) &&
     !(entity.statusEffects && entity.statusEffects.SLIME_WALK)
@@ -44,6 +47,7 @@ function moveHandler(
       type: "SLIMED",
       expiresIn: 2,
     });
+    audio.play("sfx-slime");
   }
 }
 

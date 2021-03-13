@@ -45,6 +45,8 @@ export type CardCode =
 export interface Card {
   code: CardCode;
   name: string;
+  sfx?: string;
+  preDiscard?: boolean;
   type: "mushroom" | "crystal" | "slime";
   description: string;
   validator?: (
@@ -106,6 +108,7 @@ const cards: Record<CardCode, Card> = {
     description:
       "Turn a line of SIZE tiles into sharp Crystal terrain, which increases damage received.",
     directional: true,
+    fast: true,
     validator: wideAngleOnly,
     effect: (state, direction) => {
       const head = state.select.head();
@@ -157,6 +160,7 @@ const cards: Record<CardCode, Card> = {
   },
   CRYSTAL_JAVELIN: {
     code: "CRYSTAL_JAVELIN",
+    sfx: "sfx-crystal-ranged",
     name: "Javelin",
     type: "crystal",
     description:
@@ -279,13 +283,13 @@ const cards: Record<CardCode, Card> = {
     name: "Dazing Spores",
     type: "mushroom",
     description:
-      "Confuse all enemies within 3 tiles for 3 turns, so they randomly move and attack.",
+      "Confuse all enemies within 3 tiles for 5 turns, so they randomly move and attack.",
     effect: (state) =>
       getMonstersWithinRange(state, 3).forEach((e) =>
         state.act.statusEffectAdd({
           entityId: e.id,
           type: "CONFUSED",
-          expiresIn: 3,
+          expiresIn: 5,
         }),
       ),
   },
@@ -313,20 +317,20 @@ const cards: Record<CardCode, Card> = {
     type: "mushroom",
     fast: true,
     description: "Draw 2 cards.",
-    effect: (state) => rangeTo(2).forEach(() => state.act.cardDraw()),
+    effect: (state) => state.act.cardDraw(2),
   },
   MUSHROOM_PARALYZING_SPORES: {
     code: "MUSHROOM_PARALYZING_SPORES",
     name: "Paralyzing Spores",
     type: "mushroom",
     description:
-      "Paralyze all enemies within 3 tiles for 3 turns, so they can't move (but can still attack).",
+      "Paralyze all enemies within 3 tiles for 5 turns, so they can't move (but can still attack).",
     effect: (state) =>
       getMonstersWithinRange(state, 3).forEach((e) =>
         state.act.statusEffectAdd({
           entityId: e.id,
           type: "PARALYZED",
-          expiresIn: 3,
+          expiresIn: 5,
         }),
       ),
   },
@@ -336,6 +340,7 @@ const cards: Record<CardCode, Card> = {
     type: "mushroom",
     description: "Turn a line of SIZE tiles into healing Mushroom terrain.",
     directional: true,
+    fast: true,
     validator: wideAngleOnly,
     effect: (state, direction) => {
       const head = state.select.head();
@@ -400,6 +405,7 @@ const cards: Record<CardCode, Card> = {
     type: "slime",
     description:
       "Turn adjacent tiles into Slime terrain and slime any enemies already there.",
+    fast: true,
     effect: (state) =>
       getPlayerAdjacentPositions(state).forEach((pos) => {
         const ground = state.select
@@ -511,6 +517,7 @@ const cards: Record<CardCode, Card> = {
     description:
       "Turn a line of SIZE tiles into healing Slime terrain, and slime all enemies already there.",
     directional: true,
+    fast: true,
     validator: wideAngleOnly,
     effect: (state, direction) => {
       const head = state.select.head();

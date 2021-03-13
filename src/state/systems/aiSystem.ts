@@ -1,5 +1,6 @@
 import { Required } from "Object/_api";
 import { DIRECTIONS, PLAYER_ID } from "~constants";
+import audio from "~lib/audio";
 import { createEntityFromTemplate } from "~lib/entities";
 import {
   getAdjacentPositions,
@@ -132,6 +133,7 @@ function doConfusedTurn(state: WrappedState, entity: MonsterEntity) {
           amount: entity.monster.meleeDamage,
           actorId: entity.id,
         });
+        if (entity.monster.attackSfx) audio.play(entity.monster.attackSfx);
       });
     }
   }
@@ -164,6 +166,8 @@ function attack(
       amount: monster.rangedDamage,
     });
   }
+
+  if (monster.attackSfx) audio.play(monster.attackSfx);
 }
 
 function move(
@@ -278,6 +282,8 @@ abilityFuncs.HEAL = (state, entity, targetPos) => {
     message: `${actorName} heals 2 damage from ${targetName}.`,
     type: "enemy",
   });
+
+  audio.play("sfx-mushroom");
 };
 
 abilityTargetingFuncs.SPAWN_SLIME = (state, entity) => {
@@ -306,6 +312,8 @@ abilityFuncs.SPAWN_SLIME = (state, entity, pos) => {
     message: `${state.select.name(entity.id)} summons a Trained Slime.`,
     type: "enemy",
   });
+
+  audio.play("sfx-slime");
 };
 
 abilityTargetingFuncs.POISON = (state, entity) => {
@@ -326,6 +334,8 @@ abilityFuncs.POISON = (state, entity, pos) => {
     type: "POISONED",
     value: 1,
   });
+
+  audio.play("sfx-slime");
 };
 
 abilityTargetingFuncs.CHARGE = (state, entity) => {
@@ -413,6 +423,8 @@ abilityFuncs.SLIME_BOMB = (state, entity, target) => {
     id: bomb.id,
     pos: target,
   });
+
+  audio.play("sfx-slime-bomb");
 };
 
 abilityTargetingFuncs.SLIME_EXPLOSION = (state, entity) => entity.pos;
@@ -446,6 +458,8 @@ abilityFuncs.SLIME_EXPLOSION = (state, entity, target) => {
     } and covering the area in slime.`,
     type: playerPoisoned ? "debuff" : "enemy",
   });
+
+  audio.play("sfx-slimeplosion");
 };
 
 abilityTargetingFuncs.STRENGTHEN = (state, entity) => {
@@ -489,6 +503,8 @@ abilityFuncs.STRENGTHEN = (state, entity, targetPos, tookTurn) => {
     )}, doubling their attack.`,
     type: "enemy",
   });
+
+  audio.play("sfx-mushroom");
 };
 
 abilityTargetingFuncs.ANTIDOTE = (state, entity) => {
@@ -525,4 +541,6 @@ abilityFuncs.ANTIDOTE = (state, entity, targetPos) => {
     )}'s poison.`,
     type: "enemy",
   });
+
+  audio.play("sfx-mushroom");
 };

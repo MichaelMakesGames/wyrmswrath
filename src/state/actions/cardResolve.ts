@@ -1,5 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
 import cards from "~data/cards";
+import audio from "~lib/audio";
 import { registerHandler } from "~state/handleAction";
 import fovSystem from "~state/systems/fovSystem";
 import { Direction } from "~types";
@@ -31,12 +32,15 @@ function cardResolveHandler(
     return;
   }
 
+  if (card.preDiscard) card.effect(state, direction);
   state.act.cardDiscardFromHand(index);
   state.setRaw({
     ...state.raw,
     playing: null,
   });
-  card.effect(state, direction);
+  if (!card.preDiscard) card.effect(state, direction);
+  audio.play(card.sfx || `sfx-${card.type}`);
+
   if (!card.fast) {
     state.act.playerTookTurn();
   } else {

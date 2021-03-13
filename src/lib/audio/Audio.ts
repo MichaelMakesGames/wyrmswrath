@@ -15,21 +15,26 @@ export default class Audio {
     });
   }
 
-  play(sound: string) {
-    if (!this.sounds[sound].playing()) {
-      this.sounds[sound].play();
+  play(name: string) {
+    const sound = this.sounds[name];
+    if (!sound) {
+      console.error("Unknown sound: ", name);
+      return;
+    }
+    if (!sound.playing() || sound.seek() > 0.25) {
+      sound.play();
     }
   }
 
-  loop(sound: string) {
-    this.sounds[sound].loop(true);
-    if (!this.sounds[sound].playing()) {
-      this.play(sound);
+  loop(name: string) {
+    this.sounds[name].loop(true);
+    if (!this.sounds[name].playing()) {
+      this.play(name);
     }
   }
 
-  stop(sound: string) {
-    this.sounds[sound].stop();
+  stop(name: string) {
+    this.sounds[name].stop();
   }
 
   playMusic(song: string) {

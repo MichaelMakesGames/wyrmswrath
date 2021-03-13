@@ -1,5 +1,6 @@
 import { createStandardAction } from "typesafe-actions";
 import { PLAYER_ID } from "~constants";
+import audio from "~lib/audio";
 import { getNonTightDirections, getPositionToDirection } from "~lib/geometry";
 import renderer from "~renderer";
 import { registerHandler } from "~state/handleAction";
@@ -40,6 +41,7 @@ function moveWyrmHandler(
   ]);
   if (blockingEntities.length && blockingEntities.some((e) => e.diggable)) {
     state.act.dig(destination);
+    audio.play("sfx-dig");
     if (!fast) state.act.playerTookTurn();
     return;
   } else if (
@@ -79,7 +81,10 @@ function moveWyrmHandler(
         });
         state.act.playerTookTurn();
         renderer.flashStatusEffect(PLAYER_ID, "icon-slimed");
+        audio.play("sfx-slime");
       }
+
+      audio.play("sfx-move-wyrm");
 
       return;
     } else {

@@ -589,9 +589,11 @@ export default class Renderer {
       },
       pos: from,
     });
-    const path: Pos[] = rangeTo(speed).map(() => to);
-    this.movementPaths.set(id, path);
-    setTimeout(() => this.removeEntity(id), 250);
+    setTimeout(() => {
+      const path: Pos[] = rangeTo(speed).map(() => to);
+      this.movementPaths.set(id, path);
+      setTimeout(() => this.removeEntity(id), 250);
+    }, 50);
   }
 
   public flashStatusEffect(entityId: string, tile: string) {
