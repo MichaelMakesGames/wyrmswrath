@@ -36,21 +36,47 @@ export default function Introduction() {
 
   return (
     <Modal isOpen onRequestClose={close}>
-      <h2 className="text-2xl">Welcome to Wyrm&apos;s Wrath!</h2>
-      <p className="my-2">
-        Use <Kbd>qweasd</Kbd> to move.
-      </p>
-      <p className="my-2">Good luck!</p>
-      <p className="my-2 text-sm text-lightGray">
-        Press <Kbd>?</Kbd> to view full keyboard controls.
-      </p>
-      <HotkeyButton
-        label="Start Game"
-        className="mt-2"
-        controlCode={ControlCode.Menu1}
-        callback={close}
-        hotkeyGroup={HotkeyGroup.Intro}
-      />
+      <h2 className="text-xl">The Wyrm is dead, but an egg remains.</h2>
+      <div className="text-sm">
+        <p className="my-1">
+          The Rogue who now calls himself King of the Dungeon has stolen the
+          Chalice.
+        </p>
+        <p className="my-1">
+          Grow, explore, ascend, and find his Palace, and retrieve the Chalice.
+        </p>
+        <hr className="border-b border-gray my-3" />
+        <div className="mb-3">
+          <p className="my-1">
+            Wyrm&apos;s Wrath is a turn-based game. Each turn you can:
+          </p>
+          <ul className="list-disc">
+            <li className="ml-3">play any number of fast cards then:</li>
+            <li className="ml-3">play a slow card</li>
+            <li className="ml-3">or redraw your hand</li>
+            <li className="ml-3">or move</li>
+          </ul>
+          <p className="my-1">
+            You can kill enemies by damaging them with card abilities, or you
+            can simply move into their space, instantly eating them.
+          </p>
+          <p className="my-1">
+            To win, explore each level to find the stares, and reach the Palace
+            on level 5. Retrieve the Chalice by eating the King, or killing him
+            them eating the Chalice.
+          </p>
+        </div>
+        <p className="my-2 text-sm text-lightGray">
+          Press <Kbd>?</Kbd> at any time to view full keyboard controls.
+        </p>
+        <HotkeyButton
+          label="Start Game"
+          className="mt-2"
+          controlCode={ControlCode.Menu1}
+          callback={close}
+          hotkeyGroup={HotkeyGroup.Intro}
+        />
+      </div>
     </Modal>
   );
 }
