@@ -5,7 +5,7 @@ import audio from "../../assets/audio/*.webm"; // eslint-disable-line import/no-
 export default class Audio {
   private sounds: Record<string, Howl> = {};
 
-  private currentMusic: null | Howl = null;
+  private currentMusic: null | [Howl, number] = null;
 
   load() {
     Object.entries(audio as Record<string, string>).forEach(([file, url]) => {
@@ -39,15 +39,20 @@ export default class Audio {
 
   playMusic(song: string) {
     if (this.currentMusic) {
-      this.currentMusic.fade(1, 0, 1000);
-      this.currentMusic.off();
-      this.currentMusic.on("fade", () => {
-        if (this.currentMusic) {
-          this.currentMusic.stop();
-          this.currentMusic = null;
-        }
-        this.playMusic(song);
-      });
+      const [sound, id] = this.currentMusic;
+      sound.fade(1, 0, 1000, id);
+      sound.off(undefined, undefined, id);
+      sound.on(
+        "fade",
+        () => {
+          if (this.currentMusic) {
+            sound.stop();
+            this.currentMusic = null;
+          }
+          this.playMusic(song);
+        },
+        id,
+      );
     } else {
       const sound = this.sounds[song];
 
@@ -58,14 +63,18 @@ export default class Audio {
       };
       const loopTo = loopData[song] || 0;
 
-      sound.volume(1);
-      sound.play();
-      this.currentMusic = sound;
+      const id = sound.play();
+      sound.volume(1, id);
+      this.currentMusic = [sound, id];
 
-      sound.on("end", () => {
-        sound.seek(loopTo);
-        sound.play();
-      });
+      sound.on(
+        "end",
+        () => {
+          sound.seek(loopTo, id);
+          sound.play(id);
+        },
+        id,
+      );
     }
   }
 }

@@ -36,7 +36,8 @@ export default function Introduction() {
           Chalice.
         </p>
         <p className="my-1">
-          Grow, explore, ascend, and find his Palace, and retrieve the Chalice.
+          Grow, explore, ascend, and find his Palace, and retrieve your
+          birthright.
         </p>
         <hr className="border-gray my-3" />
         <div className="mb-3">
