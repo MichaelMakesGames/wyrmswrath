@@ -157,7 +157,7 @@ function attack(
       amount: monster.meleeDamage,
     });
   } else {
-    renderer.projectile(pos, targetPos, monster.projectileColor);
+    renderer.projectile(pos, targetPos, monster.projectileColor, dist * 2);
     state.act.damage({
       actorId: entity.id,
       entityId: PLAYER_ID,
