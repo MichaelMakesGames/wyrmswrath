@@ -57,7 +57,7 @@ export default function Introduction() {
           <p className="my-1">
             To win, explore each level to find the stairs, and reach the Palace
             on level 5. Retrieve the Chalice by eating the King, or killing him
-            them eating the Chalice.
+            then eating the Chalice.
           </p>
         </div>
         <p className="my-2 text-sm text-lightGray">
