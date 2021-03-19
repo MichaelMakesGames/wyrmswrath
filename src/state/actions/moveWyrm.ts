@@ -11,6 +11,7 @@ const moveWyrm = createStandardAction("MOVE_WYRM")<{
   direction: Direction;
   fast?: boolean;
   tightAllowed?: boolean;
+  ignoreSlime?: boolean;
 }>();
 export default moveWyrm;
 
@@ -18,7 +19,7 @@ function moveWyrmHandler(
   state: WrappedState,
   action: ReturnType<typeof moveWyrm>,
 ): void {
-  const { direction, fast, tightAllowed } = action.payload;
+  const { direction, fast, tightAllowed, ignoreSlime } = action.payload;
   const head = state.select.head();
   const tail = state.select.tail();
   if (!head || !tail) return;
@@ -69,6 +70,7 @@ function moveWyrmHandler(
       if (!fast) state.act.playerTookTurn();
 
       if (
+        !ignoreSlime &&
         state.select
           .entitiesAtPosition(destination)
           .some((e) => e.ground && e.ground.slimy) &&

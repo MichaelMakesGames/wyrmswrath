@@ -85,19 +85,8 @@ const cards: Record<CardCode, Card> = {
           distance++;
         }
       }
-      const needsSlimeWalk = !(
-        head &&
-        head.statusEffects &&
-        head.statusEffects.SLIME_WALK
-      );
-      if (needsSlimeWalk)
-        state.act.statusEffectAdd({
-          entityId: PLAYER_ID,
-          type: "SLIME_WALK",
-          expiresIn: 1,
-        });
       rangeTo(distance).forEach(() =>
-        state.act.moveWyrm({ direction, fast: true }),
+        state.act.moveWyrm({ direction, fast: true, ignoreSlime: true }),
       );
     },
   },
