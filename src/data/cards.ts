@@ -308,6 +308,7 @@ const cards: Record<CardCode, Card> = {
     name: "Open Your Mind",
     type: "mushroom",
     fast: true,
+    preDiscard: true,
     description: "Draw 2 cards.",
     effect: (state) => state.act.cardDraw(2),
   },
