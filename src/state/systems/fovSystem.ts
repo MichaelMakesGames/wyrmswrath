@@ -1,7 +1,13 @@
 import { FOV } from "rot-js";
 import colors from "~colors";
 import { FOV_RANGE } from "~constants";
-import { fromRotPos, getPosKey, parsePosKey, toRotPos } from "~lib/geometry";
+import {
+  fromRotPos,
+  getAdjacentPositions,
+  getPosKey,
+  parsePosKey,
+  toRotPos,
+} from "~lib/geometry";
 import WrappedState from "~types/WrappedState";
 
 const FOG_COLOR = colors.lightGray;
@@ -21,6 +27,13 @@ export default function fovSystem(state: WrappedState): void {
   fov.compute(rotX, rotY, FOV_RANGE, (x, y) =>
     visiblePositions.add(getPosKey(fromRotPos([x, y]))),
   );
+
+  state.select.tailToHead().forEach(({ pos }) => {
+    visiblePositions.add(getPosKey(pos));
+    getAdjacentPositions(pos).forEach((adjacent) =>
+      visiblePositions.add(getPosKey(adjacent)),
+    );
+  });
 
   for (const entity of state.select.entitiesWithComps(
     "pos",

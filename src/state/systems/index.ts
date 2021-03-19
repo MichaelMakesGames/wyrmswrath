@@ -17,6 +17,7 @@ import wyrmDisplaySystem from "./wyrmDisplaySystem";
 const systems: ((state: WrappedState) => void)[] = [
   energySystem,
   stairsSystem,
+  fovSystem,
   aiSystem,
   coolDownSystem,
   poisonSystem,
