@@ -122,7 +122,8 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_ELEGANCE",
     name: "Elegance",
     type: "crystal",
-    description: "Permanently lose a random card from your hand.",
+    description:
+      "Permanently lose a random card from your hand, then draw a card.",
     fast: true,
     effect: (state) => {
       const currentHandSize = state.raw.hand.length;
@@ -130,6 +131,7 @@ const cards: Record<CardCode, Card> = {
         // played card is discarded before resolving the effect
         state.act.cardRemoveFromHand(choose(rangeTo(currentHandSize)));
       }
+      state.act.cardDraw(1);
     },
   },
   CRYSTAL_FLASH: {
