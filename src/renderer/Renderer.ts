@@ -488,6 +488,7 @@ export default class Renderer {
   }
 
   public explode(pos: Pos): void {
+    const appPos = this.calcAppPos(pos);
     if (!this.loadPromise) return;
     this.loadPromise.then(() => {
       const texture = PIXI.Texture.WHITE;
@@ -501,14 +502,14 @@ export default class Renderer {
         scale: {
           list: [
             { value: 1 / 2, time: 0 },
-            { value: 1 / 2, time: 1 },
+            { value: 1, time: 1 },
           ],
         },
         color: {
           list: [
-            { value: colors.yellow, time: 0 },
-            { value: colors.red, time: 0.5 },
-            { value: colors.darkGray, time: 1 },
+            { value: colors.lightGreen, time: 0 },
+            { value: colors.green, time: 0.5 },
+            { value: colors.darkGreen, time: 1 },
           ],
         },
         speed: {
@@ -528,16 +529,16 @@ export default class Renderer {
         },
         noRotation: true,
         lifetime: {
-          min: 0.1,
-          max: 0.3,
+          min: 0.2,
+          max: 0.4,
         },
         frequency: 0.02,
         emitterLifetime: 0.1,
         maxParticles: 1000,
         particlesPerWave: 10,
         pos: {
-          x: pos.x * this.tileWidth + this.tileWidth / 2,
-          y: pos.y * this.tileHeight + this.tileHeight / 2,
+          x: appPos.x,
+          y: appPos.y,
         },
         addAtBack: false,
         spawnType: "point",

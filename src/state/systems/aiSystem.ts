@@ -472,6 +472,7 @@ abilityFuncs.SLIME_EXPLOSION = (state, entity, target) => {
   });
 
   audio.play("sfx-slimeplosion");
+  renderer.explode(entity.pos);
 };
 
 abilityTargetingFuncs.STRENGTHEN = (state, entity) => {
