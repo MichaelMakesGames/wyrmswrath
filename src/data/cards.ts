@@ -254,7 +254,7 @@ const cards: Record<CardCode, Card> = {
     name: "Growth",
     type: "mushroom",
     description:
-      "Increase your size, gaining health and maximum energy, but spending more energy each turn.",
+      "Increase your wyrm's size, hand size, max health, and max energy, but spend more energy each turn.",
     directional: true,
     validator: (state, direction) =>
       wideAngleNotBlocked(state, direction, true),
