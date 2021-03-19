@@ -60,7 +60,7 @@ export default function Card({
 
   return (
     <button
-      className="relative flex-none flex flex-col rounded align-top px-6 pt-12 disabled:cursor-not-allowed disabled:opacity-25 transform transition-all hover:scale-105 hover:shadow-xl"
+      className="relative flex-none flex flex-col rounded align-top items-center text-center px-6 pt-12 disabled:cursor-not-allowed disabled:opacity-25 transform transition-all hover:scale-105 hover:shadow-xl"
       style={{
         width: 170,
         height: 250,
