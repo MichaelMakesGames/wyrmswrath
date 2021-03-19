@@ -60,7 +60,7 @@ export function slimeProgress(state: RawState): number {
 }
 
 export function slimeUnlock(state: RawState): number {
-  return allCards(state).filter((code) => code.startsWith("SLIME")).length;
+  return allCards(state).filter((code) => code.startsWith("SLIME")).length + 2;
 }
 
 export function crystalProgress(state: RawState): number {
@@ -68,7 +68,9 @@ export function crystalProgress(state: RawState): number {
 }
 
 export function crystalUnlock(state: RawState): number {
-  return allCards(state).filter((code) => code.startsWith("CRYSTAL")).length;
+  return (
+    allCards(state).filter((code) => code.startsWith("CRYSTAL")).length + 2
+  );
 }
 
 export function mushroomProgress(state: RawState): number {
@@ -76,7 +78,9 @@ export function mushroomProgress(state: RawState): number {
 }
 
 export function mushroomUnlock(state: RawState): number {
-  return allCards(state).filter((code) => code.startsWith("MUSHROOM")).length;
+  return (
+    allCards(state).filter((code) => code.startsWith("MUSHROOM")).length + 2
+  );
 }
 
 export function level(state: RawState): number {
