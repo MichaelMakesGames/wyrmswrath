@@ -698,29 +698,22 @@ export default class Renderer {
   }
 
   getPosFromMouse(mouseX: number, mouseY: number): Pos {
-    const canvas = this.app.view;
-    const canvasParent = canvas.parentElement;
-    if (!canvasParent) throw new Error("App canvas is not in document");
-    const scaleX = (this.gridWidth * this.tileWidth) / canvasParent.clientWidth;
-    const scaleY =
-      (this.gridHeight * this.tileHeight) / canvasParent.clientHeight;
-    const scaledMouseX = mouseX * scaleX;
-    const scaledMouseY = mouseY * scaleY;
-    if (!this.zoomedIn) {
-      return {
-        x: Math.floor(scaledMouseX / this.tileWidth),
-        y: Math.floor(scaledMouseY / this.tileHeight),
-      };
-    } else {
-      const offsetX = Math.floor(scaledMouseX / this.tileWidth / 2);
-      const offsetY = Math.floor(scaledMouseY / this.tileHeight / 2);
-      const stageX = this.app.stage.position.x / this.tileWidth / -2;
-      const stageY = this.app.stage.position.y / this.tileHeight / -2;
-      return {
-        x: stageX + offsetX,
-        y: stageY + offsetY,
-      };
-    }
+    const { x: scaleX, y: scaleY } = this.app.stage.scale;
+    const x = Math.floor(
+      (mouseX -
+        this.app.stage.position.x -
+        ((this.tileWidth - this.hexBaseWidth) / 4) * scaleX) /
+        ((this.tileWidth + this.hexBaseWidth) / 2) /
+        scaleX,
+    );
+    const y = Math.floor(
+      (mouseY -
+        this.app.stage.position.y -
+        (x % 2 ? (this.tileHeight * scaleY) / 2 : 0)) /
+        this.tileHeight /
+        scaleY,
+    );
+    return { x, y };
   }
 
   public getLoadPromise() {

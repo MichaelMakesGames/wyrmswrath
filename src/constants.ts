@@ -1,6 +1,6 @@
 import { Direction } from "~types";
 
-export const VERSION = "1.1.0";
+export const VERSION = "1.2.0-unstable";
 export const PLAYER_ID = "PLAYER";
 export const CURSOR_ID = "CURSOR";
 

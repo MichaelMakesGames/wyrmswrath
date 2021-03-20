@@ -1,6 +1,6 @@
 import { FOV } from "rot-js";
 import colors from "~colors";
-import { FOV_RANGE } from "~constants";
+import { CURSOR_ID, FOV_RANGE } from "~constants";
 import {
   fromRotPos,
   getAdjacentPositions,
@@ -47,7 +47,7 @@ export default function fovSystem(state: WrappedState): void {
           display: { ...entity.display, color: FOG_COLOR },
           inFov: undefined,
         });
-      } else {
+      } else if (entity.id !== CURSOR_ID) {
         state.act.updateEntity({
           id: entity.id,
           display: { ...entity.display, hidden: true },

@@ -65,6 +65,7 @@ renderer
       { id: "carpet", x: 9, y: 7 },
       { id: "stone-door", x: 8, y: 5 },
       { id: "wooden-door", x: 9, y: 5 },
+      { id: "outline-solid", x: 9, y: 4 },
       { id: "chalice", x: 8, y: 10 },
       { id: "track-vertical", x: 5, y: 12 },
       { id: "track-turn", x: 5, y: 13 },
