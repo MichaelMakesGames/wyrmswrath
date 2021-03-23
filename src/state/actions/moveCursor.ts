@@ -14,7 +14,6 @@ function moveCursorHandler(
   const pos = state.select.cursorPos() || state.select.playerPos();
   if (!pos) return;
   const newPosition = getPositionToDirection(pos, action.payload);
-  if (!isPositionInMap(newPosition)) return;
   state.act.setCursorPos(newPosition);
 }
 

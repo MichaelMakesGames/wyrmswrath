@@ -3,6 +3,7 @@ import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import renderer from "~/renderer";
 import { HotkeyGroup, useControl } from "~components/HotkeysProvider";
+import { DIRECTIONS } from "~constants";
 import { useInterval } from "~hooks";
 import { arePositionsEqual } from "~lib/geometry";
 import actions from "~state/actions";
@@ -32,6 +33,8 @@ export default function GameMap() {
       if (!cursorPos || !arePositionsEqual(cursorPos, pos)) {
         dispatch(actions.setCursorPos(pos));
       }
+    } else {
+      dispatch(actions.setCursorPos(null));
     }
   }, [playerPos]);
 
@@ -43,6 +46,14 @@ export default function GameMap() {
     },
   });
 
+  DIRECTIONS.forEach((d) =>
+    useControl({
+      code: d as ControlCode,
+      group: HotkeyGroup.Main,
+      shift: true,
+      callback: () => dispatch(actions.moveCursor(d)),
+    }),
+  );
   // const performDefaultAction = (pos: Pos | null) => {
   //   const quickAction = getQuickAction(state, pos);
   //   if (quickAction) {
