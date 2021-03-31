@@ -2,7 +2,13 @@ import { createStandardAction } from "typesafe-actions";
 import cards from "~data/cards";
 import audio from "~lib/audio";
 import { registerHandler } from "~state/handleAction";
+import animationToggleSystem from "~state/systems/animationToggleSystem";
+import colorToggleSystem from "~state/systems/colorToggleSystem";
+import energySystem from "~state/systems/energySystem";
 import fovSystem from "~state/systems/fovSystem";
+import gameOverSystem from "~state/systems/gameOverSystem";
+import stairsSystem from "~state/systems/stairsSystem";
+import wyrmDisplaySystem from "~state/systems/wyrmDisplaySystem";
 import { Direction } from "~types";
 import WrappedState from "~types/WrappedState";
 
@@ -44,7 +50,14 @@ function cardResolveHandler(
   if (!card.fast) {
     state.act.playerTookTurn();
   } else {
+    energySystem(state);
+    stairsSystem(state);
     fovSystem(state);
+    gameOverSystem(state);
+    colorToggleSystem(state);
+    animationToggleSystem(state);
+    fovSystem(state);
+    wyrmDisplaySystem(state);
   }
 }
 
