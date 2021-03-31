@@ -95,7 +95,7 @@ const cards: Record<CardCode, Card> = {
     name: "Crystalize",
     type: "crystal",
     description:
-      "Turn a line of SIZE tiles into sharp Crystal terrain, which increases damage received.",
+      "Turn a line of SIZE tiles into sharp Crystal terrain, which increases damage received, and paralyze all enemies there for 2 turns.",
     directional: true,
     fast: true,
     validator: wideAngleOnly,
@@ -106,9 +106,19 @@ const cards: Record<CardCode, Card> = {
       let pos = origin;
       rangeTo(state.select.playerSize()).forEach(() => {
         pos = getPositionToDirection(pos, direction);
-        const groundAtPosition = state.select
-          .entitiesAtPosition(pos)
-          .find((e) => e.ground);
+        const entitiesAtPosition = state.select.entitiesAtPosition(pos);
+
+        entitiesAtPosition
+          .filter((e) => e.monster)
+          .forEach((e) =>
+            state.act.statusEffectAdd({
+              entityId: e.id,
+              type: "PARALYZED",
+              expiresIn: 2,
+            }),
+          );
+
+        const groundAtPosition = entitiesAtPosition.find((e) => e.ground);
         if (groundAtPosition) {
           state.act.removeEntity(groundAtPosition.id);
           state.act.addEntity(
@@ -510,7 +520,7 @@ const cards: Record<CardCode, Card> = {
     name: "Vomit",
     type: "slime",
     description:
-      "Turn a line of SIZE tiles into healing Slime terrain, and slime all enemies already there.",
+      "Turn a line of SIZE tiles into slowing Slime terrain, and make all enemies there lose a turn. and poison them.",
     directional: true,
     fast: true,
     validator: wideAngleOnly,
@@ -521,21 +531,29 @@ const cards: Record<CardCode, Card> = {
       let pos = origin;
       rangeTo(state.select.playerSize()).forEach(() => {
         pos = getPositionToDirection(pos, direction);
-        const groundAtPosition = state.select
-          .entitiesAtPosition(pos)
-          .find((e) => e.ground);
+        const entitiesAtPosition = state.select.entitiesAtPosition(pos);
+
+        const groundAtPosition = entitiesAtPosition.find((e) => e.ground);
         if (groundAtPosition) {
           state.act.removeEntity(groundAtPosition.id);
           state.act.addEntity(
             createEntityFromTemplate("TERRAIN_SLIME", { pos }),
           );
         }
-        const nonSlimeWalkingMonsterAtPosition = state.select
-          .entitiesAtPosition(pos)
-          .find(
-            (e) =>
-              e.monster && !(e.statusEffects && e.statusEffects.SLIME_WALK),
+
+        entitiesAtPosition
+          .filter((e) => e.monster)
+          .forEach((e) =>
+            state.act.statusEffectAdd({
+              entityId: e.id,
+              type: "POISONED",
+              value: 1,
+            }),
           );
+
+        const nonSlimeWalkingMonsterAtPosition = entitiesAtPosition.find(
+          (e) => e.monster && !(e.statusEffects && e.statusEffects.SLIME_WALK),
+        );
         if (nonSlimeWalkingMonsterAtPosition) {
           state.act.statusEffectAdd({
             entityId: nonSlimeWalkingMonsterAtPosition.id,

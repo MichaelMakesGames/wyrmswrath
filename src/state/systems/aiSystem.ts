@@ -371,7 +371,9 @@ abilityTargetingFuncs.CHARGE = (state, entity) => {
 
 abilityFuncs.CHARGE = (state, entity, target) => {
   state.act.logMessage({
-    message: `${state.select.name(entity.id)} poisons Player.`,
+    message: `${state.select.name(
+      entity.id,
+    )} charges, crossing several tiles at once and attacking.`,
     type: "debuff",
   });
 

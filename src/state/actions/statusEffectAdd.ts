@@ -84,7 +84,7 @@ function getMessage(
     case "SLIME_WALK":
       return `${name} can now slime walk${value ? ` (${value})` : ""}.`;
     case "STRENGTHENED":
-      return `${name} is now poisoned${value ? ` (${value})` : ""}.`;
+      return `${name} is now strengthened${value ? ` (${value})` : ""}.`;
     default:
       return `${name} is now ${statusType}${value ? ` (${value})` : ""}.`;
   }

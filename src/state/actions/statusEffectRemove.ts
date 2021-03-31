@@ -71,7 +71,7 @@ function getMessage(name: string, statusType: StatusEffectType) {
     case "SLIME_WALK":
       return `${name} can no longer slime walk.`;
     case "STRENGTHENED":
-      return `${name} is no longer poisoned.`;
+      return `${name} is no longer strengthened.`;
     default:
       return `${name} is no longer ${statusType}.`;
   }
