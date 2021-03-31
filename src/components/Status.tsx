@@ -7,6 +7,7 @@ import selectors from "~state/selectors";
 import { StatusEffect } from "~types";
 // @ts-ignore
 import tiles from "../assets/tiles/*.png";
+import Icons from "./Icons";
 
 export default function Status() {
   const size = useSelector(selectors.playerSize);
@@ -44,14 +45,27 @@ export default function Status() {
           <section className="mt-1">
             <dl className="flex flex-row justify-between">
               <Stat
-                label="Health"
-                tooltip="Use healing cards and mushroom terrain to regain health."
+                label="Size"
+                tooltip="Size. Determines your max health, max energy and energy loss, and affects many card abilities."
+                current={size}
+              />
+              <Stat
+                icon={
+                  <span className="inline-block w-5 h-5 relative top-0.5 text-red">
+                    <Icons.Health />
+                  </span>
+                }
+                tooltip="Health. Use healing cards and mushroom terrain to regain health."
                 current={health}
                 max={maxHealth}
               />
               <Stat
-                label="Energy"
-                tooltip={`You lose ${
+                icon={
+                  <span className="inline-block w-5 h-5 relative top-0.5 text-lighterYellow">
+                    <Icons.Energy />
+                  </span>
+                }
+                tooltip={`Energy. You lose ${
                   size / 2
                 } (size/2) energy each turn. Eat enemies and their drops to gain more energy.`}
                 current={energy}
@@ -90,25 +104,33 @@ export default function Status() {
 
 function Stat({
   label,
+  icon,
   tooltip,
   max,
   current,
 }: {
-  label: string;
+  label?: string;
+  icon?: React.ReactNode;
   tooltip: string;
-  max: number;
+  max?: number;
   current: number;
 }) {
   return (
-    <Tippy content={tooltip}>
+    <Tippy content={tooltip} placement="bottom">
       <div>
-        <dt className="inline">{`${label}: `}</dt>
+        <dt className="inline">
+          {label && `${label}: `}
+          {icon}
+        </dt>
         <dd
           className={
-            current / max <= 0.2 ? "inline text-red animate-pulse" : "inline"
+            max && current / max <= 0.2
+              ? "inline text-red animate-pulse"
+              : "inline"
           }
         >
-          {current}/{max}
+          {current}
+          {max && `/${max}`}
         </dd>
       </div>
     </Tippy>
