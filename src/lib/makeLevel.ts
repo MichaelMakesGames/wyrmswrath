@@ -113,6 +113,8 @@ function generateNest(state: WrappedState, origin: Pos) {
     const { display } = state.select.entityById(id);
     state.act.updateEntity({
       id,
+      name: "Skeleton",
+      description: undefined,
       wyrm: undefined,
       blocking: undefined,
       health: undefined,

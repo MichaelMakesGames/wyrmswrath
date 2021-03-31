@@ -1,24 +1,32 @@
 import React from "react";
-import templates from "~data/templates";
-import { createEntityFromTemplate } from "~lib/entities";
+import { HEX_HEIGHT, HEX_WIDTH } from "~constants";
+import spriteSheetData from "~data/spriteSheetData";
+import { Entity } from "~types";
 // @ts-ignore
 import tiles from "../assets/tiles/*.png";
 
 interface Props {
-  templateName: TemplateName;
+  entity: Entity;
   style?: React.CSSProperties;
 }
-export default function EntityPreview({ templateName, style = {} }: Props) {
-  if (!Object.keys(templates).includes(templateName)) return null;
-  const entity = createEntityFromTemplate(templateName);
+export default function EntityPreview({ entity, style = {} }: Props) {
   if (!entity.display) return null;
-  const maskImage = `url(${
-    tiles[
-      Array.isArray(entity.display.tile)
-        ? entity.display.tile[0]
-        : entity.display.tile
-    ]
+
+  const tile = Array.isArray(entity.display.tile)
+    ? entity.display.tile[0]
+    : entity.display.tile;
+  const spriteSheetConfig = spriteSheetData.find((d) => d.id === tile);
+
+  const backgroundImage = `url(${
+    tiles[spriteSheetConfig ? "spritesheet" : tile]
   })`;
+
+  const backgroundPosition =
+    spriteSheetConfig &&
+    `${HEX_WIDTH * -spriteSheetConfig.x}px ${
+      HEX_HEIGHT * -spriteSheetConfig.y
+    }px`;
+
   return (
     <div
       style={{
@@ -26,27 +34,13 @@ export default function EntityPreview({ templateName, style = {} }: Props) {
         position: "relative",
         bottom: "8px",
         margin: "-12px 0",
-        background: entity.display.color,
         height: 24,
         width: 24,
-        WebkitMaskImage: maskImage,
-        maskImage,
+        backgroundImage,
+        backgroundPosition,
+        backgroundOrigin: "0px 0px",
         ...style,
       }}
-    >
-      <img
-        width={24}
-        height={24}
-        alt={entity.description ? entity.description.name : templateName}
-        style={{ mixBlendMode: "multiply" }}
-        src={
-          tiles[
-            Array.isArray(entity.display.tile)
-              ? entity.display.tile[0]
-              : entity.display.tile
-          ]
-        }
-      />
-    </div>
+    />
   );
 }

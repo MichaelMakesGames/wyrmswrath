@@ -49,11 +49,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     blocking: { moving: true, fov: false },
   },
   MONSTER_MUSHROOMMAN_BANDIT: {
+    name: "Mushroomman Bandit",
+    description:
+      "A citizen of the former Fungal Fellowship, now driven to banditry. Attacks from range and tries to keep its distance.",
     parentTemplate: "MONSTER_MUSHROOM_BASE",
     display: makeDisplay("mushroomman-bandit"),
     health: makeHealth(2),
     monster: {
-      name: "Mushroomman Bandit",
       attackSfx: "sfx-ranged",
       meleeDamage: 0,
       rangedDamage: 1,
@@ -65,11 +67,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_MAD_CRYSTALMAN: {
+    name: "Mad Crystalman",
+    description:
+      "Once a proud warrior, driven insane by the shattering of the Crystal Cavedom. Rushes forward with little regard for its life.",
     parentTemplate: "MONSTER_CRYSTAL_BASE",
     display: makeDisplay("mad-crystalman"),
     health: makeHealth(1),
     monster: {
-      name: "Mad Crystalman",
       attackSfx: "sfx-crystal-melee",
       meleeDamage: 1,
       rangedDamage: 0,
@@ -84,10 +88,12 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   },
   MONSTER_FERAL_SLIME: {
     parentTemplate: "MONSTER_SLIME_BASE",
+    description:
+      "All the weaker slimes have been captured or killed. This one wanders the caves aimlessly.",
     display: makeDisplay("feral-slime"),
     health: makeHealth(3),
+    name: "Feral Slime",
     monster: {
-      name: "Feral Slime",
       attackSfx: "sfx-slime",
       meleeDamage: 1,
       rangedDamage: 0,
@@ -102,11 +108,12 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_LABORER: {
+    name: "Laborer",
+    description: "What a juicy-looking peasant.",
     parentTemplate: "MONSTER_SUITLESS_BASE",
     display: makeDisplay("laborer"),
     health: makeHealth(1),
     monster: {
-      name: "Laborer",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -116,11 +123,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_CRYSTALBOW_SCOUT: {
+    name: "Crystalbow Scout",
+    description:
+      "A human equipped with dangerous crystal shard arrows. Keeps its distance.",
     parentTemplate: "MONSTER_CRYSTAL_BASE",
     display: makeDisplay("crystalbow-scout"),
     health: makeHealth(3),
     monster: {
-      name: "Crystalbow Scout",
       attackSfx: "sfx-crystal-ranged",
       meleeDamage: 0,
       rangedDamage: 2,
@@ -132,11 +141,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_SHROOM_DOCTOR: {
+    name: "Shroom Doctor",
+    description:
+      "A human who has mastered the healing properties of mushrooms.",
     parentTemplate: "MONSTER_MUSHROOM_BASE",
     display: makeDisplay("shroom-doctor"),
     health: makeHealth(3),
     monster: {
-      name: "Shroom Doctor",
       attackSfx: "sfx-mushroom",
       meleeDamage: 0,
       rangedDamage: 1,
@@ -153,11 +164,12 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_SLIME_TAMER: {
+    name: "Slime Tamer",
+    description: "Summons poisonous Trained Slimes to fight for it.",
     parentTemplate: "MONSTER_SLIME_BASE",
     display: makeDisplay("slime-tamer"),
     health: makeHealth(3),
     monster: {
-      name: "Slime Tamer",
       attackSfx: "sfx-slime-whip",
       meleeDamage: 2,
       rangedDamage: 0,
@@ -174,11 +186,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_TRAINED_SLIME: {
+    name: "Trained Slime",
+    description:
+      "A poisonous slime that has been trained to fight for the humans.",
     parentTemplate: "MONSTER_SPAWN_BASE",
     display: makeDisplay("trained-slime"),
     health: makeHealth(2),
     monster: {
-      name: "Trained Slime",
       attackSfx: "sfx-slime",
       meleeDamage: 1,
       rangedDamage: 0,
@@ -192,11 +206,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_CRYSTAL_LEGIONNAIRE: {
+    name: "Crystal Legionnare",
+    description:
+      "An expert human warrior, wearing armor made from fallen Crystalmen. It can charge, covering great distances quickly.",
     parentTemplate: "MONSTER_CRYSTAL_BASE",
     display: makeDisplay("crystal-legionnaire"),
     health: makeHealth(3),
     monster: {
-      name: "Crystal Legionnare",
       attackSfx: "sfx-crystal-melee",
       meleeDamage: 3,
       rangedDamage: 0,
@@ -216,11 +232,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_SLIME_ENGINEER: {
+    name: "Slime Engineer",
+    description:
+      "Throws poisonous slime bombs. Even the untrainable slimes have their uses.",
     parentTemplate: "MONSTER_SLIME_BASE",
     display: makeDisplay("slime-engineer"),
     health: makeHealth(5),
     monster: {
-      name: "Slime Engineer",
       attackSfx: "sfx-slime-melee",
       meleeDamage: 2,
       rangedDamage: 0,
@@ -231,11 +249,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_SLIME_BOMB: {
+    name: "Slime Bomb",
+    description:
+      "Will explode, turning the area to slime and poisoning anything next to it.",
     parentTemplate: "MONSTER_SPAWN_BASE",
     display: makeDisplay("slime-bomb"),
     health: makeHealth(1),
     monster: {
-      name: "Slime Bomb",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -249,11 +269,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_SHROOM_CHEMIST: {
+    name: "Shroom Chemist",
+    description:
+      "A human who has learned how to use mushrooms both to heal and strengthen.",
     parentTemplate: "MONSTER_MUSHROOM_BASE",
     display: makeDisplay("shroom-chemist"),
     health: makeHealth(5),
     monster: {
-      name: "Shroom Chemist",
       meleeDamage: 0,
       rangedDamage: 0,
       range: 0,
@@ -271,13 +293,14 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_KING: {
+    name: "King",
+    description: "Thief. Murderer. Rogue.",
     parentTemplate: "MONSTER_SUITLESS_BASE",
     consumable: { victory: true, energy: 10 },
     drops: { template: "CHALICE" },
     display: makeDisplay("king"),
     health: makeHealth(8),
     monster: {
-      name: "Rogue-King",
       attackSfx: "sfx-melee",
       meleeDamage: 5,
       rangedDamage: 0,
@@ -288,11 +311,13 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   MONSTER_ROYAL_GUARD: {
+    name: "Royal Guard",
+    description:
+      "Humans sworn to defend their King, even if it means becoming dinner.",
     parentTemplate: "MONSTER_SUITLESS_BASE",
     display: makeDisplay("royal-guard"),
     health: makeHealth(5),
     monster: {
-      name: "Royal Guard",
       attackSfx: "sfx-melee",
       meleeDamage: 3,
       rangedDamage: 0,

@@ -30,7 +30,6 @@ export interface ColorToggle {
 }
 
 export interface Monster {
-  name: string;
   meleeDamage: number;
   rangedDamage: number;
   range: number;
@@ -50,12 +49,6 @@ export interface Blocking {
   moving: boolean;
   fov: boolean;
 }
-export interface Description {
-  name: string;
-  description: string;
-  shortDescription?: string;
-}
-
 export interface Wyrm {
   connectsTo?: string;
   isPlayer: boolean;
@@ -106,22 +99,23 @@ export interface Entity {
   parentTemplate?: TemplateName;
   template: TemplateName;
 
-  monster?: Monster;
   animationToggle?: AnimationToggle;
   blocking?: Blocking;
   colorToggle?: ColorToggle;
   consumable?: Consumable;
   cursor?: Cursor;
-  description?: Description;
+  description?: string;
   diggable?: Diggable;
   display?: Display;
   drops?: Drops;
-  health?: Health;
-  pos?: Pos;
-  wyrm?: Wyrm;
-  ground?: Ground;
-  statusEffects?: StatusEffects;
   explorable?: Explorable;
+  ground?: Ground;
+  health?: Health;
   inFov?: InFov;
+  monster?: Monster;
+  name?: string;
+  pos?: Pos;
   stairs?: Stairs;
+  statusEffects?: StatusEffects;
+  wyrm?: Wyrm;
 }

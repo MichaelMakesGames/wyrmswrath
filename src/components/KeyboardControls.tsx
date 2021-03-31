@@ -32,6 +32,10 @@ export default function KeyboardControls({ onClose }: { onClose: () => void }) {
         <Shortcut code={ControlCode.SW} label="Move/target Southwest" />
         <Shortcut code={ControlCode.S} label="Move/target South" />
         <Shortcut code={ControlCode.SE} label="Move/target Southeast" />
+        <div className="ml-3">
+          Inspect:<Kbd className="ml-1">Shift</Kbd> + one of the above direction
+          keys
+        </div>
       </section>
       <section className="my-3">
         <h3 className="text-xl">Card Play</h3>

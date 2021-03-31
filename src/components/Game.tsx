@@ -9,7 +9,7 @@ import Header from "./Header";
 import HotkeysProvider from "./HotkeysProvider";
 import Introduction from "./Introduction";
 import LoadGame from "./LoadGame";
-import MessageLog from "./MessageLog";
+import MessageLogOrInspector from "./MessageLogOrInspector";
 import Status from "./Status";
 
 export default function Game() {
@@ -30,7 +30,7 @@ export default function Game() {
           <div className="flex-none w-64 h-full flex flex-col border-r border-gray z-10">
             <Header />
             <Status />
-            <MessageLog />
+            <MessageLogOrInspector />
           </div>
           <div className="flex-1 h-full w-full">
             <GameMap />

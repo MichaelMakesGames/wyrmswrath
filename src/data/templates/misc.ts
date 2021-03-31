@@ -9,6 +9,8 @@ import { Entity } from "~types";
 
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   WYRM: {
+    name: "Player",
+    description: "This is you.",
     wyrm: { isPlayer: true },
     blocking: { moving: true, fov: false },
     health: {

@@ -3,6 +3,8 @@ import { Entity } from "~types";
 
 const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
   MUSHROOM: {
+    name: "Mushroom",
+    description: "Tasty.",
     display: {
       tile: "mushroom",
       priority: PRIORITY_BUILDING_LOW,
@@ -15,6 +17,8 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   CRYSTAL: {
+    name: "Crystal",
+    description: "Scrumptious.",
     display: {
       tile: "crystal",
       priority: PRIORITY_BUILDING_LOW,
@@ -27,6 +31,8 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   SLIME: {
+    name: "Slime",
+    description: "Yum.",
     display: {
       tile: "slime",
       priority: PRIORITY_BUILDING_LOW,
@@ -39,6 +45,8 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   CORPSE: {
+    name: "Corpse",
+    description: "Mouth-watering.",
     display: {
       tile: "corpse",
       priority: PRIORITY_BUILDING_LOW,
@@ -50,6 +58,8 @@ const templates: Partial<Record<TemplateName, Partial<Entity>>> = {
     },
   },
   CHALICE: {
+    name: "Chalice",
+    description: "Smells like victory.",
     display: {
       tile: "corpse",
       priority: PRIORITY_BUILDING_LOW,
