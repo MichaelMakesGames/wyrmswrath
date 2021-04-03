@@ -11,11 +11,15 @@ function cardDrawHandler(
   state: WrappedState,
   action: ReturnType<typeof cardDraw>,
 ): void {
+  let noMoreCards = false;
   rangeTo(action.payload).forEach(() => {
+    if (noMoreCards) return;
     if (!state.raw.deck.length) {
       state.act.cardShuffleDiscards();
     }
     if (!state.raw.deck.length) {
+      noMoreCards = true;
+      state.act.logMessage({ message: "No cards to draw.", type: "error" });
       return;
     }
     const [first, ...rest] = state.raw.deck;
