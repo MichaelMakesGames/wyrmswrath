@@ -1,5 +1,7 @@
 import Tippy from "@tippyjs/react";
-import React, { useContext } from "react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
+import { useSelector } from "react-redux";
 // @ts-ignore
 import cardCrystal from "~assets/tiles/card-crystal.png";
 // @ts-ignore
@@ -10,6 +12,8 @@ import colors from "~colors";
 import { SettingsContext } from "~contexts";
 import cards, { CardCode } from "~data/cards";
 import { noFocusOnClick } from "~lib/controls";
+import { evalMath } from "~lib/math";
+import selectors from "~state/selectors";
 import { ControlCode } from "~types/ControlCode";
 import { HotkeyGroup, useControl } from "./HotkeysProvider";
 import Kbd from "./Kbd";
@@ -35,6 +39,8 @@ export default function Card({
   hotkeyGroup?: HotkeyGroup;
   active?: boolean;
 }) {
+  const { formatMessage } = useIntl();
+  const playerSize = useSelector(selectors.playerSize);
   const card = cards[code];
 
   const controlCode = [
@@ -56,6 +62,40 @@ export default function Card({
     group: hotkeyGroup,
     callback: () => callback(code, index),
     disabled,
+  });
+
+  let color = colors.white;
+  if (card.type === "crystal") {
+    color = colors.lightBlue;
+  } else if (card.type === "mushroom") {
+    color = colors.lightPurple;
+  } else if (card.type === "slime") {
+    color = colors.lightGreen;
+  }
+
+  const description = formatMessage(
+    {
+      id: `${card.code}_DESCRIPTION`,
+    },
+    {
+      math: ([expression]) => {
+        const evaluated = evalMath(expression, { Size: playerSize });
+        return (
+          <Tippy content={expression}>
+            <strong style={{ color }}>{evaluated}</strong>
+          </Tippy>
+        );
+      },
+    },
+  );
+
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const [descriptionTextLength, setDescriptionTextLength] = useState(0);
+  useLayoutEffect(() => {
+    if (descriptionRef.current) {
+      const { textContent } = descriptionRef.current;
+      setDescriptionTextLength(textContent ? textContent.length : 0);
+    }
   });
 
   return (
@@ -93,14 +133,15 @@ export default function Card({
         </Tippy>
       </div>
       <p
+        ref={descriptionRef}
         className={
-          card.description.length > 80 ||
-          (card.name.length > 10 && card.description.length > 30)
+          descriptionTextLength > 80 ||
+          (card.name.length > 10 && descriptionTextLength > 30)
             ? "text-xs mt-1"
             : "text-sm mt-1"
         }
       >
-        {card.description}
+        {description}
       </p>
     </button>
   );

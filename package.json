@@ -1,6 +1,6 @@
 {
   "name": "wyrmswrath",
-  "version": "1.2.0",
+  "version": "1.3.0-unstable",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -71,6 +71,7 @@
     "@babel/core": "^7.8.4",
     "@fullhuman/postcss-purgecss": "^2.0.6",
     "@types/howler": "^2.2.1",
+    "@types/math-expression-evaluator": "^1.2.0",
     "@types/nanoid": "^2.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/react": "^16.9.2",
@@ -99,6 +100,7 @@
     "has": "^1.0.3",
     "howler": "^2.2.1",
     "idb-keyval": "^3.2.0",
+    "math-expression-evaluator": "^1.3.7",
     "nanoid": "^2.1.1",
     "notyf": "^3.7.0",
     "pixi-particles": "^4.2.0",

@@ -1,3 +1,5 @@
+import mexp from "math-expression-evaluator";
+
 export function rangeFromTo(from: number, to: number): number[] {
   const results: number[] = [];
   for (let i = from; i < to; i++) {
@@ -27,4 +29,32 @@ export function sum(...numbers: number[]) {
 
 export function round(value: number, precision: number = 0) {
   return Math.round(value * 10 ** precision) / 10 ** precision;
+}
+
+const MEXP_TOKENS = [
+  {
+    type: 0,
+    token: "roundup",
+    show: "roundup",
+    value: (a: number) => Math.ceil(a),
+  },
+];
+
+export function evalMath(
+  expression: string,
+  variables: Record<string, number> = {},
+) {
+  return mexp.eval(
+    expression,
+    [
+      ...MEXP_TOKENS,
+      ...Object.keys(variables).map((variable) => ({
+        type: 3,
+        token: variable,
+        show: variable,
+        value: variable,
+      })),
+    ],
+    variables,
+  );
 }

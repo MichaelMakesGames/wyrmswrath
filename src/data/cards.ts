@@ -48,7 +48,6 @@ export interface Card {
   sfx?: string;
   preDiscard?: boolean;
   type: "mushroom" | "crystal" | "slime";
-  description: string;
   validator?: (
     state: WrappedState,
     direction?: Direction,
@@ -65,8 +64,6 @@ const cards: Record<CardCode, Card> = {
     type: "crystal",
     directional: true,
     validator: wideAngleOnly,
-    description:
-      "Rush forward into the first enemy, consuming them, or until you make you reach a wall.",
     effect: (state, direction) => {
       const head = state.select.head();
       const origin = head && head.pos;
@@ -94,8 +91,6 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_CRYSTALIZE",
     name: "Crystalize",
     type: "crystal",
-    description:
-      "Turn a line of SIZE tiles into sharp Crystal terrain, which increases damage received, and paralyze all enemies there for 2 turns.",
     directional: true,
     fast: true,
     validator: wideAngleOnly,
@@ -132,8 +127,6 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_ELEGANCE",
     name: "Elegance",
     type: "crystal",
-    description:
-      "Permanently lose a random card from your hand, then draw a card.",
     fast: true,
     effect: (state) => {
       const currentHandSize = state.raw.hand.length;
@@ -148,7 +141,6 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_FLASH",
     name: "Flash",
     type: "crystal",
-    description: "Make a move without taking a turn.",
     fast: true,
     directional: true,
     validator: (state, direction) =>
@@ -167,8 +159,6 @@ const cards: Record<CardCode, Card> = {
     sfx: "sfx-crystal-ranged",
     name: "Javelin",
     type: "crystal",
-    description:
-      "Launch a crystal that hits all enemies in it's path for SIZE damage.",
     directional: true,
     validator: wideAngleOnly,
     effect: (state, direction) => {
@@ -203,7 +193,6 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_RAZOR_SKIN",
     name: "Razor Skin",
     type: "crystal",
-    description: "Deal SIZE/2 damage to all adjacent enemies.",
     effect: (state) =>
       getAdjacentMonsters(state).forEach((e) =>
         state.act.damage({
@@ -217,7 +206,6 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_ROCK_HARD",
     name: "Rock Hard",
     type: "crystal",
-    description: "Gain SIZE Armor for 1 turn.",
     fast: true,
     effect: (state: WrappedState) =>
       state.act.statusEffectAdd({
@@ -231,7 +219,6 @@ const cards: Record<CardCode, Card> = {
     code: "CRYSTAL_SPIKED_TAIL",
     name: "Spiked Tail",
     type: "crystal",
-    description: "Deal SIZE damage to all enemies adjacent to your tail.",
     effect: (state) => {
       const tail = state.select.tail();
       const pos = tail && tail.pos;
@@ -253,7 +240,6 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_ANTIDOTE",
     name: "Antidote",
     type: "mushroom",
-    description: "Cure all Poison.",
     fast: true,
     effect: (state) =>
       state.act.statusEffectRemove({
@@ -265,8 +251,6 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_GROWTH",
     name: "Growth",
     type: "mushroom",
-    description:
-      "Increase your wyrm's size, hand size, max health, and max energy, but spend more energy each turn.",
     directional: true,
     validator: (state, direction) =>
       wideAngleNotBlocked(state, direction, true),
@@ -286,8 +270,6 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_HALLUCINOGENIC_SPORES",
     name: "Dazing Spores",
     type: "mushroom",
-    description:
-      "Confuse all enemies within 3 tiles for 5 turns, so they randomly move and attack.",
     effect: (state) =>
       getMonstersWithinRange(state, 3).forEach((e) =>
         state.act.statusEffectAdd({
@@ -301,7 +283,6 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_HEAL",
     name: "Heal",
     type: "mushroom",
-    description: "Heal SIZE*2 health and remove 1 Poison",
     fast: true,
     effect: (state) => {
       state.act.heal({
@@ -321,15 +302,12 @@ const cards: Record<CardCode, Card> = {
     type: "mushroom",
     fast: true,
     preDiscard: true,
-    description: "Draw 2 cards.",
     effect: (state) => state.act.cardDraw(2),
   },
   MUSHROOM_PARALYZING_SPORES: {
     code: "MUSHROOM_PARALYZING_SPORES",
     name: "Paralyzing Spores",
     type: "mushroom",
-    description:
-      "Paralyze all enemies within 5 tiles for 3 turns, so they can't move or attack.",
     effect: (state) =>
       getMonstersWithinRange(state, 5).forEach((e) =>
         state.act.statusEffectAdd({
@@ -343,7 +321,6 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_SEEDING_SPORES",
     name: "Breath of Life",
     type: "mushroom",
-    description: "Turn a line of SIZE tiles into healing Mushroom terrain.",
     directional: true,
     fast: true,
     validator: wideAngleOnly,
@@ -370,8 +347,6 @@ const cards: Record<CardCode, Card> = {
     code: "MUSHROOM_STRENGTHEN",
     name: "Strengthen",
     type: "mushroom",
-    description:
-      "Strengthen yourself for 3 turns, dealing twice as much damage.",
     fast: true,
     effect: (state) =>
       state.act.statusEffectAdd({
@@ -384,7 +359,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_MALLEABLE",
     name: "Malleable",
     type: "slime",
-    description: "Make a sharp turn (for example, from N to SE).",
     directional: true,
     validator: tightAngleNotBlocked,
     effect: (state, direction) => {
@@ -396,7 +370,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_MUTATE",
     name: "Mutate",
     type: "slime",
-    description: "Gain a random new card to your hand.",
     fast: true,
     effect: (state) =>
       state.act.cardAddToHand({
@@ -408,8 +381,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_OOZE",
     name: "Ooze",
     type: "slime",
-    description:
-      "Turn adjacent tiles into Slime terrain and slime any enemies already there.",
     fast: true,
     effect: (state) =>
       getPlayerAdjacentPositions(state).forEach((pos) => {
@@ -441,7 +412,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_POISON_SKIN",
     name: "Poison Skin",
     type: "slime",
-    description: "Poison all adjacent enemies",
     effect: (state) =>
       getAdjacentMonsters(state).forEach((entity) =>
         state.act.statusEffectAdd({
@@ -455,7 +425,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_SHAPE_SHIFTING",
     name: "Shape Shifting",
     type: "slime",
-    description: "Reverse yourself, flipping your head and tail.",
     fast: true,
     effect: (state) => {
       const tail = state.select.tail();
@@ -485,8 +454,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_SLIME_WALK",
     name: "Slime Walk",
     type: "slime",
-    description:
-      "Gain Slime Walk (do not lose a turn moving into Slime) for 10 turns",
     fast: true,
     effect: (state) =>
       state.act.statusEffectAdd({
@@ -499,7 +466,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_TOXICITY",
     name: "Toxicity",
     type: "slime",
-    description: "All enemies within 3 tiles on Slime terrain become poisoned.",
     effect: (state) =>
       getMonstersWithinRange(state, 3)
         .filter((e) =>
@@ -519,8 +485,6 @@ const cards: Record<CardCode, Card> = {
     code: "SLIME_VOMIT",
     name: "Vomit",
     type: "slime",
-    description:
-      "Turn a line of SIZE tiles into slowing Slime terrain, and make all enemies there lose a turn. and poison them.",
     directional: true,
     fast: true,
     validator: wideAngleOnly,
